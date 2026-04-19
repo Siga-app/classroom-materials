@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Sort — How We Organize Ourselves</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #0f0f1a;
+    color: white;
+    min-height: 100vh;
+    padding: 28px 24px 40px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  header h1 {
+    font-size: 22px; font-weight: 900; color: white;
+    letter-spacing: 0.02em; margin-bottom: 6px;
+  }
+  header p {
+    font-size: 13px; color: rgba(255,255,255,.55);
+    font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  /* ── INSTRUCTIONS BANNER ── */
+  .instructions {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    display: flex; gap: 16px; align-items: flex-start;
+    max-width: 860px; margin-left: auto; margin-right: auto;
+    margin-bottom: 28px;
+  }
+  .instructions .step {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 6px; min-width: 70px; text-align: center;
+  }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #2563EB; color: white;
+    font-size: 13px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-text {
+    font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.65);
+    line-height: 1.5; text-align: center;
+  }
+  .step-divider {
+    flex: 1; height: 1px; background: rgba(255,255,255,.1);
+    align-self: center; margin-top: -12px;
+  }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── CARD ── */
+  .card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,.08);
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: rgba(255,255,255,.3);
+    box-shadow: 0 12px 32px rgba(0,0,0,.5);
+  }
+  .card:hover .card-hover-hint { opacity: 1; }
+
+  .card-photo {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+  }
+  .card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.0) 40%, rgba(0,0,0,.75) 100%);
+  }
+
+  /* Hover hint */
+  .card-hover-hint {
+    position: absolute; inset: 0; z-index: 5;
+    background: rgba(37,99,235,.15);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity .2s;
+  }
+  .card-hover-hint span {
+    background: rgba(37,99,235,.9);
+    color: white; font-size: 11px; font-weight: 800;
+    padding: 6px 14px; border-radius: 99px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .card-num {
+    position: absolute; top: 8px; left: 8px; z-index: 10;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(0,0,0,.6); backdrop-filter: blur(4px);
+    border: 1.5px solid rgba(255,255,255,.3);
+    color: white; font-size: 11px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-caption {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 10;
+    padding: 6px 8px 8px;
+    font-size: 8.5px; font-weight: 800; color: rgba(255,255,255,.7);
+    letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4;
+    text-align: center;
+  }
+
+  /* ── PHOTO SOURCES ── */
+  .photo-constitution  { background-image: url('imagens para image sort/Constitution_Pg1of4_AC.jpg'); background-position: top center; }
+  .photo-nuremberg     { background-image: url('imagens para image sort/Nuremberg_laws_Racial_Chart.jpg'); }
+  .photo-boat          { background-image: url('imagens para image sort/3996_A.jpg'); }
+  .photo-propaganda    { background-image: url('imagens para image sort/Holocaust_1935_HitlerYouthPropaganda_FH229453.webp'); background-position: top center; }
+  .photo-bor           { background-image: url('imagens para image sort/Bill_of_Rights_Pg1of1_AC.jpg'); background-position: top center; }
+  .photo-resistance    { background-image: url('https://images.unsplash.com/photo-1676907686010-01bd0f34a640?auto=format&fit=crop&w=600&h=800&q=80'); }
+  .photo-town          { background-image: url('https://images.unsplash.com/photo-1670801577513-3f949bdc3327?auto=format&fit=crop&w=600&h=800&q=80'); }
+  .photo-march         { background-image: url('imagens para image sort/service-pnp-ppmsca-03100-03128v.jpg'); }
+  .photo-rescuer       { background-image: url('imagens para image sort/7570a672-ff94-4597-91ad-33f1529049bf.gif'); background-size: cover; }
+  .photo-bystander     { background-image: url('https://images.unsplash.com/photo-1762532265023-eadf4b42a7ff?auto=format&fit=crop&w=600&h=800&q=80'); }
+  .photo-gate          { background-image: url('imagens para image sort/59778d5a-bdaa-4f66-aae9-40c527a555b1.jpg'); }
+  .photo-declaration   { background-image: url('imagens para image sort/Declaration_Pg1of1_AC.jpg'); background-position: top center; }
+
+  /* ── NOTEBOOK PROMPT ── */
+  .notebook-prompt {
+    max-width: 960px; margin: 28px auto 0;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-left: 4px solid #2563EB;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 20px;
+  }
+  .notebook-prompt h3 {
+    font-size: 12px; font-weight: 900; color: #93C5FD;
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;
+  }
+  .notebook-prompt ol {
+    font-size: 13px; color: rgba(255,255,255,.75);
+    line-height: 1.9; padding-left: 18px; font-weight: 600;
+  }
+  .notebook-prompt ol li::marker { color: #2563EB; font-weight: 900; }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,.93);
+    align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 0;
+  }
+  .lightbox.active { display: flex; }
+
+  .lightbox-inner {
+    position: relative;
+    max-width: 90vw;
+    max-height: 82vh;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .lightbox-img {
+    max-width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.8);
+    display: block;
+  }
+
+  .lightbox-footer {
+    margin-top: 14px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .lightbox-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #2563EB; color: white;
+    font-size: 14px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .lightbox-caption {
+    font-size: 13px; font-weight: 800;
+    color: rgba(255,255,255,.7);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  /* nav arrows */
+  .lb-arrow {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,.1); border: none;
+    color: white; font-size: 24px;
+    width: 48px; height: 48px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+    z-index: 1010;
+  }
+  .lb-arrow:hover { background: rgba(255,255,255,.22); }
+  .lb-arrow.prev { left: 16px; }
+  .lb-arrow.next { right: 16px; }
+
+  /* close */
+  .lb-close {
+    position: fixed; top: 16px; right: 20px;
+    background: rgba(255,255,255,.12); border: none;
+    color: white; font-size: 20px;
+    width: 40px; height: 40px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .15s; z-index: 1010;
+  }
+  .lb-close:hover { background: rgba(255,255,255,.25); }
+
+  /* counter */
+  .lb-counter {
+    position: fixed; top: 22px; left: 50%; transform: translateX(-50%);
+    font-size: 12px; font-weight: 800; color: rgba(255,255,255,.45);
+    letter-spacing: 0.1em; z-index: 1010;
+  }
+
+  /* thinking prompt inside lightbox */
+  .lb-prompt {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: rgba(37,99,235,.25); border: 1px solid rgba(37,99,235,.5);
+    border-radius: 99px; padding: 7px 20px;
+    font-size: 11.5px; font-weight: 800; color: rgba(255,255,255,.7);
+    letter-spacing: 0.05em; z-index: 1010; white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>What Do These Images Have in Common?</h1>
+  <p>How We Organize Ourselves · Unit Launch · Week 1</p>
+</header>
+
+<div class="instructions">
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-text">Click any image to view it full screen</div>
+  </div>
+  <div class="step-divider"></div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-text">Look closely. What do you notice? What do you wonder?</div>
+  </div>
+  <div class="step-divider"></div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-text">In your notebook, sort the 12 images into groups</div>
+  </div>
+  <div class="step-divider"></div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-text">Give each group a 1-sentence title</div>
+  </div>
+</div>
+
+<div class="grid">
+
+  <div class="card" onclick="openLightbox(0)">
+    <div class="card-photo photo-constitution"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">1</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">U.S. Constitution · 1787</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(1)">
+    <div class="card-photo photo-nuremberg"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">2</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Nuremberg Laws · 1935</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(2)">
+    <div class="card-photo photo-boat"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">3</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Rescue boat · Denmark · 1943</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(3)">
+    <div class="card-photo photo-propaganda"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">4</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">State propaganda poster · 1935</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(4)">
+    <div class="card-photo photo-bor"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">5</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Bill of Rights · 1791</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(5)">
+    <div class="card-photo photo-resistance"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">6</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Underground resistance group · 1943</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(6)">
+    <div class="card-photo photo-town"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">7</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Occupied town · Copenhagen · 1940</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(7)">
+    <div class="card-photo photo-march"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">8</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">March on Washington · 1963</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(8)">
+    <div class="card-photo photo-rescuer"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">9</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Rescue of Danish Jews · Fall 1943</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(9)">
+    <div class="card-photo photo-bystander"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">10</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">A bystander · Choosing not to act</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(10)">
+    <div class="card-photo photo-gate"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">11</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Auschwitz · "Arbeit Macht Frei"</div>
+  </div>
+
+  <div class="card" onclick="openLightbox(11)">
+    <div class="card-photo photo-declaration"></div>
+    <div class="card-overlay"></div>
+    <div class="card-num">12</div>
+    <div class="card-hover-hint"><span>View Full</span></div>
+    <div class="card-caption">Declaration of Independence · 1776</div>
+  </div>
+
+</div>
+
+<div class="notebook-prompt">
+  <h3>In your notebook</h3>
+  <ol>
+    <li>Look at all 12 images. Which ones seem related? Group them and give each group a title.</li>
+    <li>Which image surprised you most? Why?</li>
+    <li>Write one question this image sort makes you want to investigate.</li>
+  </ol>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <div class="lb-counter" id="lb-counter">1 / 12</div>
+  <button class="lb-arrow prev" onclick="navigate(-1)">‹</button>
+  <button class="lb-arrow next" onclick="navigate(1)">›</button>
+  <div class="lightbox-inner">
+    <img class="lightbox-img" id="lb-img" src="" alt="">
+    <div class="lightbox-footer">
+      <div class="lightbox-num" id="lb-num">1</div>
+      <div class="lightbox-caption" id="lb-caption"></div>
+    </div>
+  </div>
+  <div class="lb-prompt">What system does this image represent?</div>
+</div>
+
+<script>
+const images = [
+  { src: 'imagens para image sort/Constitution_Pg1of4_AC.jpg',                          num: 1,  caption: 'U.S. Constitution · 1787' },
+  { src: 'imagens para image sort/Nuremberg_laws_Racial_Chart.jpg',                     num: 2,  caption: 'Nuremberg Laws · Germany · 1935' },
+  { src: 'imagens para image sort/3996_A.jpg',                                          num: 3,  caption: 'Rescue boat · Danish harbor · 1943' },
+  { src: 'imagens para image sort/Holocaust_1935_HitlerYouthPropaganda_FH229453.webp',  num: 4,  caption: 'State propaganda poster · 1935' },
+  { src: 'imagens para image sort/Bill_of_Rights_Pg1of1_AC.jpg',                        num: 5,  caption: 'Bill of Rights · U.S. · 1791' },
+  { src: 'https://images.unsplash.com/photo-1676907686010-01bd0f34a640?auto=format&fit=crop&w=1200&q=90', num: 6, caption: 'Underground resistance group · 1943' },
+  { src: 'https://images.unsplash.com/photo-1670801577513-3f949bdc3327?auto=format&fit=crop&w=1200&q=90', num: 7, caption: 'Occupied town · Copenhagen · 1940' },
+  { src: 'imagens para image sort/service-pnp-ppmsca-03100-03128v.jpg',                 num: 8,  caption: 'March on Washington · 1963' },
+  { src: 'imagens para image sort/7570a672-ff94-4597-91ad-33f1529049bf.gif',            num: 9,  caption: 'Rescue of Danish Jews · Escape routes · Fall 1943' },
+  { src: 'https://images.unsplash.com/photo-1762532265023-eadf4b42a7ff?auto=format&fit=crop&w=1200&q=90', num: 10, caption: 'A bystander · Choosing not to act' },
+  { src: 'imagens para image sort/59778d5a-bdaa-4f66-aae9-40c527a555b1.jpg',            num: 11, caption: 'Auschwitz · "Arbeit Macht Frei" · Nazi Germany' },
+  { src: 'imagens para image sort/Declaration_Pg1of1_AC.jpg',                           num: 12, caption: 'Declaration of Independence · 1776' },
+];
+
+let current = 0;
+
+function openLightbox(index) {
+  current = index;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navigate(dir) {
+  current = (current + dir + images.length) % images.length;
+  updateLightbox();
+}
+
+function updateLightbox() {
+  const img = images[current];
+  document.getElementById('lb-img').src = img.src;
+  document.getElementById('lb-num').textContent = img.num;
+  document.getElementById('lb-caption').textContent = img.caption;
+  document.getElementById('lb-counter').textContent = `${current + 1} / ${images.length}`;
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+
+// Click outside to close
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+</script>
+
+</body>
+</html>
