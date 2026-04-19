@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Learning Goals — How We Organize Ourselves</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --indigo:   #4F46E5;
+  --indigo-l: #EEF2FF;
+  --amber:    #F59E0B;
+  --amber-l:  #FEF3C7;
+  --emerald:  #059669;
+  --emerald-l:#D1FAE5;
+  --ink:      #1E1B4B;
+  --grey:     #64748B;
+  --light:    #F8F7FF;
+}
+
+body {
+  font-family: 'Nunito', 'Helvetica Neue', sans-serif;
+  background: white;
+  color: var(--ink);
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 48px 40px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 3px solid var(--indigo-l);
+}
+
+.unit-tag {
+  display: inline-block;
+  background: var(--indigo-l);
+  color: var(--indigo);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border-radius: 99px;
+  margin-bottom: 12px;
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.header .central-idea {
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--grey);
+  font-style: italic;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.scripture {
+  margin-top: 10px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: #92400E;
+  background: var(--amber-l);
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 99px;
+}
+
+/* KUD Section */
+.kud-section {
+  margin-bottom: 28px;
+}
+
+.kud-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.kud-letter {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.kud-letter.k { background: var(--indigo); color: white; }
+.kud-letter.u { background: var(--amber);  color: white; }
+.kud-letter.d { background: var(--emerald);color: white; }
+
+.kud-title-block h2 {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.kud-title-block p {
+  font-size: .78rem;
+  color: var(--grey);
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.kud-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kud-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+.kud-item.k { background: var(--indigo-l); border-left: 4px solid var(--indigo); }
+.kud-item.u { background: var(--amber-l);  border-left: 4px solid var(--amber);  }
+.kud-item.d { background: var(--emerald-l);border-left: 4px solid var(--emerald);}
+
+.item-num {
+  font-size: .72rem;
+  font-weight: 900;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.item-num.k { background: var(--indigo); color: white; }
+.item-num.u { background: var(--amber);  color: white; }
+.item-num.d { background: var(--emerald);color: white; }
+
+/* Divider */
+.divider {
+  border: none;
+  border-top: 2px solid var(--indigo-l);
+  margin: 24px 0;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 2px solid var(--indigo-l);
+  font-size: .75rem;
+  color: var(--grey);
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+/* Print */
+@media print {
+  body { padding: 32px 36px; }
+  .kud-section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="unit-tag">UOI · Grade 5 · How We Organize Ourselves</div>
+  <h1>Our Learning Goals</h1>
+  <p class="central-idea">"The systems societies create to organize themselves reflect their values, and shape the rights and responsibilities of every individual within them."</p>
+  <div class="scripture">Micah 6:8 — Act justly. Love mercy. Walk humbly.</div>
+</div>
+
+<!-- KNOW -->
+<div class="kud-section">
+  <div class="kud-header">
+    <div class="kud-letter k">K</div>
+    <div class="kud-title-block">
+      <h2>Students Will KNOW</h2>
+      <p>Facts, vocabulary, and content we will learn throughout the unit</p>
+    </div>
+  </div>
+  <div class="kud-items">
+    <div class="kud-item k"><span class="item-num k">1</span>How the U.S. government is organized — three branches, the Constitution, and the Bill of Rights.</div>
+    <div class="kud-item k"><span class="item-num k">2</span>What the Holocaust was, and what antisemitism means. <em style="font-weight:600">(SS.5.HE.1.1)</em></div>
+    <div class="kud-item k"><span class="item-num k">3</span>The causes, key events, and effects of WWII — including the German occupation of Denmark.</div>
+    <div class="kud-item k"><span class="item-num k">4</span>What makes a historical recount different from a story — and how to write one.</div>
+    <div class="kud-item k"><span class="item-num k">5</span>Key vocabulary: <em>democracy, occupation, propaganda, resistance, antisemitism, bystander, rescuer, upstander, legislation, veto.</em></div>
+    <div class="kud-item k"><span class="item-num k">6</span>Math: order of operations, numerical patterns &amp; input/output tables, LCM &amp; GCF, and integers.</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- UNDERSTAND -->
+<div class="kud-section">
+  <div class="kud-header">
+    <div class="kud-letter u">U</div>
+    <div class="kud-title-block">
+      <h2>Students Will UNDERSTAND That</h2>
+      <p>Big ideas and lasting understandings that go beyond this unit</p>
+    </div>
+  </div>
+  <div class="kud-items">
+    <div class="kud-item u"><span class="item-num u">1</span>The systems societies build reflect their values — and they protect or fail their people based on those values. <strong>(Central Idea)</strong></div>
+    <div class="kud-item u"><span class="item-num u">2</span>Democratic governments are designed to protect individual rights — but those protections depend on citizens who act with courage and principle.</div>
+    <div class="kud-item u"><span class="item-num u">3</span>History's greatest injustices happened when systems of power were built around hatred and dehumanization — and when ordinary people chose to stay silent.</div>
+    <div class="kud-item u"><span class="item-num u">4</span>Every individual within a system has rights AND responsibilities. The choice between bystander and upstander is a moral, civic, and spiritual one.</div>
+    <div class="kud-item u"><span class="item-num u">5</span>Mathematical patterns and algebraic thinking are tools for organizing the world — just as laws and constitutions are tools for organizing society.</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- DO -->
+<div class="kud-section">
+  <div class="kud-header">
+    <div class="kud-letter d">D</div>
+    <div class="kud-title-block">
+      <h2>Students Will Be Able To DO</h2>
+      <p>Skills and actions we will practice and demonstrate</p>
+    </div>
+  </div>
+  <div class="kud-items">
+    <div class="kud-item d"><span class="item-num d">1</span>Analyze literary texts and historical sources to find theme, character development, and author's perspective.</div>
+    <div class="kud-item d"><span class="item-num d">2</span>Compare and contrast primary and secondary sources on the same historical topic.</div>
+    <div class="kud-item d"><span class="item-num d">3</span>Write a historically grounded recount using narrative techniques, descriptive detail, and accurate sequencing.</div>
+    <div class="kud-item d"><span class="item-num d">4</span>Use critical thinking to evaluate the ethical and civic dimensions of historical events.</div>
+    <div class="kud-item d"><span class="item-num d">5</span>Solve multi-step real-world problems using algebraic reasoning — including writing, evaluating, and interpreting expressions and equations.</div>
+    <div class="kud-item d"><span class="item-num d">6</span>Take principled, caring action through service — <em>Letters Across Time.</em></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  Grade 5 · Creation Village World School · How We Organize Ourselves · April–May 2026<br>
+  Use this as a reference throughout the unit. Return to it often — your understanding will grow.
+</div>
+
+</body>
+</html>
