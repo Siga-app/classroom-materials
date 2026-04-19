@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELA Slides — How We Organize Ourselves · Week 1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --teal:    #0D9488;
+  --teal-l:  #CCFBF1;
+  --teal-m:  #5EEAD4;
+  --amber:   #F59E0B;
+  --amber-l: #FEF3C7;
+  --indigo:  #4F46E5;
+  --indigo-l:#EEF2FF;
+  --pink:    #DB2777;
+  --pink-l:  #FCE7F3;
+  --sky:     #0284C7;
+  --sky-l:   #E0F2FE;
+  --violet:  #7C3AED;
+  --violet-l:#EDE9FE;
+  --coral:   #E34D26;
+  --coral-l: #FFF0EC;
+  --ink:     #134E4A;
+  --grey:    #64748B;
+  --light:   #F0FDFA;
+}
+
+body {
+  font-family: 'Nunito', 'Helvetica Neue', sans-serif;
+  background: #134E4A;
+  height: 100vh;
+  overflow: hidden;
+  cursor: default;
+}
+
+.slide {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 48px 64px;
+  text-align: center;
+  position: relative;
+  animation: pop .35s ease;
+}
+.slide.active { display: flex; }
+
+@keyframes pop {
+  from { opacity:0; transform: scale(.97); }
+  to   { opacity:1; transform: scale(1); }
+}
+
+/* ── PERIOD DIVIDER ── */
+.s-period {
+  background: var(--teal);
+  gap: 14px;
+}
+
+.period-tag {
+  background: rgba(255,255,255,0.18);
+  color: white;
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 99px;
+}
+
+.period-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: white;
+  line-height: 1.15;
+  max-width: 780px;
+}
+
+.period-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,.65);
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+.badge-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.badge {
+  font-size: .75rem;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 99px;
+}
+
+.badge-lp    { background: rgba(255,255,255,0.15); color: white; }
+.badge-atl   { background: var(--teal-l); color: var(--teal); }
+.badge-time  { background: var(--amber-l); color: #92400E; }
+.badge-key   { background: rgba(255,255,255,0.12); color: rgba(255,255,255,.85); border: 1px solid rgba(255,255,255,.25); }
+.badge-ruler { background: var(--pink-l); color: var(--pink); }
+.badge-exit  { background: var(--sky-l); color: var(--sky); }
+.badge-spell { background: var(--violet-l); color: var(--violet); }
+
+/* ── CONTENT SLIDES ── */
+.s-content {
+  background: var(--light);
+  gap: 0;
+  text-align: left;
+  justify-content: flex-start;
+  padding: 40px 72px;
+}
+
+.slide-period-pill {
+  align-self: flex-start;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-l);
+  padding: 4px 14px;
+  border-radius: 99px;
+  margin-bottom: 16px;
+}
+
+.slide-heading {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 10px;
+  max-width: 860px;
+}
+
+.slide-sub {
+  font-size: 1rem;
+  color: var(--grey);
+  line-height: 1.65;
+  max-width: 760px;
+  margin-bottom: 16px;
+}
+
+/* ── LI SLIDE ── */
+.s-li { background: white; }
+
+.li-box {
+  background: var(--teal-l);
+  border-left: 5px solid var(--teal);
+  border-radius: 0 20px 20px 0;
+  padding: 20px 28px;
+  max-width: 820px;
+  margin: 8px 0 18px;
+}
+
+.li-label {
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+
+.li-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* ── STEPS ── */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+  max-width: 860px;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: white;
+  border-radius: 20px;
+  padding: 14px 20px;
+  box-shadow: 0 2px 8px rgba(13,148,136,.07);
+}
+
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: white;
+  font-size: 1rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-body { flex: 1; }
+
+.step-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.step-desc {
+  font-size: .9rem;
+  color: var(--grey);
+  line-height: 1.5;
+}
+
+/* ── BIG QUESTION ── */
+.s-question { background: var(--teal); }
+
+.big-q {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: white;
+  line-height: 1.3;
+  max-width: 820px;
+  margin-bottom: 18px;
+}
+
+.q-prompt {
+  font-size: 1rem;
+  color: rgba(255,255,255,.65);
+  max-width: 640px;
+  line-height: 1.65;
+}
+
+/* ── CONCEPT CARDS ── */
+.concept-row {
+  display: flex;
+  gap: 18px;
+  margin-top: 12px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.concept-card {
+  flex: 1;
+  border-radius: 22px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cc-teal    { background: var(--teal-l); }
+.cc-amber   { background: var(--amber-l); }
+.cc-violet  { background: var(--violet-l); }
+.cc-pink    { background: var(--pink-l); }
+.cc-sky     { background: var(--sky-l); }
+.cc-indigo  { background: var(--indigo-l); }
+
+.cc-label { font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.c-teal   { color: var(--teal); }
+.c-amber  { color: #92400E; }
+.c-violet { color: var(--violet); }
+.c-pink   { color: var(--pink); }
+.c-sky    { color: var(--sky); }
+.c-indigo { color: var(--indigo); }
+
+.cc-icon  { font-size: 1.7rem; }
+.cc-title { font-size: 1.2rem; font-weight: 900; color: #134E4A; line-height: 1.2; }
+.cc-desc  { font-size: .85rem; color: var(--grey); line-height: 1.5; }
+
+/* ── ANNOTATION CODES ── */
+.codes-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  max-width: 860px;
+  margin-top: 10px;
+}
+
+.code-card {
+  flex: 1;
+  border-radius: 20px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.code-letter {
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.code-name {
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.code-def {
+  font-size: .9rem;
+  color: var(--grey);
+  line-height: 1.5;
+}
+
+.code-ex {
+  font-size: .8rem;
+  font-style: italic;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* ── SPELLING BOX ── */
+.spell-box {
+  background: var(--violet-l);
+  border-left: 5px solid var(--violet);
+  border-radius: 0 20px 20px 0;
+  padding: 16px 22px;
+  max-width: 860px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.spell-label {
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 8px;
+}
+
+.spell-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spell-word {
+  background: white;
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--violet);
+}
+
+/* ── EXIT TICKET ── */
+.s-exit { background: var(--sky-l); }
+
+.exit-icon  { font-size: 2.8rem; margin-bottom: 12px; }
+.exit-title { font-size: 1rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: var(--sky); margin-bottom: 10px; }
+.exit-q     { font-size: 1.9rem; font-weight: 900; color: var(--ink); max-width: 780px; line-height: 1.35; margin-bottom: 14px; }
+.exit-note  { font-size: .9rem; color: var(--grey); font-style: italic; }
+
+/* ── RULER ── */
+.s-ruler { background: var(--pink-l); }
+
+.ruler-icon  { font-size: 2.5rem; margin-bottom: 10px; }
+.ruler-label { font-size: .8rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--pink); margin-bottom: 8px; }
+.ruler-q     { font-size: 2rem; font-weight: 900; color: #3D0020; max-width: 780px; line-height: 1.35; margin-bottom: 14px; }
+.ruler-focus { display: inline-block; background: white; border-radius: 99px; padding: 7px 20px; font-size: .9rem; font-weight: 800; color: var(--pink); margin-top: 4px; }
+
+/* ── RECOUNT STAGES ── */
+.stages-row {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 12px;
+}
+
+.stage-card {
+  flex: 1;
+  border-radius: 20px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+/* ── WORD GRID ── */
+.word-task-row {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 10px;
+}
+
+.word-task-card {
+  flex: 1;
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(13,148,136,.07);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wtc-label {
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 2px;
+}
+
+.wtc-text {
+  font-size: .9rem;
+  color: var(--grey);
+  line-height: 1.5;
+}
+
+/* ── PEER SHARE ── */
+.peer-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  max-width: 860px;
+  margin-top: 12px;
+}
+
+.peer-card {
+  flex: 1;
+  border-radius: 20px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── NAV ── */
+.nav-hint {
+  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+  font-size: .65rem; opacity: .25; letter-spacing: .12em; text-transform: uppercase;
+  z-index: 100; color: #888; pointer-events: none;
+}
+
+#slide-counter {
+  position: fixed; bottom: 20px; right: 28px;
+  font-size: .7rem; opacity: .3; font-family: 'Nunito', sans-serif;
+  font-weight: 700; z-index: 999; pointer-events: none;
+}
+
+#fs-btn {
+  position: fixed; top: 18px; right: 18px; z-index: 200;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-family: 'Nunito', sans-serif; font-size: .75rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; padding: 7px 16px;
+  border-radius: 99px; cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="slide s-period active">
+  <div class="period-tag">ELA · Week 1 · Tuning In</div>
+  <div class="period-title">Number the Stars<br>ELA Slide Deck</div>
+  <div class="period-sub">Grade 5 · April 20–24, 2026 · 5 ELA Periods</div>
+  <div class="badge-row">
+    <span class="badge badge-key">📖 Lois Lowry</span>
+    <span class="badge badge-key">✏️ Annotation</span>
+    <span class="badge badge-key">🌿 Theme Tracker</span>
+    <span class="badge badge-key">📝 Recount Writing</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PERIOD 3 — MONDAY
+═══════════════════════════════════════════════ -->
+
+<div class="slide s-period">
+  <div class="period-tag">Period 3 · Monday · 45 min</div>
+  <div class="period-title">Number the Stars<br>Introduction + Chapters 1–2</div>
+  <div class="badge-row">
+    <span class="badge badge-lp">🌐 Open-minded</span>
+    <span class="badge badge-lp">💡 Inquirer</span>
+    <span class="badge badge-atl">ATL: Reading Critically</span>
+    <span class="badge badge-spell">📚 Word Study Intro</span>
+    <span class="badge badge-time">⏱ 45 min</span>
+  </div>
+</div>
+
+<!-- P3: LI -->
+<div class="slide s-li s-content">
+  <div class="slide-period-pill">Period 3 · Monday</div>
+  <div class="slide-heading">By the end of this lesson...</div>
+  <div class="li-box">
+    <div class="li-label">Learning Intention</div>
+    <div class="li-text">I can read Chapters 1–2 critically and analyse how Lowry uses setting and character to show — without telling — how an organized system shapes daily life.</div>
+  </div>
+  <div class="badge-row" style="justify-content:flex-start">
+    <span class="badge badge-key" style="background:var(--teal-l);color:var(--teal)">Key Concept: Function</span>
+    <span class="badge badge-atl">ATL: Reading Critically</span>
+  </div>
+</div>
+
+<!-- P3: Map + Timeline -->
+<style>
+  .map-card:hover { transform: translateY(-5px) !important; box-shadow: 0 16px 40px rgba(0,0,0,.6) !important; }
+  .map-card { transition: transform .25s, box-shadow .25s; }
+</style>
+<div class="slide" style="position:relative;overflow:hidden;background:#060f1e;padding:22px 48px">
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;opacity:0.25"></div>
+  <div style="position:relative;z-index:1;width:100%;max-width:960px;display:flex;flex-direction:column;gap:10px">
+    <div class="slide-period-pill" style="background:rgba(255,255,255,.12);color:white;align-self:flex-start">Period 3 · Context · 4 min</div>
+    <div style="font-size:1.65rem;font-weight:900;color:white;line-height:1.2">Where does this story take place?</div>
+
+    <!-- Country Cards -->
+    <div style="display:flex;gap:10px;width:100%">
+      <div class="map-card" onclick="showMapModal('germany');event.stopPropagation();" style="flex:1;border-radius:16px;overflow:hidden;cursor:pointer;border:2px solid rgba(252,165,165,.25)">
+        <div style="height:88px;background-image:url('https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=600&q=80');background-size:cover;background-position:center;position:relative">
+          <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(127,29,29,.9))"></div>
+          <div style="position:absolute;bottom:8px;left:12px;font-size:1.1rem;font-weight:900;color:white;text-shadow:0 2px 8px rgba(0,0,0,.5)">🇩🇪 Germany</div>
+        </div>
+        <div style="background:rgba(252,165,165,.1);padding:10px 12px">
+          <div style="font-size:.88rem;font-weight:800;color:#fca5a5;margin-bottom:4px">Occupying power · 1940–1945</div>
+          <div style="font-size:.82rem;color:rgba(255,255,255,.85);line-height:1.5">Invaded Denmark on <strong style="color:#fca5a5">April 9, 1940</strong>. The Nazis took control of government, police, and daily life.</div>
+        </div>
+      </div>
+      <div class="map-card" onclick="showMapModal('denmark');event.stopPropagation();" style="flex:1.15;border-radius:16px;overflow:hidden;cursor:pointer;border:2px solid rgba(134,239,172,.35)">
+        <div style="height:88px;background-image:url('https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=600&q=80');background-size:cover;background-position:center top;position:relative">
+          <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(20,83,45,.9))"></div>
+          <div style="position:absolute;bottom:8px;left:12px;font-size:1.1rem;font-weight:900;color:white;text-shadow:0 2px 8px rgba(0,0,0,.5)">🇩🇰 Denmark</div>
+        </div>
+        <div style="background:rgba(134,239,172,.1);padding:10px 12px">
+          <div style="font-size:.88rem;font-weight:800;color:#86efac;margin-bottom:4px">Occupied — but not silent</div>
+          <div style="font-size:.82rem;color:rgba(255,255,255,.85);line-height:1.5">In October 1943, ordinary Danes organized a secret rescue — <strong style="color:#86efac">~7,000 Jewish people</strong> smuggled to Sweden by fishing boat.</div>
+        </div>
+      </div>
+      <div class="map-card" onclick="showMapModal('sweden');event.stopPropagation();" style="flex:1;border-radius:16px;overflow:hidden;cursor:pointer;border:2px solid rgba(253,230,138,.25)">
+        <div style="height:88px;background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80');background-size:cover;background-position:center;position:relative">
+          <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(133,77,14,.9))"></div>
+          <div style="position:absolute;bottom:8px;left:12px;font-size:1.1rem;font-weight:900;color:white;text-shadow:0 2px 8px rgba(0,0,0,.5)">🇸🇪 Sweden</div>
+        </div>
+        <div style="background:rgba(253,230,138,.1);padding:10px 12px">
+          <div style="font-size:.88rem;font-weight:800;color:#fde68a;margin-bottom:4px">Neutral · Safe harbor</div>
+          <div style="font-size:.82rem;color:rgba(255,255,255,.85);line-height:1.5">Just <strong style="color:#fde68a">4 km across the Øresund Strait</strong> — close enough to cross by fishing boat in the dark.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⛵ bar -->
+    <div style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:7px 18px;font-size:.88rem;color:rgba(255,255,255,.9);text-align:center">
+      ⛵ <strong style="color:#fbbf24">Copenhagen → Sweden: 4 km.</strong> &nbsp;A 45-minute crossing by fishing boat. Ordinary people made this happen.
+    </div>
+
+    <!-- Timeline -->
+    <div style="border-top:1px solid rgba(255,255,255,.15);padding-top:10px">
+      <div style="font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px">What was happening in the world</div>
+      <div style="position:relative">
+        <div style="position:absolute;top:7px;left:2%;width:96%;height:2px;background:linear-gradient(to right,#fca5a5,#fbbf24,#86efac,#6ee7b7,#a5b4fc);border-radius:2px;z-index:0"></div>
+        <div style="display:flex;gap:6px;position:relative;z-index:1">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px">
+            <div style="width:14px;height:14px;border-radius:50%;background:#fca5a5;border:2px solid white;flex-shrink:0"></div>
+            <div style="font-size:.92rem;font-weight:900;color:#fca5a5;text-align:center">1940</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.8);line-height:1.4;text-align:center">Germany invades Denmark. Occupation begins.</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px">
+            <div style="width:14px;height:14px;border-radius:50%;background:#fbbf24;border:2px solid white;flex-shrink:0"></div>
+            <div style="font-size:.92rem;font-weight:900;color:#fbbf24;text-align:center">Oct 1943</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.8);line-height:1.4;text-align:center">Nazis plan mass arrest. Danish people find out first.</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px">
+            <div style="width:14px;height:14px;border-radius:50%;background:#86efac;border:2px solid white;flex-shrink:0"></div>
+            <div style="font-size:.92rem;font-weight:900;color:#86efac;text-align:center">The Rescue</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.8);line-height:1.4;text-align:center">~7,000 Jewish Danes escape to Sweden in 3 weeks.</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px">
+            <div style="width:14px;height:14px;border-radius:50%;background:#6ee7b7;border:2px solid white;flex-shrink:0"></div>
+            <div style="font-size:.92rem;font-weight:900;color:#6ee7b7;text-align:center">1945</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.8);line-height:1.4;text-align:center">Germany surrenders. Denmark liberated. Jews return home.</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px">
+            <div style="width:14px;height:14px;border-radius:50%;background:#a5b4fc;border:2px solid white;flex-shrink:0"></div>
+            <div style="font-size:.92rem;font-weight:900;color:#a5b4fc;text-align:center">1989</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.8);line-height:1.4;text-align:center">Lowry publishes <em>Number the Stars</em>. Newbery Medal 1990.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- P3: Author -->
+<div class="slide s-content" style="background:#0d0b2a;position:relative;overflow:hidden;padding:28px 48px">
+  <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;opacity:0.13"></div>
+  <div class="slide-period-pill" style="background:rgba(255,255,255,.12);color:white;position:relative;z-index:1">Period 3 · Meet the Author · 3 min</div>
+  <div class="slide-heading" style="color:white;position:relative;z-index:1">Meet Lois Lowry.</div>
+  <div style="display:flex;gap:18px;max-width:960px;width:100%;margin-top:10px;position:relative;z-index:1">
+    <div style="background:rgba(255,255,255,.09);border-radius:20px;overflow:hidden;flex:1;display:flex;flex-direction:column;border:1px solid rgba(165,180,252,.3)">
+      <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=400&h=130&q=80" style="width:100%;height:115px;object-fit:cover" alt="writing">
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:.82rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#a5b4fc;text-align:center">Who she is</div>
+        <div style="font-size:1rem;color:rgba(255,255,255,.92);line-height:1.65;text-align:center">American author, born 1937. She has written over 30 books for young people and won the <strong style="color:#a5b4fc">Newbery Medal twice</strong> — for <em>Number the Stars</em> (1990) and <em>The Giver</em> (1994).</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.09);border-radius:20px;overflow:hidden;flex:1;display:flex;flex-direction:column;border:1px solid rgba(110,231,183,.3)">
+      <img src="https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=400&h=130&q=80" style="width:100%;height:115px;object-fit:cover" alt="Denmark">
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:.82rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6ee7b7;text-align:center">The real story behind it</div>
+        <div style="font-size:1rem;color:rgba(255,255,255,.92);line-height:1.65;text-align:center">Lowry's childhood friend <strong style="color:#6ee7b7">Annelise Platt</strong> grew up in Denmark during the occupation. Annemarie in the novel is inspired by her. Lowry visited Denmark and interviewed survivors before writing a single word.</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.09);border-radius:20px;overflow:hidden;flex:1;display:flex;flex-direction:column;border:1px solid rgba(253,230,138,.3)">
+      <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=400&h=130&q=80" style="width:100%;height:115px;object-fit:cover" alt="books">
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:.82rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fde68a;text-align:center">Why she wrote it</div>
+        <div style="font-size:1rem;color:rgba(255,255,255,.92);line-height:1.65;text-align:center">"I wanted to tell the story of the <strong style="color:#fde68a">Danish people</strong> — the ordinary ones who made extraordinary choices. The ones who helped because it was simply the right thing to do."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- P3: Genre -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 3 · Genre · 3 min</div>
+  <div class="slide-heading">What kind of book is this?</div>
+  <div style="display:flex;gap:16px;max-width:900px;width:100%;margin-top:8px;align-items:stretch">
+    <div style="flex:1;background:var(--indigo-l);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-top:5px solid var(--indigo)">
+      <div style="font-size:1.8rem;text-align:center">📚</div>
+      <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--indigo);text-align:center">Fiction</div>
+      <div style="font-size:.85rem;color:var(--ink);line-height:1.5;text-align:center">Invented characters and events. The story did not happen — but it <em>could</em> have. Annemarie, Ellen, and their families are not real people.</div>
+    </div>
+    <div style="flex:1;background:var(--amber-l);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-top:5px solid var(--amber)">
+      <div style="font-size:1.8rem;text-align:center">📰</div>
+      <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#92400e;text-align:center">Nonfiction</div>
+      <div style="font-size:.85rem;color:var(--ink);line-height:1.5;text-align:center">Real events, real people, real facts. A history textbook about WWII is nonfiction. It tells you <em>what happened.</em></div>
+    </div>
+    <div style="flex:2;background:var(--teal-l);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;border-top:5px solid var(--teal);position:relative">
+      <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--teal);color:white;font-size:.65rem;font-weight:800;letter-spacing:.1em;padding:3px 12px;border-radius:99px;text-transform:uppercase">This is what we're reading</div>
+      <div style="font-size:1.8rem;text-align:center">⭐</div>
+      <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);text-align:center">Historical Fiction</div>
+      <div style="font-size:.88rem;color:var(--ink);line-height:1.6;text-align:center"><strong>Real setting, invented characters.</strong> Denmark 1943 is real. The occupation is real. The rescue of Danish Jews is real. Annemarie's family is invented — but their experience is based on truth.</div>
+      <div style="background:white;border-radius:10px;padding:10px 12px;margin-top:4px;text-align:center">
+        <div style="font-size:.8rem;color:var(--teal);font-weight:700;font-style:italic">"Fiction lets us feel history from the inside. A textbook tells you what happened. A novel makes you understand what it <em>cost.</em>"</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- P3: Novel Context -->
+<div class="slide s-question">
+  <div class="period-tag" style="background:rgba(255,255,255,.15);color:white">A note before we begin · 1 min</div>
+  <div class="big-q" style="margin-top:16px;font-size:2.2rem">This is not just a story.<br>It is built on true events.</div>
+  <div class="q-prompt">Lois Lowry researched and interviewed survivors.<br>The rescue really happened. The people who helped were real.<br><br>As you read, remember: <strong style="color:white">someone lived this.</strong></div>
+</div>
+
+<!-- P3: Spelling Intro -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 3 · Word Study Intro · 8 min</div>
+  <div class="slide-heading">This week's 10 words.</div>
+  <div class="slide-sub">Write each word. For each one, identify one morphological feature — prefix, suffix, root, or etymology.</div>
+  <div class="spell-box">
+    <div class="spell-label">Week 1 Spelling Words — from Chapters 1–4</div>
+    <div class="spell-words">
+      <span class="spell-word">lanky</span>
+      <span class="spell-word">synagogue</span>
+      <span class="spell-word">occupation</span>
+      <span class="spell-word">curfew</span>
+      <span class="spell-word">solemnly</span>
+      <span class="spell-word">obstinate</span>
+      <span class="spell-word">imperious</span>
+      <span class="spell-word">contemptuous</span>
+      <span class="spell-word">exasperate</span>
+      <span class="spell-word">pride</span>
+    </div>
+  </div>
+  <div class="li-box" style="margin-top:12px;background:var(--violet-l);border-left-color:var(--violet)">
+    <div class="li-text" style="font-size:1rem">💬 Quick share: <em>synagogue</em> — from Greek <em>synagein</em>, "to bring together." <em>occupation</em> — from Latin <em>occupare</em>, "to seize." Which word surprised you most?</div>
+  </div>
+</div>
+
+<!-- P3: Read Aloud Stop -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 3 · Read Aloud — Chapter 1 · 10 min</div>
+  <div class="slide-heading">Listen. Follow along. Pencils down.</div>
+  <div class="slide-sub">We will stop at the moment the soldiers confront Annemarie and Ellen on the street.</div>
+  <div class="li-box" style="background:var(--amber-l);border-left-color:var(--amber);margin-top:4px">
+    <div class="li-label" style="color:#92400E">🛑 Stop and think</div>
+    <div class="li-text" style="font-size:1.1rem">Freeze. What just happened?<br>What system just made itself visible?</div>
+  </div>
+</div>
+
+<!-- P3: Annotation Codes -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 3 · Annotation — Chapter 2 · 10 min</div>
+  <div class="slide-heading">Annotate independently.</div>
+  <div class="slide-sub">Use your transparent sticky notes. Three codes:</div>
+  <div class="codes-row">
+    <div class="code-card cc-amber">
+      <div class="code-letter c-amber">S</div>
+      <div class="code-name c-amber">Setting</div>
+      <div class="code-def">A detail that shows how the system of occupation works.</div>
+      <div class="code-ex c-amber">"S — soldiers everywhere, even the street"</div>
+    </div>
+    <div class="code-card cc-teal">
+      <div class="code-letter c-teal">C</div>
+      <div class="code-name c-teal">Character</div>
+      <div class="code-def">How a character responds to the system — what they do or feel.</div>
+      <div class="code-ex c-teal">"C — she pretended not to notice"</div>
+    </div>
+    <div class="code-card cc-violet">
+      <div class="code-letter c-violet">Q</div>
+      <div class="code-name c-violet">Question</div>
+      <div class="code-def">Something confusing or something you want to understand better.</div>
+      <div class="code-ex c-violet">"Q — why can't they just run?"</div>
+    </div>
+  </div>
+</div>
+
+<!-- P3: Exit -->
+<div class="slide s-exit">
+  <div class="exit-icon">🎟️</div>
+  <div class="exit-title">Exit Sentence</div>
+  <div class="exit-q">"The setting of Chapter 1 makes me feel _______ because _______."</div>
+  <div class="badge-row" style="margin-top:18px">
+    <span class="badge badge-ruler">💛 RULER: Label what you feel — use precise vocabulary from the word wall</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PERIOD 6 — TUESDAY
+═══════════════════════════════════════════════ -->
+
+<div class="slide s-period">
+  <div class="period-tag">Period 6 · Tuesday · 45 min</div>
+  <div class="period-title">Chapter 3<br>+ Theme Tracker<br>Introduction</div>
+  <div class="badge-row">
+    <span class="badge badge-lp">🌐 Open-minded</span>
+    <span class="badge badge-lp">🧠 Thinker</span>
+    <span class="badge badge-atl">ATL: Making Inferences</span>
+    <span class="badge badge-spell">📚 Word Study: Prefixes</span>
+    <span class="badge badge-time">⏱ 45 min</span>
+  </div>
+</div>
+
+<!-- P6: LI -->
+<div class="slide s-li s-content">
+  <div class="slide-period-pill">Period 6 · Tuesday</div>
+  <div class="slide-heading">By the end of this lesson...</div>
+  <div class="li-box">
+    <div class="li-label">Learning Intention</div>
+    <div class="li-text">I can make inferences about characters and begin tracking how Lowry develops the theme of courage — not as a feeling, but as a series of choices made under a system that punishes those choices.</div>
+  </div>
+  <div class="badge-row" style="justify-content:flex-start">
+    <span class="badge badge-key" style="background:var(--teal-l);color:var(--teal)">Key Concept: Causation</span>
+    <span class="badge badge-atl">ATL: Making Inferences</span>
+  </div>
+</div>
+
+<!-- P6: Spelling Warm-up -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 6 · Word Study Warm-up · 7 min</div>
+  <div class="slide-heading">Three affixes. Three patterns.</div>
+  <div class="slide-sub">Today we're focusing on these affixes. For each one: <strong>find the Words of the Week that use it</strong>, then think of one more English word with the same affix.</div>
+  <div class="word-task-row">
+    <div class="word-task-card">
+      <div class="wtc-label"><em>oc-</em></div>
+      <div class="wtc-text" style="font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">"toward" or "against"</div>
+      <div class="wtc-text">Latin root. Which Words of the Week uses this prefix? Can you think of another English word with <em>oc-</em>?</div>
+    </div>
+    <div class="word-task-card">
+      <div class="wtc-label"><em>-ous</em></div>
+      <div class="wtc-text" style="font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">"full of" · "having the quality of"</div>
+      <div class="wtc-text">This suffix turns nouns into adjectives. Which Words of the Week ends in <em>-ous</em>? Give one more example.</div>
+    </div>
+    <div class="word-task-card">
+      <div class="wtc-label"><em>ex-</em></div>
+      <div class="wtc-text" style="font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">"out of" · "away from"</div>
+      <div class="wtc-text">Latin prefix. Which Words of the Week starts with <em>ex-</em>? Can you think of another word where <em>ex-</em> means "out"?</div>
+    </div>
+  </div>
+  <div class="slide-sub" style="margin-top:12px;font-style:italic">Share with your partner — did you find the same words?</div>
+</div>
+
+<!-- P6: Partner Reading -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 6 · Partner Reading — Chapter 3 · 12 min</div>
+  <div class="slide-heading">Read with your partner.</div>
+  <div class="slide-sub">As you read, track in your reading journal:</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">What choice does a character make in this chapter?</div>
+        <div class="step-desc">Find a specific moment — a decision, an action, a silence.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">What does the system make that choice cost?</div>
+        <div class="step-desc">What is the risk? What would happen if someone found out?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- P6: Theme Tracker Intro -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 6 · Theme Tracker Introduction · 10 min</div>
+  <div class="slide-heading">Meet your Theme Tracker.</div>
+  <div class="slide-sub">You will use this organizer for the entire novel. We model Chapters 1–2 together — then you add Chapter 3 on your own.</div>
+  <div class="concept-row">
+    <div class="concept-card cc-teal" style="text-align:center">
+      <div class="cc-icon">📖</div>
+      <div class="cc-label c-teal">Column 1</div>
+      <div class="cc-title">Chapter</div>
+    </div>
+    <div class="concept-card cc-amber" style="text-align:center">
+      <div class="cc-icon">🔍</div>
+      <div class="cc-label c-amber">Column 2</div>
+      <div class="cc-title">Theme Evidence</div>
+      <div class="cc-desc">quote or event</div>
+    </div>
+    <div class="concept-card cc-violet" style="text-align:center">
+      <div class="cc-icon">⚡</div>
+      <div class="cc-label c-violet">Column 3</div>
+      <div class="cc-title">Character Choice</div>
+    </div>
+    <div class="concept-card cc-pink" style="text-align:center">
+      <div class="cc-icon">⛓</div>
+      <div class="cc-label c-pink">Column 4</div>
+      <div class="cc-title">System Response</div>
+    </div>
+    <div class="concept-card cc-sky" style="text-align:center">
+      <div class="cc-icon">🌱</div>
+      <div class="cc-label c-sky">Column 5</div>
+      <div class="cc-title">Theme Grows</div>
+    </div>
+  </div>
+</div>
+
+<!-- P6: Inference -->
+<div class="slide s-question">
+  <div class="period-tag" style="background:rgba(255,255,255,.15);color:white">ATL — Making Inferences</div>
+  <div class="big-q" style="margin-top:16px;font-size:2rem">What can we infer about Annemarie's father from Chapter 3?</div>
+  <div class="q-prompt">Based on what he <strong style="color:white">says</strong> — and what he <strong style="color:white">does not say.</strong><br><br>Write one inference with evidence:<br><em>"I can infer that ___ because the text shows ___ and I know that ___."</em></div>
+</div>
+
+<!-- P6: RULER -->
+<div class="slide s-ruler">
+  <div class="ruler-icon">💛</div>
+  <div class="ruler-label">RULER · Tension + Admiration</div>
+  <div class="ruler-q">Which character in Chapter 3 do you most admire right now?</div>
+  <div class="ruler-focus">Label the emotion precisely — not just "inspired." What would your Best Self do in the same situation?</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PERIOD 11 — WEDNESDAY
+═══════════════════════════════════════════════ -->
+
+<div class="slide s-period">
+  <div class="period-tag">Period 11 · Wednesday · 45 min</div>
+  <div class="period-title">Chapter 4<br>+ Vocabulary<br>in Context</div>
+  <div class="badge-row">
+    <span class="badge badge-lp">🌐 Open-minded</span>
+    <span class="badge badge-lp">🧠 Thinker</span>
+    <span class="badge badge-atl">ATL: Vocabulary in Context</span>
+    <span class="badge badge-spell">📚 Word Study: Synonyms</span>
+    <span class="badge badge-time">⏱ 45 min</span>
+  </div>
+</div>
+
+<!-- P11: LI -->
+<div class="slide s-li s-content">
+  <div class="slide-period-pill">Period 11 · Wednesday</div>
+  <div class="slide-heading">By the end of this lesson...</div>
+  <div class="li-box">
+    <div class="li-label">Learning Intention</div>
+    <div class="li-text">I can connect the precise vocabulary Lowry chooses to the moral and emotional weight of the story — understanding that every word is a decision.</div>
+  </div>
+  <div class="badge-row" style="justify-content:flex-start">
+    <span class="badge badge-key" style="background:var(--teal-l);color:var(--teal)">Key Concept: Causation</span>
+    <span class="badge badge-atl">ATL: Vocabulary in Context</span>
+  </div>
+</div>
+
+<!-- P11: Spelling Warm-up -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 11 · Word Study Warm-up · 7 min</div>
+  <div class="slide-heading">Semantic connections.</div>
+  <div class="slide-sub">Choose 3 words. For each: write the word, a synonym, an antonym, and a sentence where the precise word matters.</div>
+  <div class="li-box" style="background:var(--violet-l);border-left-color:var(--violet)">
+    <div class="li-label" style="color:var(--violet)">Focus words</div>
+    <div class="li-text" style="font-size:1rem">occupation · curfew · solemnly</div>
+  </div>
+  <div class="li-box" style="background:var(--teal-l);border-left-color:var(--teal);margin-top:8px">
+    <div class="li-text" style="font-size:1rem">💬 <em>If Lowry had written "visit" instead of "occupation" — what would change about the whole novel?</em></div>
+  </div>
+</div>
+
+<!-- P11: Partner Reading -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 11 · Partner Reading — Chapter 4 · 10 min</div>
+  <div class="slide-heading">Read Chapter 4 with your partner.</div>
+  <div class="slide-sub">New focus for this chapter:</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Dialogue vs. internal thought</div>
+        <div class="step-desc">How does Lowry show what characters <em>cannot say out loud?</em> What do they think but never speak?</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Continue your Theme Tracker</div>
+        <div class="step-desc">Add Chapter 4 to your organizer. The arc is becoming visible — what do you notice?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- P11: Vocabulary in Context -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 11 · Vocabulary in Context · 12 min</div>
+  <div class="slide-heading">Find 5 words that feel important.</div>
+  <div class="slide-sub">Not from the spelling list — new words you notice in Chapter 4. For each word, record in your Word Study notebook:</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">What does it mean?</div>
+        <div class="step-desc">Context clues first. Dictionary if needed.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">What does it add to the scene?</div>
+        <div class="step-desc">How does it change the feeling or meaning of the moment?</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">What would be lost with a simpler word?</div>
+        <div class="step-desc">Try replacing it. Does the sentence still work? What changes?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- P11: Discussion -->
+<div class="slide s-question">
+  <div class="period-tag" style="background:rgba(255,255,255,.15);color:white">Discussion · 8 min</div>
+  <div class="big-q" style="margin-top:16px;font-size:1.9rem">By the end of Chapter 4 — what can people do in Copenhagen?<br><br>What can they <em>not</em> do?<br><br>What must they <em>pretend?</em></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PERIOD 14 — THURSDAY
+═══════════════════════════════════════════════ -->
+
+<div class="slide s-period">
+  <div class="period-tag">Period 14 · Thursday · 45 min</div>
+  <div class="period-title">Recount Text Type<br>What Is a Recount?<br>Introduction + Model</div>
+  <div class="badge-row">
+    <span class="badge badge-lp">🧠 Thinker</span>
+    <span class="badge badge-lp">💬 Communicator</span>
+    <span class="badge badge-atl">ATL: Understanding Text Type</span>
+    <span class="badge badge-spell">📚 Word Study: Syllables</span>
+    <span class="badge badge-time">⏱ 45 min</span>
+  </div>
+</div>
+
+<!-- P14: LI -->
+<div class="slide s-li s-content">
+  <div class="slide-period-pill">Period 14 · Thursday</div>
+  <div class="slide-heading">By the end of this lesson...</div>
+  <div class="li-box">
+    <div class="li-label">Learning Intention</div>
+    <div class="li-text">I can identify the four stages of a recount and explain the function of each — understanding that a recount doesn't just inform, it bears witness.</div>
+  </div>
+  <div class="badge-row" style="justify-content:flex-start">
+    <span class="badge badge-key" style="background:var(--teal-l);color:var(--teal)">Key Concept: Function</span>
+    <span class="badge badge-atl">ATL: Text Type + Audience</span>
+  </div>
+</div>
+
+<!-- P14: Spelling Warm-up -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 14 · Word Study Warm-up · 5 min</div>
+  <div class="slide-heading">Syllables + stress patterns.</div>
+  <div class="slide-sub">Divide each word into syllables. Mark the stressed syllable.</div>
+  <div class="word-task-row">
+    <div class="word-task-card">
+      <div class="wtc-label">oc · CU · pa · tion</div>
+      <div class="wtc-text">stress on second syllable</div>
+    </div>
+    <div class="word-task-card">
+      <div class="wtc-label">sol · EMN · ly</div>
+      <div class="wtc-text">stress on second syllable</div>
+    </div>
+    <div class="word-task-card">
+      <div class="wtc-label">im · PE · ri · ous</div>
+      <div class="wtc-text">stress on second syllable</div>
+    </div>
+    <div class="word-task-card">
+      <div class="wtc-label">con · TEMP · tu · ous</div>
+      <div class="wtc-text">stress on second syllable</div>
+    </div>
+  </div>
+  <div class="li-box" style="margin-top:10px;background:var(--violet-l);border-left-color:var(--violet)">
+    <div class="li-text" style="font-size:1rem">💬 <em>Imperious — what does the stress on the second syllable tell us about how the word feels in the mouth?</em></div>
+  </div>
+</div>
+
+<!-- P14: What is a Recount -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 14 · Text Type Introduction · 10 min</div>
+  <div class="slide-heading">A recount retells a past experience.</div>
+  <div class="slide-sub">It has four structural stages. This chart stays up for the rest of the unit — use it every time you write.</div>
+  <div class="stages-row">
+    <div class="stage-card cc-indigo" style="text-align:center">
+      <div style="font-size:1.5rem">🗺</div>
+      <div class="cc-label c-indigo" style="margin:4px 0">Stage 1</div>
+      <div class="cc-title" style="color:#1E1B4B">Orientation</div>
+      <div class="cc-desc">Who? When? Where?<br>Set the scene.</div>
+    </div>
+    <div class="stage-card cc-teal" style="text-align:center">
+      <div style="font-size:1.5rem">➡️</div>
+      <div class="cc-label c-teal" style="margin:4px 0">Stage 2</div>
+      <div class="cc-title" style="color:var(--ink)">Sequence of Events</div>
+      <div class="cc-desc">What happened?<br>In order.</div>
+    </div>
+    <div class="stage-card cc-amber" style="text-align:center">
+      <div style="font-size:1.5rem">💭</div>
+      <div class="cc-label c-amber" style="margin:4px 0">Stage 3</div>
+      <div class="cc-title" style="color:var(--ink)">Personal Comment</div>
+      <div class="cc-desc">How did it feel?<br>What did you think?</div>
+    </div>
+    <div class="stage-card cc-violet" style="text-align:center">
+      <div style="font-size:1.5rem">🔄</div>
+      <div class="cc-label c-violet" style="margin:4px 0">Stage 4</div>
+      <div class="cc-title" style="color:var(--ink)">Reorientation</div>
+      <div class="cc-desc">Looking back.<br>What stayed with you?</div>
+    </div>
+  </div>
+</div>
+
+<!-- P14: Model Analysis -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 14 · Model Recount Analysis · 15 min</div>
+  <div class="slide-heading">Colour-code the model recount.</div>
+  <div class="slide-sub">You have a model recount written from the perspective of a Danish child. Annotate it:</div>
+  <div class="concept-row">
+    <div class="concept-card cc-indigo" style="text-align:center">
+      <div class="cc-label c-indigo">Orientation</div>
+      <div style="font-size:1.8rem">🔵</div>
+      <div class="cc-desc">Blue</div>
+    </div>
+    <div class="concept-card cc-teal" style="text-align:center">
+      <div class="cc-label c-teal">Sequence</div>
+      <div style="font-size:1.8rem">🟢</div>
+      <div class="cc-desc">Green</div>
+    </div>
+    <div class="concept-card cc-amber" style="text-align:center">
+      <div class="cc-label c-amber">Personal Comment</div>
+      <div style="font-size:1.8rem">🟠</div>
+      <div class="cc-desc">Orange</div>
+    </div>
+    <div class="concept-card cc-violet" style="text-align:center">
+      <div class="cc-label c-violet">Reorientation</div>
+      <div style="font-size:1.8rem">🟣</div>
+      <div class="cc-desc">Purple</div>
+    </div>
+  </div>
+  <div class="li-box" style="margin-top:12px;background:var(--teal-l);border-left-color:var(--teal)">
+    <div class="li-text" style="font-size:1rem">What is the function of the Personal Comment sections? What would be lost without them?</div>
+  </div>
+</div>
+
+<!-- P14: Summative Preview + RULER -->
+<div class="slide s-period">
+  <div class="period-tag">Summative Preview · Week 3</div>
+  <div class="period-title" style="font-size:2.4rem;max-width:800px">In Week 3, you will plan your own historical recount — from the perspective of a Copenhagen child in 1943.</div>
+  <div class="period-sub" style="margin-top:14px">Everything we read and study between now and then is research for that recount.</div>
+  <div class="badge-row" style="margin-top:12px">
+    <span class="badge" style="background:var(--pink-l);color:var(--pink);font-size:.85rem">💛 RULER: Anticipation + Creative Readiness — name your feeling on the Mood Meter</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PERIOD 16 — FRIDAY
+═══════════════════════════════════════════════ -->
+
+<div class="slide s-period">
+  <div class="period-tag">Period 16 · Friday · 45 min</div>
+  <div class="period-title">Spelling Test<br>+ Chapters 1–4<br>Synthesis</div>
+  <div class="badge-row">
+    <span class="badge badge-lp">⚖️ Principled</span>
+    <span class="badge badge-lp">🪞 Reflective</span>
+    <span class="badge badge-atl">ATL: Self-Management</span>
+    <span class="badge badge-time">⏱ 45 min</span>
+  </div>
+</div>
+
+<!-- P16: LI -->
+<div class="slide s-li s-content">
+  <div class="slide-period-pill">Period 16 · Friday</div>
+  <div class="slide-heading">By the end of this lesson...</div>
+  <div class="li-box">
+    <div class="li-label">Learning Intention</div>
+    <div class="li-text">I can demonstrate my vocabulary knowledge and synthesise my understanding of Chapters 1–4 by connecting the novel to the unit's Central Idea.</div>
+  </div>
+  <div class="badge-row" style="justify-content:flex-start">
+    <span class="badge badge-key" style="background:var(--teal-l);color:var(--teal)">Key Concepts: Function + Causation</span>
+    <span class="badge badge-atl">ATL: Self-Management</span>
+  </div>
+</div>
+
+<!-- P16: Spelling Test -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 16 · Spelling Test · 10 min</div>
+  <div class="slide-heading">Spelling test. Then self-correct.</div>
+  <div class="slide-sub">Listen to each word in a sentence. Write it. After the test — correct your own work.</div>
+  <div class="spell-box">
+    <div class="spell-label">Week 1 · 10 words</div>
+    <div class="spell-words">
+      <span class="spell-word">lanky</span>
+      <span class="spell-word">synagogue</span>
+      <span class="spell-word">occupation</span>
+      <span class="spell-word">curfew</span>
+      <span class="spell-word">solemnly</span>
+      <span class="spell-word">obstinate</span>
+      <span class="spell-word">imperious</span>
+      <span class="spell-word">contemptuous</span>
+      <span class="spell-word">exasperate</span>
+      <span class="spell-word">pride</span>
+    </div>
+  </div>
+  <div class="li-box" style="margin-top:12px;background:var(--violet-l);border-left-color:var(--violet)">
+    <div class="li-text" style="font-size:1rem">For each incorrect word: write it correctly 3 times AND identify what caused the error.<br><em>"I forgot ___ because ___."</em></div>
+  </div>
+</div>
+
+<!-- P16: Synthesis Task -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 16 · Synthesis Paragraph · 20 min</div>
+  <div class="slide-heading">Write your synthesis paragraph.</div>
+  <div class="li-box" style="background:var(--teal-l);border-left-color:var(--teal)">
+    <div class="li-label">The question</div>
+    <div class="li-text" style="font-size:1.05rem">"By the end of Chapter 4, what system of organization has Lois Lowry shown us through Annemarie's experience? How does that system reflect the values of the people who created it?"</div>
+  </div>
+  <div class="steps" style="margin-top:12px">
+    <div class="step">
+      <div class="step-num">✓</div>
+      <div class="step-body">
+        <div class="step-title">At least 2 pieces of textual evidence</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">✓</div>
+      <div class="step-body">
+        <div class="step-title">At least 2 spelling words used in context</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- P16: Peer Share -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 16 · Peer Share · 8 min</div>
+  <div class="slide-heading">Share with a partner.</div>
+  <div class="slide-sub">Read each other's paragraphs. Your partner writes:</div>
+  <div class="peer-row">
+    <div class="peer-card cc-teal">
+      <div style="font-size:1.8rem">✨</div>
+      <div class="cc-label c-teal">I notice...</div>
+      <div class="cc-desc" style="color:var(--ink);font-size:.95rem">Something specific and strong in the response. Be precise — not just "good job."</div>
+    </div>
+    <div class="peer-card cc-amber">
+      <div style="font-size:1.8rem">🤔</div>
+      <div class="cc-label c-amber">I wonder...</div>
+      <div class="cc-desc" style="color:var(--ink);font-size:.95rem">A question the response raises — something you want to know more about.</div>
+    </div>
+  </div>
+</div>
+
+<!-- P16: Week 1 Reflection -->
+<div class="slide s-content">
+  <div class="slide-period-pill">Period 16 · Week 1 Reflection · 2 min</div>
+  <div class="slide-heading">Return to your "I Can" goals.</div>
+  <div class="slide-sub">Look at the goals you wrote on Monday. Place a self-assessment mark next to each one:</div>
+  <div class="concept-row">
+    <div class="concept-card cc-teal" style="text-align:center">
+      <div class="cc-icon">💪</div>
+      <div class="cc-title">Confident</div>
+      <div class="cc-desc">I understand this well.</div>
+    </div>
+    <div class="concept-card cc-amber" style="text-align:center">
+      <div class="cc-icon">📈</div>
+      <div class="cc-title">Developing</div>
+      <div class="cc-desc">I'm getting there.</div>
+    </div>
+    <div class="concept-card cc-pink" style="text-align:center">
+      <div class="cc-icon">🙋</div>
+      <div class="cc-title">Need More Work</div>
+      <div class="cc-desc">I need more practice.</div>
+    </div>
+  </div>
+</div>
+
+<!-- P16: RULER Closing -->
+<div class="slide s-ruler">
+  <div class="ruler-icon">🌟</div>
+  <div class="ruler-label">RULER · End of Week 1</div>
+  <div class="ruler-q">You have just spent a week with some of the hardest content you'll study this year.<br><br>Where are you on the Mood Meter right now?</div>
+  <div class="ruler-focus">💛 Accomplishment + Curiosity — whatever you feel, that's the right starting point. We go deeper next week.</div>
+</div>
+
+<!-- END -->
+<div class="slide s-period">
+  <div class="period-tag">ELA · Week 1 Complete</div>
+  <div class="period-title" style="font-size:2.6rem">5 ELA periods.<br>4 chapters.<br>One theme beginning to grow.</div>
+  <div class="period-sub" style="margin-top:14px">Spelling test done. Synthesis written. See you next week.</div>
+</div>
+
+<!-- ── FIXED UI ── -->
+<div class="nav-hint">← → or click · F = fullscreen</div>
+<span id="slide-counter">1 / 1</span>
+<button id="fs-btn">⛶ Fullscreen</button>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let current = 0;
+  const counter = document.getElementById('slide-counter');
+
+  function go(n) {
+    slides[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+  }
+
+  counter.textContent = '1 / ' + slides.length;
+</script>
+
+<!-- Map detail modal -->
+<div id="mapModal" onclick="if(event.target===this){closeMapModal();event.stopPropagation();}" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:9999;align-items:center;justify-content:center">
+  <div onclick="event.stopPropagation();" style="background:#0d1b2a;border-radius:20px;width:680px;max-width:92vw;padding:24px;position:relative;border:1px solid rgba(255,255,255,.1);box-shadow:0 24px 80px rgba(0,0,0,.7)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div id="mapModalTitle" style="font-size:1.15rem;font-weight:800;color:white"></div>
+      <button onclick="closeMapModal();event.stopPropagation();" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:white;font-size:.85rem;cursor:pointer;border-radius:8px;padding:5px 14px">✕ Close</button>
+    </div>
+    <iframe id="mapModalIframe" style="width:100%;height:360px;border-radius:12px;border:none" src="" loading="lazy"></iframe>
+    <div id="mapModalNote" style="margin-top:10px;font-size:.82rem;color:rgba(255,255,255,.5);text-align:center;font-style:italic"></div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeMapModal(); return; }
+    if (document.getElementById('mapModal').style.display === 'flex') return;
+    if (e.key === 'ArrowRight' || e.key === ' ') go(current + 1);
+    if (e.key === 'ArrowLeft') go(current - 1);
+    if (e.key === 'f' || e.key === 'F') enterFullscreen();
+  });
+
+  document.addEventListener('click', e => {
+    if (e.target.id === 'fs-btn') return;
+    if (document.getElementById('mapModal').style.display === 'flex') return;
+    go(current + 1);
+  });
+
+  function enterFullscreen() {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }
+
+  const MAP_DATA = {
+    germany: {
+      title: '🇩🇪 Germany — the occupying power',
+      url: 'https://www.openstreetmap.org/export/embed.html?bbox=2.0,46.0,18.0,56.5&layer=mapnik&marker=52.5200,13.4050',
+      note: 'Berlin marked. Germany invaded Denmark on April 9, 1940.'
+    },
+    denmark: {
+      title: '🇩🇰 Denmark — where our story takes place',
+      url: 'https://www.openstreetmap.org/export/embed.html?bbox=8.0,54.5,15.5,58.2&layer=mapnik&marker=55.6761,12.5683',
+      note: 'Copenhagen marked — where Annemarie and Ellen live.'
+    },
+    sweden: {
+      title: '🇸🇪 Sweden — just 4 km away, and free',
+      url: 'https://www.openstreetmap.org/export/embed.html?bbox=11.5,55.0,16.5,56.8&layer=mapnik',
+      note: 'The Øresund Strait between Copenhagen and Malmö — crossed by fishing boats at night.'
+    }
+  };
+
+  function showMapModal(country) {
+    const d = MAP_DATA[country];
+    document.getElementById('mapModalTitle').textContent = d.title;
+    document.getElementById('mapModalIframe').src = d.url;
+    document.getElementById('mapModalNote').textContent = d.note;
+    document.getElementById('mapModal').style.display = 'flex';
+  }
+
+  function closeMapModal() {
+    document.getElementById('mapModal').style.display = 'none';
+    document.getElementById('mapModalIframe').src = '';
+  }
+
+  const btn = document.getElementById('fs-btn');
+  btn.addEventListener('click', e => { e.stopPropagation(); enterFullscreen(); });
+  document.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+      btn.textContent = '✕ Exit';
+      btn.onclick = e => { e.stopPropagation(); document.exitFullscreen(); };
+    } else {
+      btn.textContent = '⛶ Fullscreen';
+      btn.onclick = e => { e.stopPropagation(); enterFullscreen(); };
+    }
+  });
+</script>
+</body>
+</html>
