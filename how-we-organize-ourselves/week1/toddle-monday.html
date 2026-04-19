@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toddle Reference — Monday, April 20</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f4f5f7;
+    color: #1a1a2e;
+    padding: 32px 24px;
+  }
+
+  header {
+    max-width: 860px;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+
+  header p {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  .progress {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .dot.uoi { background: #e8f4f0; color: #2d8a6e; border-color: #2d8a6e; }
+  .dot.ela { background: #fef3e8; color: #d4730a; border-color: #d4730a; }
+  .dot.math { background: #eef2ff; color: #4361c2; border-color: #4361c2; }
+  .dot.done { opacity: 0.35; text-decoration: line-through; }
+
+  .card {
+    max-width: 860px;
+    margin: 0 auto 28px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  .card-header {
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .card-header.uoi  { background: #2d8a6e; }
+  .card-header.ela  { background: #d4730a; }
+  .card-header.math { background: #4361c2; }
+
+  .period-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .card-header h2 {
+    flex: 1;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+  }
+
+  .done-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .done-btn:hover { background: rgba(255,255,255,0.35); }
+
+  .card-body { padding: 0; }
+
+  .field {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .field:last-child { border-bottom: none; }
+
+  .field-label {
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .field-label .icon { font-size: 0.9rem; }
+
+  .field-value {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #2a2a2a;
+  }
+
+  .field-value.copyable {
+    background: #f8f9fb;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: text;
+    position: relative;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .tag.atl    { background: #eef2ff; color: #4361c2; }
+  .tag.lp     { background: #fef3e8; color: #d4730a; }
+  .tag.std    { background: #f0faf6; color: #2d8a6e; }
+  .tag.loi    { background: #fdf4ff; color: #8b3fbb; }
+  .tag.concept{ background: #fff8e6; color: #b07a00; }
+
+  .rec-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .rec-badge.checklist { background: #e8f4f0; color: #2d8a6e; }
+  .rec-badge.score     { background: #eef2ff; color: #4361c2; }
+  .rec-badge.comment   { background: #fff3e0; color: #d4730a; }
+  .rec-badge.rubric    { background: #fdf4ff; color: #8b3fbb; }
+
+  .teacher-note {
+    background: #fffbf0;
+    border-left: 3px solid #f0c040;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #4a4020;
+  }
+
+  .teacher-note strong { color: #8a6800; }
+
+  .sub-section {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .sub-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #bbb;
+    margin-bottom: 4px;
+  }
+
+  a.resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #4361c2;
+    text-decoration: none;
+    background: #eef2ff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin: 2px 4px 2px 0;
+  }
+  a.resource-link:hover { background: #dde5ff; }
+
+  .instructions-list {
+    padding-left: 18px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #2a2a2a;
+  }
+
+  .instructions-list li { margin-bottom: 3px; }
+
+  @media print {
+    body { background: white; padding: 16px; }
+    .done-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Monday · April 20, 2026</h1>
+    <p>How We Organize Ourselves — Week 1 · Tuning In · 4 periods</p>
+  </div>
+  <div class="progress">
+    <div class="dot uoi" id="dot-p1" onclick="toggleDone('p1','dot-p1')">P1</div>
+    <div class="dot uoi" id="dot-p2" onclick="toggleDone('p2','dot-p2')">P2</div>
+    <div class="dot ela" id="dot-p3" onclick="toggleDone('p3','dot-p3')">P3</div>
+    <div class="dot math" id="dot-p4" onclick="toggleDone('p4','dot-p4')">P4</div>
+  </div>
+</header>
+
+<!-- ── PERIOD 1 ───────────────────────────────────────────── -->
+<div class="card" id="p1">
+  <div class="card-header uoi">
+    <span class="period-badge">Period 1 · UOI</span>
+    <h2>Unit Launch: What's the Power Behind the System? &nbsp;<a href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/UOILESSON1BANNER.png" style="font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.8);text-decoration:none;background:rgba(255,255,255,0.15);padding:2px 8px;border-radius:10px;">🖼 thumbnail</a></h2>
+    <button class="done-btn" onclick="toggleDone('p1','dot-p1')">Mark done</button>
+  </div>
+  <div class="card-body">
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎯</span> Learning Intention</div>
+      <div class="field-value copyable">
+        I will use critical analysis to sort images into conceptual groups to show what I already think about how societies organize themselves.
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📋</span> Instructions (student-facing)</div>
+      <div class="field-value">
+        <ol class="instructions-list">
+          <li>Open the Image Sort activity. Do not move anything yet — take 10 seconds to look at all 12 images and just wonder.</li>
+          <li>In your group, sort all 12 images into groups based on a shared idea. Every image must be placed. Write a one-sentence title for each group.</li>
+          <li>Be ready to justify every placement: <em>Why does this image belong here? What idea connects them?</em></li>
+          <li>Relabel your groups using the three Key Concepts: <strong>Function, Causation, Responsibility</strong>.</li>
+          <li>In your UOI notebook, respond: Which image best represents the Central Idea to you right now, and why? (1 sentence — no right answer.)</li>
+          <li>Exit ticket: Write one question this image sort made you want to investigate.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📤</span> Submission Template</div>
+      <div class="field-value">Add a link <span style="color:#999;">— link para o HTML do image sort preenchido</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔗</span> Resources</div>
+      <div class="field-value">
+        <a class="resource-link" href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/slides-uoi-week1.html">📽 Slides UOI — Week 1</a>
+        <a class="resource-link" href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/uoi-p1-image-sort-STUDENT.html">🗂 Image Sort — Student</a>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">✅</span> Assessment Tool</div>
+      <div class="field-value"><span class="rec-badge checklist">Checklist</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">☑️</span> Checklist Items</div>
+      <div class="field-value">
+        <ol class="instructions-list">
+          <li>Sorted all 12 images into groups — every image placed</li>
+          <li>Wrote a one-sentence title for each group</li>
+          <li>Justified each placement using conceptual language</li>
+          <li>Relabeled groups using at least one Key Concept (Function, Causation, or Responsibility)</li>
+          <li>Responded in UOI notebook: which image best represents the Central Idea and why</li>
+          <li>Posted one inquiry question to the Inquiry Wall</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎓</span> Learning Goals</div>
+      <div class="field-value">
+        <div class="tag-row">
+          <span class="tag atl">ATL · Thinking — Critical Analysis</span>
+          <span class="tag concept">Function</span>
+          <span class="tag concept">Causation</span>
+          <span class="tag concept">Responsibility</span>
+          <span class="tag lp">LP · Inquirer</span>
+          <span class="tag lp">LP · Open-minded</span>
+          <span class="tag std">SS.5.CG.1.1</span>
+          <span class="tag std">SS.5.A.6.4</span>
+          <span class="tag loi">LOI 1 — Function</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔒</span> Teacher Notes</div>
+      <div class="teacher-note">
+        <strong>RULER:</strong> After images flip — "Take 30 seconds. What are you feeling right now?" Silent dot on Mood Meter. Name: Curiosity + Unease. Both are right for this unit.<br><br>
+        <strong>Support:</strong> Concept card per key concept with simple definition + 1 guiding question. Pre-sort 1 image into each concept group so groups have clear examples to orient around.<br><br>
+        <strong>Extension:</strong> Identify 1 image that could belong to 2–3 groups. Write a paragraph defending each placement. Which argument is strongest, and why?<br><br>
+        <strong>Documentation:</strong> Photograph anchor chart with student theories → evidence for Prior Knowledge section of unit planner.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PERIOD 2 ───────────────────────────────────────────── -->
+<div class="card" id="p2">
+  <div class="card-header uoi">
+    <span class="period-badge">Period 2 · UOI</span>
+    <h2>Co-Constructing Our Learning Goals &nbsp;<a href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/UOILESSON1BANNER.png" style="font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.8);text-decoration:none;background:rgba(255,255,255,0.15);padding:2px 8px;border-radius:10px;">🖼 thumbnail</a></h2>
+    <button class="done-btn" onclick="toggleDone('p2','dot-p2')">Mark done</button>
+  </div>
+  <div class="card-body">
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎯</span> Learning Intention</div>
+      <div class="field-value copyable">
+        I will translate the unit's learning goals into personal "I Can" statements, taking ownership of what I want to learn and making a commitment to myself as a learner.
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📋</span> Instructions (student-facing)</div>
+      <div class="field-value">
+        <ol class="instructions-list">
+          <li>Look at the KUD statements on the board. Individually, mark each one K, U, or D based on your first impression — no discussion yet.</li>
+          <li>Your group is assigned one category. Rewrite each statement as a clear "I Can…" statement. Rule: if a Year 1 student couldn't understand it, rewrite it.</li>
+          <li>Share your "I Can" statements with the class. Vote on the strongest version of each. Refine together: is it measurable? Ambitious enough?</li>
+          <li>Copy the final "I Can" statements into your UOI notebook. Circle your Top 3 most challenging goals.</li>
+          <li>Write one sentence: <em>I commit to… because…</em></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📤</span> Submission Template</div>
+      <div class="field-value">Add a link <span style="color:#999;">— link para o HTML do KUD preenchido</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔗</span> Resources</div>
+      <div class="field-value">
+        <a class="resource-link" href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/slides-uoi-week1.html">📽 Slides UOI — Week 1</a>
+        <a class="resource-link" href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/uoi-learning-goals-kud.html">📘 KUD Learning Goals</a>
+        <a class="resource-link" href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/uoi-lp-tracker.html">📊 LP Tracker</a>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">✅</span> Assessment Tool</div>
+      <div class="field-value"><span class="rec-badge checklist">Checklist</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">☑️</span> Checklist Items</div>
+      <div class="field-value">
+        <ol class="instructions-list">
+          <li>Completed the KUD quick sort independently</li>
+          <li>Rewrote assigned KUD statements as clear "I Can" statements</li>
+          <li>Participated in gallery share and class vote</li>
+          <li>Copied final "I Can" statements into UOI notebook</li>
+          <li>Circled Top 3 most challenging goals</li>
+          <li>Wrote personal commitment sentence: <em>I commit to… because…</em></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎓</span> Learning Goals</div>
+      <div class="field-value">
+        <div class="tag-row">
+          <span class="tag atl">ATL · Self-Management — Goal Setting</span>
+          <span class="tag concept">Responsibility</span>
+          <span class="tag lp">LP · Principled</span>
+          <span class="tag lp">LP · Communicator</span>
+          <span class="tag std">ELA.5.C.2.1</span>
+          <span class="tag std">SS.5.CG.2.1</span>
+          <span class="tag loi">LOI 3 — Responsibility</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔒</span> Teacher Notes</div>
+      <div class="teacher-note">
+        <strong>RULER:</strong> Before commitment sentence — "Who is your Best Self as a learner in this unit? What does your Best Self do when history gets difficult?" Students share one word. This is the emotional contract for the unit.<br><br>
+        <strong>Support:</strong> Provide 2 pre-written "I Can" examples per KUD category. Students choose the better one and justify — rather than generating from scratch.<br><br>
+        <strong>Extension:</strong> Write a "debatable version" of the Central Idea — one a classmate could genuinely disagree with. This sharpens understanding of what makes the CI conceptual rather than factual.<br><br>
+        <strong>Documentation:</strong> Photograph final class anchor chart → Prior Knowledge + Planning section of unit planner. Note which KUD statements students found hardest to translate (informs pacing).
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PERIOD 3 ───────────────────────────────────────────── -->
+<div class="card" id="p3">
+  <div class="card-header ela">
+    <span class="period-badge">Period 3 · ELA</span>
+    <h2>Number the Stars: Introduction + Chapters 1–2</h2>
+    <button class="done-btn" onclick="toggleDone('p3','dot-p3')">Mark done</button>
+  </div>
+  <div class="card-body">
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎯</span> Learning Intention</div>
+      <div class="field-value copyable">
+        I will begin reading Number the Stars and use annotation codes to analyse how Lois Lowry shows — not tells — what it feels like to live inside a system of occupation.
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📋</span> Instructions (student-facing)</div>
+      <div class="field-value">
+        <ol class="instructions-list">
+          <li>We'll look at 10 new words from the novel — write each one, identify one morphological feature (prefix, suffix, root, or origin), and share: which word surprised you most?</li>
+          <li>Brief historical frame: Denmark, 1943. German occupation. Who is Lois Lowry and why did she write this?</li>
+          <li>Read-aloud: Chapter 1. Pencils down, just listen. We stop when the soldiers confront Annemarie and Ellen. <em>Freeze — what just happened?</em></li>
+          <li>Annotate Chapter 2 independently using these codes:<br>
+            <strong>S</strong> = Setting detail that shows the system<br>
+            <strong>C</strong> = Character response to the system<br>
+            <strong>Q</strong> = Question this raises</li>
+          <li>Discussion: How does Lowry make us feel the occupation without ever explaining it? Connect to Key Concept: <strong>Function</strong>.</li>
+          <li>Exit: One sentence — <em>The setting of Chapter 1 makes me feel ___ because ___.</em></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📤</span> Submission Template</div>
+      <div class="field-value">Upload images from device <span style="color:#999;">— foto do caderno: Chapter 2 anotado + exit sentence</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔗</span> Resources</div>
+      <div class="field-value">
+        <a class="resource-link" href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/slides-ela-week1.html">📽 Slides ELA — Week 1</a>
+        <a class="resource-link" href="https://siga-app.github.io/classroom-materials/how-we-organize-ourselves/week1/annotation-code-card.html">📎 Annotation Code Card</a>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">✅</span> Assessment Tool</div>
+      <div class="field-value"><span class="rec-badge comment">Comment</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎓</span> Learning Goals</div>
+      <div class="field-value">
+        <div class="tag-row">
+          <span class="tag atl">ATL · Communication — Reading Critically</span>
+          <span class="tag concept">Function</span>
+          <span class="tag lp">LP · Open-minded</span>
+          <span class="tag lp">LP · Inquirer</span>
+          <span class="tag std">ELA.5.R.1.1</span>
+          <span class="tag std">ELA.5.R.1.3</span>
+          <span class="tag loi">LOI 1 — Function</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔒</span> Teacher Notes</div>
+      <div class="teacher-note">
+        <strong>Word Study — Week 1 (introduce all 10 today):</strong><br>
+        lanky · synagogue · occupation · curfew · solemnly · obstinate · imperious · contemptuous · exasperate · pride<br>
+        Interesting roots to explore: synagogue (Greek synagein — to bring together) · occupation (Latin occupare — to seize) · imperious (Latin imperium — command/empire)<br><br>
+        <strong>RULER:</strong> After read-aloud stop — "Label what you feel on the Mood Meter. Use precise vocabulary from the word wall." Feeling uncomfortable about injustice = LP Open-minded in action.<br><br>
+        <strong>Support:</strong> Annotation code reference card with modelled examples. Focus on S and C only — skip Q if needed.<br><br>
+        <strong>Extension:</strong> Write a parallel opening paragraph from one soldier's perspective. What system are they serving? Compare the function of their perspective to Annemarie's.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── PERIOD 4 ───────────────────────────────────────────── -->
+<div class="card" id="p4">
+  <div class="card-header math">
+    <span class="period-badge">Period 4 · Math</span>
+    <h2>Algebraic Reasoning Diagnostic + Order of Operations Launch</h2>
+    <button class="done-btn" onclick="toggleDone('p4','dot-p4')">Mark done</button>
+  </div>
+  <div class="card-body">
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎯</span> Learning Intention</div>
+      <div class="field-value copyable">
+        I will show what I already know about order of operations and begin to understand that mathematical expressions — like organized systems — have rules that must be followed in the correct order, or the meaning changes entirely.
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📋</span> Instructions (student-facing)</div>
+      <div class="field-value">
+        <ol class="instructions-list">
+          <li>Diagnostic (10 min): 6 order of operations problems, increasing complexity. Work silently. This is not a test — it shows me where we start.</li>
+          <li>Concept hook: <em>3 + 4 × 2.</em> What's the answer? Two different rules give two different answers. Reveal: in mathematics, just like in government, the order of the rules matters. → PEMDAS.</li>
+          <li>Think about it: the Key Concept is <strong>Function</strong>. What is the function of each operation in an expression? What happens when you change the order?</li>
+          <li>Work through 4 context problems using real data from occupied Denmark. Solve and discuss: what does the correct order of operations tell us about the real situation?</li>
+          <li>Exit ticket: (1) Evaluate one expression. (2) Identify the error in a worked example.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">📤</span> Submission Template</div>
+      <div class="field-value">Add a link <span style="color:#999;">— link para o HTML de order of operations + exit ticket</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔗</span> Resources</div>
+      <div class="field-value">
+        <a class="resource-link" href="slides-math-week1.html">📽 Slides Math — Week 1</a>
+        <a class="resource-link" href="math-p1-order-of-operations.html">🔢 Order of Operations — Student</a>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">✅</span> Assessment Tool</div>
+      <div class="field-value">
+        <span class="rec-badge score">Score</span>
+        <span style="color:#999; font-size:0.8rem; margin-left:8px;">+ Comment for diagnostic observations</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🎓</span> Learning Goals</div>
+      <div class="field-value">
+        <div class="tag-row">
+          <span class="tag atl">ATL · Thinking — Transfer &amp; Application</span>
+          <span class="tag concept">Function</span>
+          <span class="tag lp">LP · Inquirer</span>
+          <span class="tag lp">LP · Thinker</span>
+          <span class="tag std">MA.5.AR.2.2</span>
+          <span class="tag std">MA.5.AR.1.1</span>
+          <span class="tag loi">LOI 1 — Function</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class="field-label"><span class="icon">🔒</span> Teacher Notes</div>
+      <div class="teacher-note">
+        <strong>Answer key:</strong> math-p1-order-of-operations-ANSWER-KEY.html<br><br>
+        <strong>Diagnostic purpose:</strong> Results inform differentiation grouping for Tuesday's deeper work (P7/P8). Circulate and observe strategies — don't help.<br><br>
+        <strong>Transdisciplinary bridge:</strong> "Expression" used in both ELA (written expression) and Math (numerical expression) — make this explicit. ELA.5.V.1.1: academic vocabulary across domains.<br><br>
+        <strong>Support:</strong> PEMDAS reference card with one worked example per operation type. Provide expression pre-written for context problems — students evaluate only.<br><br>
+        <strong>Extension:</strong> After solving, write your own context problem using different WWII-era data (reference card provided). Must use ≥3 different operations + grouping symbols.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer style="max-width:860px; margin:8px auto 0; text-align:center; font-size:0.75rem; color:#bbb; padding-bottom:32px;">
+  Taco · How We Organize Ourselves · Week 1 · Monday Reference
+</footer>
+
+<script>
+  function toggleDone(cardId, dotId) {
+    const card = document.getElementById(cardId);
+    const dot = document.getElementById(dotId);
+    card.style.opacity = card.style.opacity === '0.45' ? '1' : '0.45';
+    dot.classList.toggle('done');
+  }
+</script>
+
+</body>
+</html>
