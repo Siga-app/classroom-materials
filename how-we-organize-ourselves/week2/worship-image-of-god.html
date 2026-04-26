@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Worship Week: Made in God's Image</title>
+  <style>
+    :root{
+      --bg:#f6efe4;
+      --ink:#1d2633;
+      --muted:#5d6573;
+      --cream:#fffaf1;
+      --gold:#c8912f;
+      --blue:#253d5b;
+      --green:#416d55;
+      --shadow:0 22px 70px rgba(29,38,51,.18);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-serif, Georgia, 'Times New Roman', serif;
+      background: radial-gradient(circle at top left, #fff7e7 0, var(--bg) 40%, #e9dfd0 100%);
+      color:var(--ink);
+      overflow:hidden;
+    }
+    .deck{width:100vw;height:100vh;position:relative;}
+    .slide{
+      position:absolute; inset:0; display:none;
+      padding:5.2vh 7vw 6vh;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.78), rgba(255,250,241,.92)),
+        radial-gradient(circle at 90% 15%, rgba(200,145,47,.18), transparent 28%),
+        radial-gradient(circle at 8% 90%, rgba(65,109,85,.12), transparent 30%);
+    }
+    .slide.active{display:flex; flex-direction:column; justify-content:center;}
+    .eyebrow{font-family:ui-sans-serif, system-ui, sans-serif; text-transform:uppercase; letter-spacing:.18em; color:var(--gold); font-weight:800; font-size:clamp(14px,1.3vw,22px); margin-bottom:1.1rem;}
+    h1,h2,h3,p{margin:0}
+    h1{font-size:clamp(54px,7vw,112px); line-height:.94; letter-spacing:-.05em; max-width:980px;}
+    h2{font-size:clamp(42px,5vw,78px); line-height:1.02; letter-spacing:-.04em; max-width:1120px;}
+    h3{font-size:clamp(26px,2.8vw,44px); line-height:1.08; letter-spacing:-.03em;}
+    p,.body{font-family:ui-sans-serif, system-ui, sans-serif; font-size:clamp(24px,2.3vw,40px); line-height:1.25; max-width:1100px; color:#263140;}
+    .small{font-family:ui-sans-serif, system-ui, sans-serif; font-size:clamp(16px,1.3vw,23px); line-height:1.35; color:var(--muted)}
+    .verse{font-size:clamp(32px,3.8vw,66px); line-height:1.12; color:var(--blue); max-width:1080px;}
+    .reference{font-family:ui-sans-serif, system-ui, sans-serif; color:var(--gold); font-size:clamp(18px,1.8vw,28px); font-weight:800; margin-top:1.4rem;}
+    .question{font-size:clamp(34px,4.4vw,78px); line-height:1.04; letter-spacing:-.045em; color:var(--blue); max-width:1120px;}
+    .card{
+      background:rgba(255,250,241,.82); border:1px solid rgba(37,61,91,.12); border-radius:32px;
+      padding:clamp(24px,3vw,48px); box-shadow:var(--shadow); backdrop-filter: blur(6px);
+    }
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:3vw; align-items:stretch; margin-top:3vh;}
+    .daily{display:grid; grid-template-columns:1.05fr 1fr; gap:3vw; align-items:stretch; margin-top:3vh;}
+    .stack{display:grid; gap:2vh;}
+    .section-label{font-family:ui-sans-serif, system-ui, sans-serif; color:var(--gold); font-weight:900; letter-spacing:.12em; text-transform:uppercase; font-size:clamp(14px,1.1vw,19px); margin-bottom:.75rem;}
+    .prayer{font-family:ui-sans-serif, system-ui, sans-serif; font-size:clamp(22px,2vw,34px); line-height:1.28; color:#263140;}
+    .icon{font-size:clamp(48px,5vw,92px); line-height:1; margin-bottom:1rem;}
+    .daymark{position:static; display:inline-flex; align-items:center; width:max-content; font-family:ui-sans-serif, system-ui, sans-serif; font-size:clamp(18px,1.6vw,30px); color:#fff; font-weight:900; background:var(--blue); padding:.65rem 1.15rem; border-radius:999px; box-shadow:0 10px 30px rgba(37,61,91,.18); margin:0 0 1.1rem 0;}
+    .foot{position:absolute; left:7vw; bottom:3.6vh; right:7vw; display:flex; justify-content:space-between; align-items:end; gap:2rem;}
+    .progress{height:6px; flex:1; background:rgba(29,38,51,.12); border-radius:999px; overflow:hidden;}
+    .bar{height:100%; width:0; background:linear-gradient(90deg,var(--gold),var(--green)); transition:.25s ease;}
+    .controls{font-family:ui-sans-serif, system-ui, sans-serif; color:var(--muted); font-size:14px; white-space:nowrap;}
+    .speaker{
+      position:absolute; right:2vw; bottom:9vh; width:min(420px,35vw); max-height:56vh; overflow:auto;
+      background:rgba(255,255,255,.94); border:1px solid rgba(29,38,51,.14); border-radius:22px; padding:18px 20px;
+      box-shadow:0 16px 50px rgba(0,0,0,.14); font-family:ui-sans-serif, system-ui, sans-serif; font-size:16px; line-height:1.38; color:#263140; display:none;
+    }
+    .speaker.show{display:block}
+    .speaker b{color:var(--blue)}
+    .timer{position:absolute; top:4vh; left:5vw; font-family:ui-sans-serif, system-ui, sans-serif; color:var(--muted); font-weight:800; font-size:15px;}
+    .topBtns{position:fixed; top:18px; right:22px; display:flex; gap:.6rem; z-index:50; font-family:ui-sans-serif, system-ui, sans-serif;}
+    .topBtns button{border:1px solid rgba(29,38,51,.22); background:#ffffff; color:var(--blue); border-radius:999px; padding:.72rem 1.05rem; font-weight:900; cursor:pointer; box-shadow:0 8px 28px rgba(0,0,0,.14); backdrop-filter:blur(6px);}
+    .topBtns button:hover{background:#fffaf1;}
+    .quoteLine{width:140px; height:5px; background:var(--gold); border-radius:99px; margin:2rem 0;}
+    .center{text-align:center; align-items:center}.center h1,.center h2,.center p,.center .verse,.center .question{margin-left:auto;margin-right:auto}.center .quoteLine{margin-left:auto;margin-right:auto}
+    .scripture-box{border-left:9px solid var(--gold); padding-left:2rem;}
+    @media (max-width:900px){.daily,.grid{grid-template-columns:1fr}.slide{padding:10vh 6vw 8vh}.topBtns{top:12px;right:12px}.daymark{font-size:16px;margin-bottom:.85rem}.foot{left:6vw;right:6vw}.controls{display:none}}
+    @media print{body{overflow:visible}.deck{height:auto}.slide{position:relative;display:flex!important;width:100vw;height:56.25vw;page-break-after:always}.foot,.speaker,.timer,.topBtns{display:none!important}}
+  </style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="timer" id="timer">5:00 worship flow</div>
+  <div class="topBtns">
+    <button id="fullscreenBtn" type="button" aria-label="Enter fullscreen">⛶ Fullscreen</button>
+  </div>
+
+  <section class="slide active center" data-day="Week Theme" data-notes="Opening screen before students enter. Keep the tone reverent and connected to the unit.">
+    <div class="eyebrow">Worship · How We Organize Ourselves</div>
+    <h1>Made in God’s Image</h1>
+    <div class="quoteLine"></div>
+    <p>Every person has dignity. Every system has a responsibility.</p>
+  </section>
+
+  <section class="slide" data-day="Unit Connection" data-notes="Bridge worship to the unit planner. Systems are not just structures. They reveal what a society values and who a society protects.">
+    <div class="eyebrow">Central Idea Connection</div>
+    <h2>The systems societies create reflect their values.</h2>
+    <div class="grid">
+      <div class="card"><div class="icon">⚖️</div><h3>Rights</h3><p class="small">Governments should protect the dignity of every person.</p></div>
+      <div class="card"><div class="icon">🕯️</div><h3>Responsibility</h3><p class="small">When systems fail, people of courage choose to protect others.</p></div>
+    </div>
+  </section>
+
+  <section class="slide" data-day="Monday" data-notes="5-minute flow: Scripture, reflection, quiet think time, prayer.">
+    <div class="daymark">Monday</div>
+    <div class="eyebrow">Created in God’s Image</div>
+    <h2>What makes a person valuable?</h2>
+    <div class="daily">
+      <div class="card scripture-box">
+        <div class="section-label">Scripture</div>
+        <p class="verse">“So God created mankind in his own image.”</p>
+        <div class="reference">Genesis 1:27</div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <div class="section-label">Reflection</div>
+          <p class="small">A person’s value does not come from power, popularity, grades, talent, or what they can do for us. Every person has God-given worth because every person is made in His image.</p>
+        </div>
+        <div class="card">
+          <div class="section-label">Prayer</div>
+          <p class="prayer">Lord, help us see every person the way You see them. Teach us to treat others with dignity, patience, and love. Amen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section class="slide" data-day="Tuesday" data-notes="5-minute flow: Scripture, rights connection, short reflection, prayer.">
+    <div class="daymark">Tuesday</div>
+    <div class="eyebrow">Rights Protect Dignity</div>
+    <h2>Rights are ways a society says, “You matter.”</h2>
+    <div class="daily">
+      <div class="card scripture-box">
+        <div class="section-label">Scripture</div>
+        <p class="verse">“Defend the weak and the fatherless; uphold the cause of the poor and the oppressed.”</p>
+        <div class="reference">Psalm 82:3</div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <div class="section-label">Reflection</div>
+          <p class="small">The Bill of Rights helps us understand that people need protection from unfair power. A good system is not only organized. A good system protects people, especially those who are vulnerable.</p>
+        </div>
+        <div class="card">
+          <div class="section-label">Prayer</div>
+          <p class="prayer">God, give us hearts that care about justice. Help us use our voice to protect, include, and honor others. Amen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section class="slide" data-day="Wednesday" data-notes="Keep this honest, sensitive, and age-appropriate. Focus on dignity, systems, and courage.">
+    <div class="daymark">Wednesday</div>
+    <div class="eyebrow">When Dignity Is Denied</div>
+    <h2>When systems deny dignity, they deny the image of God.</h2>
+    <div class="daily">
+      <div class="card scripture-box">
+        <div class="section-label">Scripture</div>
+        <p class="verse">“For in the image of God has God made mankind.”</p>
+        <div class="reference">Genesis 9:6</div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <div class="section-label">Reflection</div>
+          <p class="small">The Holocaust shows what can happen when people are treated as less than human. God’s truth says that no law, lie, or label can erase the image of God in a person.</p>
+        </div>
+        <div class="card">
+          <div class="section-label">Prayer</div>
+          <p class="prayer">Lord, make us people who notice when others are mistreated. Give us courage to speak with kindness and stand for what is right. Amen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section class="slide" data-day="Thursday" data-notes="5-minute flow: Scripture, Number the Stars and Denmark connection, reflection, prayer.">
+    <div class="daymark">Thursday</div>
+    <div class="eyebrow">Choosing to Protect a Neighbor</div>
+    <h2>Quiet courage protects a neighbor.</h2>
+    <div class="daily">
+      <div class="card scripture-box">
+        <div class="section-label">Scripture</div>
+        <p class="verse">“Act justly and love mercy and walk humbly with your God.”</p>
+        <div class="reference">Micah 6:8</div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <div class="section-label">Reflection</div>
+          <p class="small">In <i>Number the Stars</i>, courage often looks quiet. A choice to help, hide, carry, warn, or tell the truth can become a way to honor the image of God in a neighbor.</p>
+        </div>
+        <div class="card">
+          <div class="section-label">Prayer</div>
+          <p class="prayer">God, help us act justly, love mercy, and walk humbly with You. Show us how to protect and care for our neighbors. Amen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  
+
+  <div class="speaker" id="speaker"></div>
+  <div class="foot">
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="controls">← → slides · N notes · T timer · F fullscreen · P print</div>
+  </div>
+</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const deck=document.getElementById('deck');
+  const bar=document.getElementById('bar');
+  const speaker=document.getElementById('speaker');
+  const timerEl=document.getElementById('timer');
+  const fullscreenBtn=document.getElementById('fullscreenBtn');
+  let i=0, seconds=300, timer=null;
+  function show(idx){
+    i=(idx+slides.length)%slides.length;
+    slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+    bar.style.width=((i+1)/slides.length*100)+'%';
+    speaker.innerHTML='<b>Teacher notes</b><br>'+ (slides[i].dataset.notes||'');
+    document.title=(slides[i].dataset.day||'Worship')+' · Made in God’s Image';
+  }
+  function fmt(s){const m=Math.floor(s/60), r=s%60; return m+':'+String(r).padStart(2,'0')}
+  function toggleTimer(){
+    if(timer){clearInterval(timer);timer=null;return}
+    seconds=300; timerEl.textContent=fmt(seconds)+' worship timer';
+    timer=setInterval(()=>{seconds--; timerEl.textContent=fmt(Math.max(seconds,0))+' worship timer'; if(seconds<=0){clearInterval(timer);timer=null}},1000)
+  }
+  function toggleFullscreen(){
+    const doc = document;
+    const el = document.documentElement;
+    const isFull = doc.fullscreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement;
+    if(!isFull){
+      if(el.requestFullscreen) el.requestFullscreen();
+      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if(el.msRequestFullscreen) el.msRequestFullscreen();
+      fullscreenBtn.textContent='⛶ Exit fullscreen';
+    }else{
+      if(doc.exitFullscreen) doc.exitFullscreen();
+      else if(doc.webkitExitFullscreen) doc.webkitExitFullscreen();
+      else if(doc.msExitFullscreen) doc.msExitFullscreen();
+      fullscreenBtn.textContent='⛶ Fullscreen';
+    }
+  }
+  function updateFullscreenLabel(){
+    fullscreenBtn.textContent=(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement)?'⛶ Exit fullscreen':'⛶ Fullscreen';
+  }
+  document.addEventListener('fullscreenchange',updateFullscreenLabel);
+  document.addEventListener('webkitfullscreenchange',updateFullscreenLabel);
+  document.addEventListener('MSFullscreenChange',updateFullscreenLabel);
+  fullscreenBtn.addEventListener('click',e=>{e.stopPropagation(); toggleFullscreen();});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '){show(i+1)}
+    if(e.key==='ArrowLeft'){show(i-1)}
+    if(e.key.toLowerCase()==='n'){speaker.classList.toggle('show')}
+    if(e.key.toLowerCase()==='t'){toggleTimer()}
+    if(e.key.toLowerCase()==='f'){toggleFullscreen()}
+    if(e.key.toLowerCase()==='p'){window.print()}
+    if(/[0-9]/.test(e.key)){ const day=Number(e.key); const map={1:0,2:2,3:3,4:4,5:5}; if(map[day]!==undefined) show(map[day]); }
+  });
+  document.addEventListener('click',e=>{
+    if(e.target.closest('button') || e.target.closest('.speaker')) return;
+    show(i+1);
+  });
+  show(0);
+</script>
+</body>
+</html>
