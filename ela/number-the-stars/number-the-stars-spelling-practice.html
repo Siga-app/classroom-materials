@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number the Stars | Spelling Practice</title>
+  <style>
+    :root {
+      --navy: #1f3a5f;
+      --blue: #4f7cac;
+      --light-blue: #dbeafe;
+      --cream: #fff8ed;
+      --gold: #f4c95d;
+      --green: #6a994e;
+      --red: #bc4749;
+      --text: #1f2933;
+      --white: #ffffff;
+      --soft-gray: #f8fafc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, var(--cream), var(--light-blue));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 36px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      letter-spacing: 0.5px;
+    }
+
+    header p {
+      margin: 10px auto 0;
+      max-width: 700px;
+      font-size: 1rem;
+      line-height: 1.5;
+      opacity: 0.95;
+    }
+
+    nav {
+      background: rgba(255, 255, 255, 0.94);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 4px 14px rgba(31, 58, 95, 0.12);
+    }
+
+    .nav-inner {
+      width: min(1050px, 92%);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      padding: 12px 0;
+    }
+
+    .nav-link {
+      border: 2px solid var(--blue);
+      background: var(--white);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--blue);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+    }
+
+    main {
+      width: min(1050px, 92%);
+      margin: 28px auto 50px;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .card {
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(31, 58, 95, 0.16);
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+
+    .button-row,
+    .quiz-controls,
+    .flashcard-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin: 18px 0 4px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .primary { background: var(--blue); color: var(--white); }
+    .secondary { background: var(--gold); color: #372900; }
+    .success { background: var(--green); color: var(--white); }
+    .danger { background: var(--red); color: var(--white); }
+
+    .info-box {
+      background: var(--soft-gray);
+      border-left: 6px solid var(--blue);
+      padding: 16px;
+      border-radius: 12px;
+      line-height: 1.6;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      margin-top: 16px;
+    }
+
+    th {
+      background: var(--navy);
+      color: var(--white);
+      text-align: left;
+      padding: 14px;
+      font-size: 0.95rem;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+      line-height: 1.4;
+    }
+
+    tr:nth-child(even) td { background: var(--soft-gray); }
+    tr:hover td { background: #fff3c4; }
+
+    .word {
+      font-weight: 800;
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--light-blue);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .flashcard-area,
+    .quiz-area,
+    .spelling-area,
+    .sentence-area {
+      text-align: center;
+    }
+
+    .flashcard-counter,
+    .quiz-counter,
+    .quiz-score {
+      color: var(--navy);
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .flashcard {
+      width: min(620px, 100%);
+      min-height: 310px;
+      perspective: 1000px;
+      cursor: pointer;
+      margin: 18px auto;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      min-height: 310px;
+      transition: transform 0.55s ease;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 22px;
+      padding: 34px;
+      box-shadow: 0 14px 34px rgba(31, 58, 95, 0.22);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .flashcard-front {
+      background: linear-gradient(145deg, var(--navy), var(--blue));
+      color: var(--white);
+    }
+
+    .flashcard-back {
+      background: var(--white);
+      color: var(--text);
+      transform: rotateY(180deg);
+      border: 3px solid var(--blue);
+    }
+
+    .flashcard-word {
+      font-size: clamp(2.3rem, 7vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin: 0;
+    }
+
+    .flashcard-label {
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      opacity: 0.85;
+    }
+
+    .flashcard-detail {
+      font-size: 1.08rem;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0;
+    }
+
+    .flashcard-spell {
+      font-size: 1.4rem;
+      color: var(--navy);
+      font-weight: 900;
+      letter-spacing: 4px;
+      word-break: break-word;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .mini-card {
+      background: var(--soft-gray);
+      border: 2px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .mini-card strong {
+      color: var(--navy);
+      font-size: 1.1rem;
+    }
+
+    .quiz-top-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--navy);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .quiz-counter,
+    .quiz-score {
+      background: var(--soft-gray);
+      border-radius: 999px;
+      padding: 8px 14px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 8px 0 24px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 10%;
+      background: var(--green);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    #quizQuestion,
+    #spellingClue {
+      font-size: 1.45rem;
+      color: var(--navy);
+      line-height: 1.4;
+      margin: 12px auto 22px;
+      max-width: 760px;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin: 0 auto 18px;
+    }
+
+    .quiz-option {
+      border: 2px solid #d6e2f0;
+      background: var(--white);
+      color: var(--navy);
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 1.02rem;
+      font-weight: 800;
+    }
+
+    .quiz-option:hover { background: var(--light-blue); }
+    .quiz-option.correct { background: #dcfce7; border-color: var(--green); color: #24512f; }
+    .quiz-option.incorrect { background: #fee2e2; border-color: var(--red); color: #7f1d1d; }
+    .quiz-option:disabled { cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .quiz-feedback {
+      min-height: 30px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    .spelling-context {
+      color: #52616f;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .spelling-label {
+      display: block;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .spelling-input,
+    .sentence-select,
+    .sentence-input {
+      border: 3px solid #d6e2f0;
+      border-radius: 16px;
+      padding: 16px 18px;
+      font-size: 1.05rem;
+      color: var(--navy);
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .spelling-input {
+      width: min(520px, 100%);
+      font-size: 1.2rem;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .sentence-select {
+      width: min(420px, 100%);
+      background: var(--white);
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .sentence-input {
+      width: min(760px, 100%);
+      line-height: 1.5;
+      resize: vertical;
+    }
+
+    .spelling-input:focus,
+    .sentence-select:focus,
+    .sentence-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(79, 124, 172, 0.18);
+    }
+
+    .spelling-input.correct,
+    .sentence-input.correct {
+      border-color: var(--green);
+      background: #f0fdf4;
+    }
+
+    .spelling-input.incorrect,
+    .sentence-input.incorrect {
+      border-color: var(--red);
+      background: #fff1f2;
+    }
+
+    .sentence-prompt-box {
+      background: var(--soft-gray);
+      border: 2px solid #d6e2f0;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 0 auto 20px;
+      max-width: 760px;
+    }
+
+    .sentence-prompt-box h3 {
+      color: var(--navy);
+      margin: 0 0 8px;
+    }
+
+    .sentence-prompt-box p {
+      margin: 0;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 24px;
+    }
+
+    @media print {
+      body { background: white; }
+      header, nav, .button-row, .footer-note, .flashcard-controls, .quiz-controls { display: none; }
+      main { width: 100%; margin: 0; }
+      .page { display: block; }
+      .card { box-shadow: none; border: 1px solid #ddd; }
+      .flashcard { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Number the Stars</h1>
+    <p>Spelling Words, Chapters 5 to 10</p>
+  </header>
+
+  <nav>
+    <div class="nav-inner">
+      <button class="nav-link active" id="listTab" onclick="showPage('listPage')">Word List</button>
+      <button class="nav-link" id="flashcardsTab" onclick="showPage('flashcardsPage')">Digital Flashcards</button>
+      <button class="nav-link" id="quizTab" onclick="showPage('quizPage')">Interactive Quiz</button>
+      <button class="nav-link" id="spellingTab" onclick="showPage('spellingPage')">Spelling Practice</button>
+      <button class="nav-link" id="sentenceTab" onclick="showPage('sentencePage')">Sentence Practice</button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="page active" id="listPage">
+      <section class="card">
+        <h2>Weekly Spelling Focus</h2>
+        <div class="info-box">
+          These words were selected from chapters 5 to 10 of <strong>Number the Stars</strong>. They support spelling practice, vocabulary development, reading comprehension, and discussion of courage, protection, identity, displacement, and social organization.
+        </div>
+        <div class="button-row">
+          <button class="primary" onclick="showAllWords()">Show All Words</button>
+          <button class="secondary" onclick="hideNotes()">Hide Notes</button>
+          <button class="danger" onclick="window.print()">Print List</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Spelling Word List</h2>
+        <table id="wordTable">
+          <thead>
+            <tr>
+              <th>Spelling Word</th>
+              <th>Chapter</th>
+              <th>Page in PDF</th>
+              <th class="notesColumn">Notes</th>
+            </tr>
+          </thead>
+          <tbody id="wordTableBody"></tbody>
+        </table>
+      </section>
+    </section>
+
+    <section class="page" id="flashcardsPage">
+      <section class="card">
+        <h2>Digital Flashcards</h2>
+        <div class="info-box">
+          Click the card to flip it. Students can read the word, check the chapter and page, and use the prompt on the back to discuss meaning in context.
+        </div>
+      </section>
+
+      <section class="card flashcard-area">
+        <p class="flashcard-counter" id="flashcardCounter">Card 1 of 10</p>
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="flashcard-inner">
+            <div class="flashcard-face flashcard-front">
+              <span class="flashcard-label">Spelling Word</span>
+              <h2 class="flashcard-word" id="flashcardWord">imperious</h2>
+              <p>Click to flip</p>
+            </div>
+            <div class="flashcard-face flashcard-back">
+              <span class="flashcard-label">Context and Practice</span>
+              <p class="flashcard-spell" id="flashcardSpelling">i m p e r i o u s</p>
+              <p class="flashcard-detail" id="flashcardDetail">Chapter 5, page 54. Descriptive word connected to Ellen’s acting voice.</p>
+              <p class="flashcard-detail" id="flashcardPrompt">Use it in a sentence about a character who speaks with authority.</p>
+            </div>
+          </div>
+        </div>
+        <div class="flashcard-controls">
+          <button class="secondary" onclick="previousCard(event)">Previous</button>
+          <button class="primary" onclick="flipCard(event)">Flip Card</button>
+          <button class="success" onclick="nextCard(event)">Next</button>
+          <button class="danger" onclick="shuffleCard(event)">Shuffle</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Quick Review</h2>
+        <div class="mini-grid" id="miniGrid"></div>
+      </section>
+    </section>
+
+    <section class="page" id="quizPage">
+      <section class="card">
+        <h2>Interactive Spelling Quiz</h2>
+        <div class="info-box">
+          Students will read a clue, choose the correct spelling word, and get instant feedback. The quiz uses the same ten words from the weekly list.
+        </div>
+      </section>
+
+      <section class="card quiz-area">
+        <div class="quiz-top-row">
+          <p class="quiz-counter" id="quizCounter">Question 1 of 10</p>
+          <p class="quiz-score" id="quizScore">Score: 0</p>
+        </div>
+        <div class="progress-bar" aria-label="Quiz progress"><div class="progress-fill" id="progressFill"></div></div>
+        <h3 id="quizQuestion">Question appears here.</h3>
+        <div class="quiz-options" id="quizOptions"></div>
+        <p class="quiz-feedback" id="quizFeedback">Choose one answer.</p>
+        <div class="quiz-controls">
+          <button class="secondary" onclick="restartQuiz()">Restart Quiz</button>
+          <button class="primary" id="nextQuizButton" onclick="nextQuizQuestion()" disabled>Next Question</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="page" id="spellingPage">
+      <section class="card">
+        <h2>Spelling Practice</h2>
+        <div class="info-box">
+          Students will read a clue, type the spelling word, and receive instant feedback. This mode helps students practice accurate spelling from memory.
+        </div>
+      </section>
+
+      <section class="card spelling-area">
+        <div class="quiz-top-row">
+          <p class="quiz-counter" id="spellingCounter">Word 1 of 10</p>
+          <p class="quiz-score" id="spellingScore">Correct: 0</p>
+        </div>
+        <div class="progress-bar" aria-label="Spelling progress"><div class="progress-fill" id="spellingProgressFill"></div></div>
+        <h3 id="spellingClue">Clue appears here.</h3>
+        <p class="spelling-context" id="spellingContext">Chapter and page appear here.</p>
+        <label class="spelling-label" for="spellingInput">Type the word:</label>
+        <input id="spellingInput" class="spelling-input" type="text" autocomplete="off" placeholder="Type your answer here" />
+        <p class="quiz-feedback" id="spellingFeedback">Type your answer, then click Check.</p>
+        <div class="quiz-controls">
+          <button class="primary" onclick="checkSpellingAnswer()">Check Answer</button>
+          <button class="secondary" onclick="showSpellingHint()">Show Hint</button>
+          <button class="success" id="nextSpellingButton" onclick="nextSpellingWord()" disabled>Next Word</button>
+          <button class="danger" onclick="restartSpellingPractice()">Restart Practice</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="page" id="sentencePage">
+      <section class="card">
+        <h2>Sentence Practice</h2>
+        <div class="info-box">
+          Students choose a spelling word, write an original sentence, and check whether their sentence includes the word, begins with a capital letter, and ends with punctuation. This connects spelling, vocabulary, and reading comprehension.
+        </div>
+      </section>
+
+      <section class="card sentence-area">
+        <label class="spelling-label" for="sentenceWordSelect">Choose a spelling word:</label>
+        <select id="sentenceWordSelect" class="sentence-select" onchange="updateSentencePrompt()"></select>
+        <div class="sentence-prompt-box">
+          <h3 id="sentencePromptTitle">Use the word in context.</h3>
+          <p id="sentencePromptText">Prompt appears here.</p>
+        </div>
+        <label class="spelling-label" for="sentenceInput">Write your sentence:</label>
+        <textarea id="sentenceInput" class="sentence-input" rows="5" placeholder="Write your sentence here..."></textarea>
+        <p class="quiz-feedback" id="sentenceFeedback">Write a sentence, then click Check Sentence.</p>
+        <div class="quiz-controls">
+          <button class="primary" onclick="checkSentence()">Check Sentence</button>
+          <button class="secondary" onclick="newSentenceWord()">New Word</button>
+          <button class="danger" onclick="clearSentencePractice()">Clear</button>
+        </div>
+      </section>
+    </section>
+
+    <p class="footer-note">Created for Ms. Ventura’s Novel Study | How We Organize Ourselves</p>
+  </main>
+
+  <script>
+    const words = [
+      { word: "imperious", chapter: 5, page: 54, note: "Descriptive word connected to Ellen’s acting voice.", prompt: "Use it in a sentence about a character who speaks with authority.", clue: "This word describes someone speaking or acting with authority." },
+      { word: "institution", chapter: 5, page: 54, note: "Multisyllabic word with a useful suffix pattern.", prompt: "Break the word into syllables and identify the suffix.", clue: "This multisyllabic noun has the suffix tion." },
+      { word: "terrified", chapter: 5, page: 61, note: "Important emotion in the scene with the soldiers.", prompt: "Name another word with a similar meaning, then use both in context.", clue: "This word means extremely frightened." },
+      { word: "photograph", chapter: 5, page: 63, note: "Key object used to protect Ellen’s identity.", prompt: "Explain why this object matters in the chapter.", clue: "This word names an image taken with a camera." },
+      { word: "suspicious", chapter: 6, page: 65, note: "Important word for the danger and tension in the chapter.", prompt: "Describe a moment when a character becomes suspicious.", clue: "This word means doubtful, watchful, or not trusting something." },
+      { word: "fisherman", chapter: 6, page: 67, note: "Connects directly to Uncle Henrik and the escape plan.", prompt: "Explain how this word connects to the way people organize to help others.", clue: "This word names someone who catches fish for work." },
+      { word: "meadow", chapter: 6, page: 68, note: "Setting word that helps students visualize the countryside.", prompt: "Use sensory details to describe the meadow.", clue: "This word names an open grassy field." },
+      { word: "mourning", chapter: 9, page: 92, note: "Important word connected to the fake funeral.", prompt: "Explain how this word connects to mood and atmosphere.", clue: "This word means showing grief after someone has died." },
+      { word: "casket", chapter: 9, page: 93, note: "Central object in chapters 9 and 10.", prompt: "Explain why the casket creates suspense in the story.", clue: "This word names the box used in the funeral scene." },
+      { word: "scattered", chapter: 10, page: 102, note: "From the psalm, connects to displacement and protection.", prompt: "Connect this word to the idea of people being separated or displaced.", clue: "This word means spread out or separated in different places." }
+    ];
+
+    const quizQuestions = words.map(item => ({ clue: item.clue, answer: item.word }));
+    let currentCard = 0;
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+    let currentSpellingIndex = 0;
+    let spellingScore = 0;
+    let spellingAnswered = false;
+    let spellingOrder = [];
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+      document.querySelectorAll(".nav-link").forEach(tab => tab.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+      const tabMap = {
+        listPage: "listTab",
+        flashcardsPage: "flashcardsTab",
+        quizPage: "quizTab",
+        spellingPage: "spellingTab",
+        sentencePage: "sentenceTab"
+      };
+      document.getElementById(tabMap[pageId]).classList.add("active");
+    }
+
+    function buildWordTable() {
+      const tableBody = document.getElementById("wordTableBody");
+      tableBody.innerHTML = "";
+      words.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td class="word">${item.word}</td><td><span class="tag">Chapter ${item.chapter}</span></td><td>${item.page}</td><td class="notesColumn">${item.note}</td>`;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function hideNotes() {
+      document.querySelectorAll(".notesColumn").forEach(note => {
+        note.style.display = note.style.display === "none" ? "" : "none";
+      });
+    }
+
+    function showAllWords() {
+      document.querySelectorAll(".notesColumn").forEach(note => note.style.display = "");
+      document.getElementById("wordTable").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function spellOut(word) { return word.split("").join(" "); }
+
+    function updateFlashcard() {
+      const card = words[currentCard];
+      document.getElementById("flashcard").classList.remove("flipped");
+      document.getElementById("flashcardCounter").textContent = "Card " + (currentCard + 1) + " of " + words.length;
+      document.getElementById("flashcardWord").textContent = card.word;
+      document.getElementById("flashcardSpelling").textContent = spellOut(card.word);
+      document.getElementById("flashcardDetail").textContent = "Chapter " + card.chapter + ", page " + card.page + ". " + card.note;
+      document.getElementById("flashcardPrompt").textContent = card.prompt;
+    }
+
+    function flipCard(event) {
+      if (event) event.stopPropagation();
+      document.getElementById("flashcard").classList.toggle("flipped");
+    }
+
+    function nextCard(event) {
+      if (event) event.stopPropagation();
+      currentCard = (currentCard + 1) % words.length;
+      updateFlashcard();
+    }
+
+    function previousCard(event) {
+      if (event) event.stopPropagation();
+      currentCard = (currentCard - 1 + words.length) % words.length;
+      updateFlashcard();
+    }
+
+    function shuffleCard(event) {
+      if (event) event.stopPropagation();
+      let randomIndex = Math.floor(Math.random() * words.length);
+      if (randomIndex === currentCard) randomIndex = (randomIndex + 1) % words.length;
+      currentCard = randomIndex;
+      updateFlashcard();
+    }
+
+    function buildMiniGrid() {
+      const miniGrid = document.getElementById("miniGrid");
+      miniGrid.innerHTML = "";
+      words.forEach((item, index) => {
+        const miniCard = document.createElement("div");
+        miniCard.className = "mini-card";
+        miniCard.setAttribute("role", "button");
+        miniCard.setAttribute("tabindex", "0");
+        miniCard.innerHTML = `<strong>${item.word}</strong><p>Chapter ${item.chapter}, page ${item.page}</p>`;
+        miniCard.addEventListener("click", () => {
+          currentCard = index;
+          updateFlashcard();
+          showPage("flashcardsPage");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        miniGrid.appendChild(miniCard);
+      });
+    }
+
+    function shuffleArray(array) {
+      const copy = array.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function getQuizOptions(correctAnswer) {
+      const distractors = words.map(item => item.word).filter(word => word !== correctAnswer);
+      return shuffleArray([correctAnswer].concat(shuffleArray(distractors).slice(0, 3)));
+    }
+
+    function renderQuizQuestion() {
+      quizAnswered = false;
+      const question = quizQuestions[currentQuizIndex];
+      const options = getQuizOptions(question.answer);
+      const quizOptions = document.getElementById("quizOptions");
+      document.getElementById("quizCounter").textContent = "Question " + (currentQuizIndex + 1) + " of " + quizQuestions.length;
+      document.getElementById("quizScore").textContent = "Score: " + quizScore;
+      document.getElementById("quizQuestion").textContent = question.clue;
+      document.getElementById("quizFeedback").textContent = "Choose one answer.";
+      document.getElementById("nextQuizButton").disabled = true;
+      document.getElementById("progressFill").style.width = ((currentQuizIndex + 1) / quizQuestions.length * 100) + "%";
+      quizOptions.innerHTML = "";
+      options.forEach(option => {
+        const button = document.createElement("button");
+        button.className = "quiz-option";
+        button.textContent = option;
+        button.addEventListener("click", () => checkQuizAnswer(button, option));
+        quizOptions.appendChild(button);
+      });
+    }
+
+    function checkQuizAnswer(selectedButton, selectedAnswer) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+      const question = quizQuestions[currentQuizIndex];
+      document.querySelectorAll(".quiz-option").forEach(button => {
+        button.disabled = true;
+        if (button.textContent === question.answer) button.classList.add("correct");
+      });
+      if (selectedAnswer === question.answer) {
+        quizScore++;
+        document.getElementById("quizFeedback").textContent = "Correct. Great spelling and vocabulary work.";
+      } else {
+        selectedButton.classList.add("incorrect");
+        document.getElementById("quizFeedback").textContent = "Not quite. The correct answer is " + question.answer + ".";
+      }
+      document.getElementById("quizScore").textContent = "Score: " + quizScore;
+      document.getElementById("nextQuizButton").disabled = false;
+    }
+
+    function nextQuizQuestion() {
+      if (currentQuizIndex < quizQuestions.length - 1) {
+        currentQuizIndex++;
+        renderQuizQuestion();
+      } else {
+        showQuizResults();
+      }
+    }
+
+    function showQuizResults() {
+      document.getElementById("quizCounter").textContent = "Quiz Complete";
+      document.getElementById("quizQuestion").textContent = "Final Score: " + quizScore + " out of " + quizQuestions.length;
+      document.getElementById("quizOptions").innerHTML = "";
+      document.getElementById("quizFeedback").textContent = quizScore >= 8 ? "Excellent work. You are ready to use these words in context." : "Good effort. Review the flashcards and try again.";
+      document.getElementById("nextQuizButton").disabled = true;
+      document.getElementById("progressFill").style.width = "100%";
+    }
+
+    function restartQuiz() {
+      currentQuizIndex = 0;
+      quizScore = 0;
+      quizQuestions.sort(() => Math.random() - 0.5);
+      renderQuizQuestion();
+    }
+
+    function normalizeAnswer(answer) { return answer.trim().toLowerCase(); }
+
+    function restartSpellingPractice() {
+      currentSpellingIndex = 0;
+      spellingScore = 0;
+      spellingAnswered = false;
+      spellingOrder = shuffleArray(words);
+      renderSpellingWord();
+    }
+
+    function renderSpellingWord() {
+      spellingAnswered = false;
+      const item = spellingOrder[currentSpellingIndex];
+      const input = document.getElementById("spellingInput");
+      document.getElementById("spellingCounter").textContent = "Word " + (currentSpellingIndex + 1) + " of " + spellingOrder.length;
+      document.getElementById("spellingScore").textContent = "Correct: " + spellingScore;
+      document.getElementById("spellingClue").textContent = item.clue;
+      document.getElementById("spellingContext").textContent = "Chapter " + item.chapter + ", page " + item.page;
+      document.getElementById("spellingFeedback").textContent = "Type your answer, then click Check.";
+      document.getElementById("spellingProgressFill").style.width = ((currentSpellingIndex + 1) / spellingOrder.length * 100) + "%";
+      document.getElementById("nextSpellingButton").disabled = true;
+      input.value = "";
+      input.disabled = false;
+      input.classList.remove("correct", "incorrect");
+      setTimeout(() => input.focus(), 50);
+    }
+
+    function checkSpellingAnswer() {
+      if (spellingAnswered) return;
+      const item = spellingOrder[currentSpellingIndex];
+      const input = document.getElementById("spellingInput");
+      const studentAnswer = normalizeAnswer(input.value);
+      const correctAnswer = normalizeAnswer(item.word);
+      if (studentAnswer.length === 0) {
+        document.getElementById("spellingFeedback").textContent = "Type an answer before checking.";
+        return;
+      }
+      spellingAnswered = true;
+      input.disabled = true;
+      document.getElementById("nextSpellingButton").disabled = false;
+      if (studentAnswer === correctAnswer) {
+        spellingScore++;
+        input.classList.add("correct");
+        document.getElementById("spellingFeedback").textContent = "Correct. You spelled " + item.word + " accurately.";
+      } else {
+        input.classList.add("incorrect");
+        document.getElementById("spellingFeedback").textContent = "Not quite. The correct spelling is " + item.word + ".";
+      }
+      document.getElementById("spellingScore").textContent = "Correct: " + spellingScore;
+    }
+
+    function showSpellingHint() {
+      const item = spellingOrder[currentSpellingIndex];
+      document.getElementById("spellingFeedback").textContent = "Hint: The word starts with " + item.word.charAt(0) + ", ends with " + item.word.charAt(item.word.length - 1) + ", and has " + item.word.length + " letters.";
+    }
+
+    function nextSpellingWord() {
+      if (currentSpellingIndex < spellingOrder.length - 1) {
+        currentSpellingIndex++;
+        renderSpellingWord();
+      } else {
+        showSpellingResults();
+      }
+    }
+
+    function showSpellingResults() {
+      document.getElementById("spellingCounter").textContent = "Practice Complete";
+      document.getElementById("spellingClue").textContent = "Final Score: " + spellingScore + " out of " + spellingOrder.length;
+      document.getElementById("spellingContext").textContent = "Review any missed words using the flashcards.";
+      document.getElementById("spellingFeedback").textContent = spellingScore >= 8 ? "Excellent spelling practice." : "Good effort. Try again after reviewing the word list.";
+      document.getElementById("spellingProgressFill").style.width = "100%";
+      document.getElementById("nextSpellingButton").disabled = true;
+      document.getElementById("spellingInput").disabled = true;
+    }
+
+    function buildSentenceOptions() {
+      const select = document.getElementById("sentenceWordSelect");
+      select.innerHTML = "";
+      words.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.word;
+        option.textContent = item.word;
+        select.appendChild(option);
+      });
+      updateSentencePrompt();
+    }
+
+    function getSentenceItem() {
+      return words.find(item => item.word === document.getElementById("sentenceWordSelect").value);
+    }
+
+    function updateSentencePrompt() {
+      const item = getSentenceItem();
+      if (!item) return;
+      document.getElementById("sentencePromptTitle").textContent = "Use “" + item.word + "” in context.";
+      document.getElementById("sentencePromptText").textContent = "Chapter " + item.chapter + ", page " + item.page + ". " + item.prompt;
+      document.getElementById("sentenceFeedback").textContent = "Write a sentence, then click Check Sentence.";
+      document.getElementById("sentenceInput").classList.remove("correct", "incorrect");
+    }
+
+    function checkSentence() {
+      const item = getSentenceItem();
+      const textarea = document.getElementById("sentenceInput");
+      const sentence = textarea.value.trim();
+      const lowerSentence = sentence.toLowerCase();
+      const wordIncluded = lowerSentence.includes(item.word.toLowerCase());
+      const startsWithCapital = /^[A-Z]/.test(sentence);
+      const endsWithPunctuation = /[.!?]$/.test(sentence);
+      const longEnough = sentence.split(/\s+/).filter(Boolean).length >= 7;
+      const feedback = [];
+      textarea.classList.remove("correct", "incorrect");
+      if (sentence.length === 0) {
+        document.getElementById("sentenceFeedback").textContent = "Write a sentence before checking.";
+        textarea.classList.add("incorrect");
+        return;
+      }
+      feedback.push(wordIncluded ? "The spelling word is included." : "Add the spelling word “" + item.word + ".”");
+      feedback.push(startsWithCapital ? "The sentence begins with a capital letter." : "Start the sentence with a capital letter.");
+      feedback.push(endsWithPunctuation ? "The sentence ends with punctuation." : "End the sentence with a period, question mark, or exclamation point.");
+      feedback.push(longEnough ? "The sentence has enough detail to show meaning." : "Add more detail so the meaning is clear.");
+      if (wordIncluded && startsWithCapital && endsWithPunctuation && longEnough) {
+        textarea.classList.add("correct");
+        document.getElementById("sentenceFeedback").textContent = "Strong sentence. " + feedback.join(" ");
+      } else {
+        textarea.classList.add("incorrect");
+        document.getElementById("sentenceFeedback").textContent = feedback.join(" ");
+      }
+    }
+
+    function newSentenceWord() {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      document.getElementById("sentenceWordSelect").value = words[randomIndex].word;
+      document.getElementById("sentenceInput").value = "";
+      updateSentencePrompt();
+    }
+
+    function clearSentencePractice() {
+      document.getElementById("sentenceInput").value = "";
+      document.getElementById("sentenceInput").classList.remove("correct", "incorrect");
+      document.getElementById("sentenceFeedback").textContent = "Write a sentence, then click Check Sentence.";
+    }
+
+    document.addEventListener("keydown", event => {
+      const spellingPageIsActive = document.getElementById("spellingPage").classList.contains("active");
+      if (spellingPageIsActive && event.key === "Enter") {
+        if (!spellingAnswered) checkSpellingAnswer();
+        else nextSpellingWord();
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      buildWordTable();
+      buildMiniGrid();
+      updateFlashcard();
+      restartQuiz();
+      restartSpellingPractice();
+      buildSentenceOptions();
+    });
+  </script>
+</body>
+</html>
