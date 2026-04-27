@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELA Lesson Plans — Week 2 · How We Organize Ourselves</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', system-ui, sans-serif;
+    background: #f4f5f7;
+    color: #1a1a2e;
+    padding: 32px 24px;
+  }
+
+  header {
+    max-width: 860px;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  header h1 { font-size: 1.5rem; font-weight: 800; color: #1a1a2e; }
+  header p { font-size: 0.85rem; color: #666; margin-top: 2px; font-weight: 600; }
+
+  .progress { display: flex; gap: 8px; }
+
+  .dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; font-weight: 800;
+    cursor: pointer; border: 2px solid transparent;
+    transition: all 0.2s; user-select: none;
+  }
+  .dot.ela     { background: #dbeafe; color: #1e3a8a; border-color: #0369a1; }
+  .dot.writing { background: #ede9fe; color: #4c1d95; border-color: #7c3aed; }
+  .dot.done { opacity: 0.35; text-decoration: line-through; }
+
+  .card {
+    max-width: 860px;
+    margin: 0 auto 28px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  .card-header {
+    padding: 18px 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-header.ela     { background: #0369a1; }
+  .card-header.writing { background: #7c3aed; }
+
+  .card-header-left { flex: 1; min-width: 0; }
+
+  .period-badge {
+    font-size: 0.68rem; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(255,255,255,0.2);
+    color: white; padding: 3px 10px;
+    border-radius: 20px; display: inline-block; margin-bottom: 6px;
+  }
+
+  .card-header h2 {
+    font-size: 1.05rem; font-weight: 800;
+    color: white; line-height: 1.3; margin-bottom: 8px;
+  }
+
+  .header-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .htag {
+    font-size: 10px; font-weight: 800; padding: 2px 10px;
+    border-radius: 20px; background: rgba(255,255,255,0.18); color: white;
+  }
+
+  .done-btn {
+    background: rgba(255,255,255,0.2); color: white;
+    border: 1.5px solid rgba(255,255,255,0.5);
+    border-radius: 8px; padding: 5px 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem; font-weight: 700;
+    cursor: pointer; transition: background 0.2s; white-space: nowrap;
+  }
+  .done-btn:hover { background: rgba(255,255,255,0.35); }
+
+  .card-body { padding: 0; }
+
+  .learning-intention {
+    margin: 20px 24px 0;
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+  }
+  .learning-intention.ela     { background: #eff6ff; border-left: 4px solid #0369a1; }
+  .learning-intention.writing { background: #f5f3ff; border-left: 4px solid #7c3aed; }
+  .li-label {
+    font-size: 0.62rem; text-transform: uppercase;
+    letter-spacing: 0.15em; font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .li-label.ela     { color: #1e40af; }
+  .li-label.writing { color: #5b21b6; }
+  .learning-intention p {
+    font-size: 0.88rem;
+    font-style: italic; font-weight: 700; line-height: 1.6;
+  }
+  .learning-intention.ela p     { color: #1e3a8a; }
+  .learning-intention.writing p { color: #3b0764; }
+
+  .word-study {
+    margin: 16px 24px 0;
+    background: #f0f9ff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1.5px solid #bae6fd;
+  }
+  .ws-label {
+    font-size: 0.62rem; text-transform: uppercase;
+    letter-spacing: 0.15em; font-weight: 900;
+    color: #0369a1; margin-bottom: 10px;
+  }
+  .word-cards { display: flex; gap: 10px; flex-wrap: wrap; }
+  .word-card {
+    background: white; border-radius: 10px;
+    border: 1.5px solid #7dd3fc;
+    padding: 10px 14px; flex: 1; min-width: 150px;
+  }
+  .word-card .word { font-size: 0.9rem; font-weight: 900; color: #0369a1; margin-bottom: 2px; }
+  .word-card .chapter-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px; color: #0ea5e9; font-weight: 800; margin-bottom: 5px; }
+  .word-card .def { font-size: 0.78rem; font-weight: 600; color: #374151; line-height: 1.5; }
+
+  .gq-section { margin: 16px 24px 0; }
+  .gq-toggle {
+    width: 100%; background: none; border: none;
+    cursor: pointer; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px;
+    text-align: left; font-family: 'Nunito', sans-serif;
+    background: #f0f4ff; border-radius: 10px;
+    transition: background .15s;
+  }
+  .gq-toggle:hover { background: #e0e7ff; }
+  .gq-pill {
+    font-size: 10px; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 1px;
+    background: #818cf8; color: white;
+    padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+  }
+  .gq-label { font-size: 0.82rem; font-weight: 800; color: #3730a3; flex: 1; }
+  .gq-chevron { font-size: 11px; color: #818cf8; transition: transform .2s; }
+  .gq-toggle.open .gq-chevron { transform: rotate(180deg); }
+  .gq-body { display: none; padding: 10px 14px 2px; }
+  .gq-body.open { display: block; }
+  .gq-question {
+    font-size: 0.83rem; font-weight: 700; color: #374151;
+    padding: 7px 0 7px 14px;
+    border-left: 3px solid #818cf8;
+    margin-bottom: 6px; line-height: 1.5;
+  }
+
+  .materials {
+    margin: 16px 24px 0;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    padding: 10px 14px;
+    background: #f0f9ff; border-radius: 10px;
+    border: 1.5px solid #bae6fd;
+  }
+  .materials-label {
+    font-size: 0.62rem; text-transform: uppercase;
+    letter-spacing: 0.15em; font-weight: 900;
+    color: #0369a1; white-space: nowrap; margin-right: 4px;
+  }
+  a.material-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #fff; border: 1.5px solid #7dd3fc;
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 0.78rem; font-weight: 700; color: #0369a1;
+    text-decoration: none; transition: all .15s;
+  }
+  a.material-link:hover { background: #e0f2fe; }
+
+  .tab-bar { display: flex; gap: 6px; margin: 16px 24px 0; }
+  .tab-btn {
+    padding: 7px 18px; border-radius: 20px;
+    border: 2px solid #e5e7eb; background: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem; font-weight: 800;
+    cursor: pointer; color: #6b7280; transition: all .18s;
+  }
+  .tab-btn.active { border-color: transparent; color: #fff; }
+  .tab-btn.active.tab-student { background: #16a34a; }
+  .tab-btn.active.tab-teacher { background: #3b5278; }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+  .student-pane { margin: 0 24px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 16px 18px; }
+  .student-narrative { font-size: 0.9rem; color: #14532d; font-weight: 700; line-height: 1.8; }
+  .teacher-pane { margin: 0 24px; }
+  .tn-section { margin-bottom: 16px; }
+  .tn-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 900; color: #9ca3af; margin-bottom: 8px; }
+  .connections { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .conn-chip { border-radius: 10px; padding: 10px 14px; font-size: 0.8rem; font-weight: 700; line-height: 1.6; }
+  .conn-chip .conn-type { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 4px; font-weight: 900; }
+  .chip-lp { background: #dbeafe; color: #1e3a8a; }
+  .chip-atl { background: #d1fae5; color: #064e3b; }
+  .chip-key { background: #fef3c7; color: #78350f; }
+  .flow-step { background: #f9fafb; border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; }
+  .flow-step-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+  .flow-step-header h4 { font-size: 0.83rem; font-weight: 900; color: #374151; }
+  .step-time { font-size: 0.72rem; font-weight: 800; color: #9ca3af; }
+  .flow-step p, .flow-step li { font-size: 0.83rem; color: #4b5563; font-weight: 600; }
+  .flow-step ul { padding-left: 18px; }
+  .flow-step li { margin-bottom: 4px; }
+  .ruler-box { background: #fdf4ff; border-left: 3px solid #c026d3; border-radius: 0 10px 10px 0; padding: 12px 16px; margin-bottom: 16px; }
+  .ruler-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; color: #a21caf; font-weight: 900; margin-bottom: 4px; }
+  .ruler-box p { font-size: 0.83rem; color: #581c87; font-style: italic; font-weight: 700; line-height: 1.6; }
+  .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .diff-box { background: #f9fafb; border-radius: 10px; padding: 12px 14px; }
+  .diff-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 900; margin-bottom: 6px; }
+  .diff-support .diff-label { color: #2563eb; }
+  .diff-extension .diff-label { color: #7c3aed; }
+  .diff-box p { font-size: 0.82rem; color: #374151; font-weight: 600; line-height: 1.6; }
+  .assess-unified { margin: 0 24px 24px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .assess-cell .assess-label { font-size: .58rem; text-transform: uppercase; letter-spacing: .14em; font-weight: 900; color: #94a3b8; margin-bottom: 5px; }
+  .assess-cell .assess-value { font-size: .82rem; font-weight: 700; color: #1e293b; line-height: 1.5; }
+  .assess-cell .assess-sub { font-size: .75rem; font-weight: 600; color: #64748b; margin-top: 2px; line-height: 1.4; }
+  .assess-cell:not(:last-child) { border-right: 1px solid #e2e8f0; padding-right: 12px; }
+  .mentor-box { background: #fefce8; border-left: 4px solid #ca8a04; border-radius: 0 10px 10px 0; padding: 14px 18px; margin-bottom: 16px; }
+  .mentor-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 900; color: #854d0e; margin-bottom: 8px; }
+  .mentor-poem { font-size: 0.85rem; color: #3a2e00; font-weight: 700; line-height: 2; font-style: italic; }
+  .mentor-attribution { font-size: 0.75rem; color: #92400e; margin-top: 8px; font-weight: 800; }
+  .word-bank { background: #ede9fe; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; border: 1.5px solid #c4b5fd; }
+  .wb-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 900; color: #5b21b6; margin-bottom: 8px; }
+  .wb-words { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wb-word { background: white; border: 1.5px solid #c4b5fd; border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; font-weight: 800; color: #5b21b6; }
+  .day-divider { max-width: 860px; margin: 0 auto 16px; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #aaa; display: flex; align-items: center; gap: 10px; }
+  .day-divider::after { content: ''; flex: 1; height: 1px; background: #e0e0e0; }
+  .tab-pane.active { margin-bottom: 16px; }
+  .teacher-pane { margin-bottom: 8px; }
+  @media print { body { background: white; padding: 16px; } .done-btn { display: none; } }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>ELA — How We Organize Ourselves</h1>
+    <p>Week 2 · Spelling Words + Novel Study + Writing · April 27 – May 1, 2026</p>
+  </div>
+  <div class="progress">
+    <div class="dot ela" id="dot-p1" onclick="toggleDone('p1','dot-p1')">P1</div>
+    <div class="dot ela" id="dot-p2" onclick="toggleDone('p2','dot-p2')">P2</div>
+    <div class="dot writing" id="dot-p3" onclick="toggleDone('p3','dot-p3')">P3</div>
+    <div class="dot ela" id="dot-p4" onclick="toggleDone('p4','dot-p4')">P4</div>
+    <div class="dot ela" id="dot-p5" onclick="toggleDone('p5','dot-p5')">P5</div>
+  </div>
+</header>
+
+<div class="day-divider">Segunda · April 27</div>
+<div class="card" id="p1">
+  <div class="card-header ela">
+    <div class="card-header-left">
+      <span class="period-badge">Period 1 · ELA · 45 min</span>
+      <h2>Spelling Words + Novel Study: Chapter 5 — "Who Is the Dark-Haired One?"</h2>
+      <div class="header-tags">
+        <span class="htag">LP: Caring · Principled</span>
+        <span class="htag">ATL: Thinking — Inference</span>
+        <span class="htag">NtS Chapter 5</span>
+        <span class="htag">ELA.5.R.1.1 · ELA.5.V.1.1</span>
+      </div>
+    </div>
+    <button class="done-btn" onclick="toggleDone('p1','dot-p1')">Mark done</button>
+  </div>
+  <div class="card-body">
+    <div class="learning-intention ela">
+      <div class="li-label ela">Learning Intention</div>
+      <p>I will make inferences about characters' choices under pressure and connect spelling words from the novel to the story so that I understand them in context.</p>
+    </div>
+    <div class="word-study">
+      <div class="ws-label">Warm-up — Digital Flashcards + Prediction Sort · All 10 Week 2 Words</div>
+      <div style="font-size:0.82rem;font-weight:700;color:#0c4a6e;margin-bottom:10px;line-height:1.6;">Open the digital flashcards and preview all 10 spelling words. These words appear somewhere in Chapters 5–10. You'll meet each one in context as you read. <strong>After the flashcards: with a partner, predict which 3 are in Chapter 5.</strong> Write your predictions — and your reasoning — on your whiteboard.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+        <span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">imperious</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">institution</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">terrified</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">photograph</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">suspicious</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">fisherman</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">meadow</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">mourning</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">casket</span><span style="background:white;border:1.5px solid #7dd3fc;border-radius:20px;padding:5px 14px;font-size:0.82rem;font-weight:900;color:#0369a1;">scattered</span>
+      </div>
+      <div style="font-size:0.78rem;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:8px;padding:8px 12px;">📌 Pattern to notice this week: <em>imperious · suspicious</em> both end in <strong>-ious.</strong> That suffix often signals an adjective describing a quality or attitude. Look for how each one is used.</div>
+    </div>
+    <div class="gq-section"><button class="gq-toggle" onclick="toggleGQ(this)"><span class="gq-pill">Guiding Questions</span><span class="gq-label">Questions that drive this lesson</span><span class="gq-chevron">▾</span></button><div class="gq-body"><div class="gq-question">What does Papa's lie to the Nazi soldiers tell us about who he is — and about what the occupation has made necessary?</div><div class="gq-question">Why does Annemarie reach for Ellen's necklace while Ellen is terrified? What is each girl afraid of?</div><div class="gq-question">What does it mean when a government closes a synagogue — what right is being taken away, and from whom?</div></div></div>
+    <div class="materials"><span class="materials-label">Materials</span><span style="font-size:0.82rem;font-weight:700;color:#374151;">📖 Number the Stars — Chapter 5 · ELA notebooks</span><a class="material-link" href="https://siga-app.github.io/classroom-materials/ela/number-the-stars/number-the-stars-spelling-practice.html" target="_blank" rel="noopener">🔤 Spelling Practice Page</a></div>
+    <div class="tab-bar"><button class="tab-btn tab-student active" onclick="switchTab(this,'s-p1','t-p1')">Student Instructions</button><button class="tab-btn tab-teacher" onclick="switchTab(this,'t-p1','s-p1')">Teacher Notes</button></div>
+    <div class="tab-pane active" id="s-p1"><div class="student-pane"><div class="student-narrative">Today we begin our Week 2 spelling work by previewing the words as readers, not just as spellers. These words come from Chapters 5 to 10, and each one will help us understand danger, identity, protection, setting, grief, and courage in the novel. As we read Chapter 5, we will think about what happens when a person’s identity becomes dangerous under an unjust system. We will pay close attention to how Annemarie’s family protects Ellen, how fear shows up in the scene, and how an object like a photograph can become evidence, protection, and risk all at once. By the end of class, you will use the chapter to explain how responsibility can look different when people are under pressure.</div></div></div>
+    <div class="tab-pane" id="t-p1"><div class="teacher-pane">
+      <div class="connections"><div class="conn-chip chip-lp"><span class="conn-type">Learner Profile</span><strong>Caring</strong> — Papa and Mama's choices in this chapter are acts of radical care, at great personal risk. The question "what does caring look like when it costs you something?" runs through the entire chapter.<br><strong>Principled</strong> — Papa lies. It's worth sitting with that: this is a principled man doing something dishonest to protect something more important than honesty. That tension is the moral core of the chapter.</div><div class="conn-chip chip-atl"><span class="conn-type">ATL Skill — Thinking: Inference</span>Students practice reading between the lines: what does Annemarie's hesitation tell us about what she fears? What does Papa's steady voice tell us about his experience? Inference moves students from what happens to what it means.</div><div class="conn-chip chip-key"><span class="conn-type">UOI Connection — Responsibility</span>The closing of the synagogue is a concrete act of government taking away a community's right to gather. Connect explicitly: "We've been studying what governments do and what they owe their citizens. What LOI does this connect to?"</div></div>
+      <div class="tn-section"><div class="tn-label">Lesson Flow</div>
+        <div class="flow-step"><div class="flow-step-header"><h4>0:00 — Digital Flashcards + Prediction Sort</h4><span class="step-time">5 min</span></div><ul><li>Open the digital flashcards and move quickly through all 10 spelling words. Students read each word aloud, notice any tricky spelling pattern, and hear the chapter connection.</li><li>Then project all 10 words. "These are your spelling words for the week — all from Chapters 5–10. With your partner: predict which 3 appear in Chapter 5. Write your top 3 on the whiteboard. You need a reason — not a guess."</li><li>Do NOT define every word yet. "Hold your predictions. You're about to read. You'll know if you were right soon."</li></ul></div>
+        <div class="flow-step"><div class="flow-step-header"><h4>5:00 — Read Chapter 5</h4><span class="step-time">20 min</span></div><ul><li>Read aloud together — teacher reads the night scene for atmosphere. Students follow along.</li><li>Pause at: "She is Ellen. She has always been Ellen." — "Stop. What is Papa doing right now? Why does he say it like that?"</li><li>Pause at the photo album scene — "Why does the photograph matter? What is Papa hoping they'll see?"</li><li>Continue to end of chapter. Let the last lines land quietly before moving to discussion.</li></ul></div>
+        <div class="flow-step"><div class="flow-step-header"><h4>25:00 — I Notice / I Wonder</h4><span class="step-time">3 min</span></div><ul><li>Students write one thing they noticed and one question the chapter raises.</li><li>Pair share for 30 seconds. This primes discussion with student thinking.</li></ul></div>
+        <div class="flow-step"><div class="flow-step-header"><h4>28:00 — Discussion</h4><span class="step-time">8 min</span></div><ul><li>Start with student wonderings.</li><li>If needed: "Why did Papa lie? Can lying be a principled choice? Is there a difference between a lie that protects and a lie that harms?"</li><li>"The congregation's synagogue is closed. What right is being taken? How does this connect to our LOIs?"</li><li>Do not resolve. "There are no easy answers here. That's why this book matters."</li></ul></div>
+        <div class="flow-step"><div class="flow-step-header"><h4>36:00 — Quick Write: Protection and Responsibility</h4><span class="step-time">9 min</span></div><ul><li>Prompt: <strong>How does Annemarie's family protect Ellen in Chapter 5? What does this show about responsibility?</strong></li><li>Students write 4–5 sentences. Encourage them to use at least one spelling word when it fits naturally, such as <em>terrified</em>, <em>photograph</em>, or <em>suspicious</em>.</li><li>Quick share: ask two students to read one sentence that uses evidence from the chapter.</li></ul></div>
+      </div>
+      <div class="ruler-box"><div class="ruler-label">RULER Moment — Fear · Trust · Courage</div><p>After finishing the chapter: "The soldiers are gone. Annemarie is lying in the dark next to Ellen. What do you think she's feeling right now — not what you think she should feel, but what she actually feels?" Fear and courage often exist at exactly the same moment. That's what this chapter is showing us.</p></div>
+      <div class="tn-section"><div class="tn-label">Differentiation</div><div class="diff-grid"><div class="diff-box diff-support"><div class="diff-label">Support</div><p>Provide a sentence frame: "In Chapter 5, [character name] chose to ___. This reveals that they are ___ because ___." Students may keep the spelling word list visible.</p></div><div class="diff-box diff-extension"><div class="diff-label">Extension</div><p>Write a second response from the perspective of the Nazi soldier who checked the photos. What did he see? Did he believe Papa? Use evidence from the text.</p></div></div></div>
+    </div></div>
+    <div class="assess-unified"><div class="assess-cell"><div class="assess-label">PYP Assessment Type</div><div class="assess-value">Monitoring Learning</div><div class="assess-sub">ELA.5.V.1.1 vocabulary in context · ELA.5.R.1.1 literary inference</div></div><div class="assess-cell"><div class="assess-label">Assessment Tool</div><div class="assess-value">Quick Write</div><div class="assess-sub">Students explain how Annemarie's family protects Ellen and what this reveals about responsibility.</div></div><div class="assess-cell"><div class="assess-label">Student Submits</div><div class="assess-value">Quick Write</div><div class="assess-sub">4–5 sentences with evidence from Chapter 5.</div></div></div>
+  </div>
+</div>
+
+<div class="day-divider">Terça · April 28</div>
+<div class="card" id="p2">
+  <div class="card-header ela"><div class="card-header-left"><span class="period-badge">Period 2 · ELA · 45 min</span><h2>Spelling Words + Novel Study: Chapters 6–7 — "Is the Weather Good for Fishing?" and "The House by the Sea"</h2><div class="header-tags"><span class="htag">LP: Open-minded · Thinker</span><span class="htag">ATL: Thinking — Making Connections</span><span class="htag">NtS Chapters 6–7</span><span class="htag">ELA.5.R.1.1 · ELA.5.V.1.1</span></div></div><button class="done-btn" onclick="toggleDone('p2','dot-p2')">Mark done</button></div>
+  <div class="card-body">
+    <div class="learning-intention ela"><div class="li-label ela">Learning Intention</div><p>I will analyze how setting shapes mood and how spelling words from the novel help reveal danger, roles, and place.</p></div>
+    <div class="word-study"><div class="ws-label">Warm-up — Interactive Quiz · Spelling Words in Context</div><div style="font-size:0.82rem;font-weight:700;color:#0c4a6e;margin-bottom:10px;line-height:1.6;">Use the Interactive Quiz from the spelling page. Students match clues to spelling words, then connect the words to the chapter. Today's reading focus words are <strong>suspicious</strong>, <strong>fisherman</strong>, and <strong>meadow</strong>.</div><div class="word-cards"><div class="word-card"><div class="word">suspicious</div><div class="chapter-tag">Chapter 6 — danger and doubt</div><div class="def">Use this word to think about the soldiers' questions and the way people must hide the truth to stay safe.</div></div><div class="word-card"><div class="word">fisherman</div><div class="chapter-tag">Chapter 6 — role in the system</div><div class="def">Uncle Henrik's work matters because ordinary roles can become part of an organized system of protection.</div></div><div class="word-card"><div class="word">meadow</div><div class="chapter-tag">Chapter 7 — setting and mood</div><div class="def">This setting word helps students notice how the countryside can feel peaceful and unsafe at the same time.</div></div></div></div>
+    <div class="gq-section"><button class="gq-toggle" onclick="toggleGQ(this)"><span class="gq-pill">Guiding Questions</span><span class="gq-label">Questions that drive this lesson</span><span class="gq-chevron">▾</span></button><div class="gq-body"><div class="gq-question">How does the countryside feel different from Copenhagen — and what does that contrast tell us about what safety means in this story?</div><div class="gq-question">The soldiers on the train make the girls feel watched and unsafe. How does this scene build suspicion and fear?</div><div class="gq-question">Peter arrives in Chapter 7. Why does Lowry introduce him now, and what questions does his arrival raise for the reader?</div></div></div>
+    <div class="materials"><span class="materials-label">Materials</span><span style="font-size:0.82rem;font-weight:700;color:#374151;">📖 Number the Stars — Chapters 6–7 · ELA notebooks</span><a class="material-link" href="https://siga-app.github.io/classroom-materials/ela/number-the-stars/number-the-stars-spelling-practice.html" target="_blank" rel="noopener">🔤 Spelling Practice Page</a></div>
+    <div class="tab-bar"><button class="tab-btn tab-student active" onclick="switchTab(this,'s-p2','t-p2')">Student Instructions</button><button class="tab-btn tab-teacher" onclick="switchTab(this,'t-p2','s-p2')">Teacher Notes</button></div>
+    <div class="tab-pane active" id="s-p2"><div class="student-pane"><div class="student-narrative">Today we will continue using our spelling words as tools for reading closely. Chapters 6 and 7 move us away from Copenhagen and into the countryside, but the danger does not disappear. We will think about coded language, the role of Uncle Henrik as a fisherman, and the way the setting by the sea can feel peaceful and unsafe at the same time. Words like <em>suspicious</em>, <em>fisherman</em>, and <em>meadow</em> will help us notice how Lowry builds meaning through roles, place, mood, and what characters understand without everything being said directly.</div></div></div>
+    <div class="tab-pane" id="t-p2"><div class="teacher-pane"><div class="connections"><div class="conn-chip chip-lp"><span class="conn-type">Learner Profile</span><strong>Open-minded</strong> — Annemarie is in an entirely new environment: a farm, a way of life she doesn't know, a war that looks different here than in the city.<br><strong>Thinker</strong> — Students analyze how an author uses setting strategically, not just descriptively, to build meaning.</div><div class="conn-chip chip-atl"><span class="conn-type">ATL Skill — Thinking: Making Connections</span>Connecting the emotional shift in the setting to the larger narrative arc. Students who can say "Lowry describes the sea to make us feel temporary safety — because we know safety doesn't last" are making a text-to-structure connection.</div><div class="conn-chip chip-key"><span class="conn-type">Spelling Words as Reading Tools</span><em>Suspicious</em> helps students name danger and doubt, <em>fisherman</em> helps them see how ordinary roles become part of an organized protection system, and <em>meadow</em> helps them analyze setting and mood.</div></div>
+      <div class="tn-section"><div class="tn-label">Lesson Flow</div><div class="flow-step"><div class="flow-step-header"><h4>0:00 — Interactive Quiz: Spelling Words in Context</h4><span class="step-time">5 min</span></div><ul><li>Open the Interactive Quiz from the spelling page. Complete 5 questions whole-class, or let students answer on their own devices if available.</li><li>After each answer, ask: "Where might this word help us today? Danger, role, setting, mood, or responsibility?"</li><li>Focus words for today's reading: <strong>suspicious</strong>, <strong>fisherman</strong>, and <strong>meadow</strong>.</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>5:00 — Read Chapters 6–7</h4><span class="step-time">23 min</span></div><ul><li>Teacher reads Ch. 6 aloud for atmosphere. Pause at Papa's coded phone call and the train scene.</li><li>Pause at the soldiers on the train: "Where do you see suspicion or danger in this scene? What does Annemarie understand without being told directly?"</li><li>Ch. 7: students read independently or with a partner. Specific task: "Mark one moment that surprises you and write one question it raises."</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>28:00 — Socratic Discussion</h4><span class="step-time">12 min</span></div><ul><li>Students open the discussion. Teacher facilitates.</li><li>If discussion stalls: "Is the farm actually safer, or does it just feel that way?" / "What do we know about Peter by the end of Ch. 7?" / "How do fisherman, meadow, and suspicious help us understand setting, role, and danger?"</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>40:00 — Connect–Extend–Challenge</h4><span class="step-time">5 min</span></div><ul><li><strong>Connect:</strong> What did today connect to something you already knew?</li><li><strong>Extend:</strong> What new idea did this class open up?</li><li><strong>Challenge:</strong> What still puzzles you?</li></ul></div></div>
+      <div class="ruler-box"><div class="ruler-label">RULER Moment — Relief · Unease · Belonging</div><p>After discussing the farm: "When Annemarie arrives at Uncle Henrik's farm, write one word for what you'd feel arriving somewhere that seems safe when everything behind you was dangerous." Hold that feeling, because the novel is about to test it.</p></div><div class="tn-section"><div class="tn-label">Differentiation</div><div class="diff-grid"><div class="diff-box diff-support"><div class="diff-label">Support</div><p>Provide a two-column organizer: Copenhagen / The Farm. Students list 3 words that describe each setting and 1 word that describes how Annemarie feels in each.</p></div><div class="diff-box diff-extension"><div class="diff-label">Extension</div><p>Write a paragraph explaining why a novelist would reveal information slowly, and what effect that pacing creates in the reader.</p></div></div></div></div></div>
+    <div class="assess-unified"><div class="assess-cell"><div class="assess-label">PYP Assessment Type</div><div class="assess-value">Documenting Learning</div><div class="assess-sub">ELA.5.R.1.1 literary analysis · ATL: Thinking</div></div><div class="assess-cell"><div class="assess-label">Assessment Tool</div><div class="assess-value">Connect–Extend–Challenge</div><div class="assess-sub">Visible thinking routine documents how student thinking shifted.</div></div><div class="assess-cell"><div class="assess-label">Student Submits</div><div class="assess-value">CEC half-sheet or sticky notes</div><div class="assess-sub">Connect · Extend · Challenge</div></div></div>
+  </div>
+</div>
+
+<div class="card" id="p3">
+  <div class="card-header writing"><div class="card-header-left"><span class="period-badge">Period 3 · ELA Writing Workshop · 45 min</span><h2>Poetry — Speaking the Unspeakable</h2><div class="header-tags"><span class="htag">LP: Communicator · Reflective</span><span class="htag">ATL: Communication — Creative Expression</span><span class="htag">ELA.5.C.1.2</span><span class="htag">Spelling words in context</span></div></div><button class="done-btn" onclick="toggleDone('p3','dot-p3')">Mark done</button></div>
+  <div class="card-body"><div class="learning-intention writing"><div class="li-label writing">Learning Intention</div><p>I will write a poem with a clear speaker's voice, intentional word choices, and at least one structural device — using our unit's big ideas as the engine.</p></div>
+    <div class="gq-section"><button class="gq-toggle" onclick="toggleGQ(this)"><span class="gq-pill">Guiding Questions</span><span class="gq-label">Questions that drive this workshop</span><span class="gq-chevron">▾</span></button><div class="gq-body"><div class="gq-question">What can a poem say that a paragraph cannot?</div><div class="gq-question">Who is speaking in your poem? What do they see, feel, do — or fail to do?</div><div class="gq-question">How does repeating a phrase or image change the emotional weight of a poem?</div></div></div>
+    <div class="tab-bar"><button class="tab-btn tab-student active" onclick="switchTab(this,'s-p3','t-p3')">Student Instructions</button><button class="tab-btn tab-teacher" onclick="switchTab(this,'t-p3','s-p3')">Teacher Notes</button></div>
+    <div class="tab-pane active" id="s-p3"><div class="student-pane"><div class="student-narrative">Today our spelling words move into writing. We will use poetry to explore ideas that are difficult to explain in ordinary paragraphs: fear, silence, responsibility, protection, and what it means to witness injustice. We will study how repetition, speaker, and carefully chosen words can create emotional weight. Then you will write from inside a moment, a character, or a perspective connected to <em>Number the Stars</em> or our unit. The goal is not to force rhymes. The goal is to make every word earn its place, including at least two of this week’s spelling words.</div></div></div>
+    <div class="tab-pane" id="t-p3"><div class="teacher-pane"><div class="connections"><div class="conn-chip chip-lp"><span class="conn-type">Learner Profile</span><strong>Communicator</strong> — Poetry demands precision. Students learn that every word earns its place.<br><strong>Reflective</strong> — Choosing a speaker requires students to ask: "What was it really like to be in that moment?"</div><div class="conn-chip chip-atl"><span class="conn-type">ATL Skill — Communication: Creative Expression</span>Students use structural craft to create emotional effect — not just to express ideas, but to make the reader feel them.</div><div class="conn-chip chip-key"><span class="conn-type">UOI Connection — Bystander / Upstander / Responsibility</span>The poetry workshop connects directly to individual responsibility. Don't over-explain it — let the poem do the work, then ask: "What does this connect to in our unit?"</div></div>
+      <div class="tn-section"><div class="tn-label">Lesson Flow</div><div class="flow-step"><div class="flow-step-header"><h4>0:00 — Sentence Practice + Quickwrite Provocation</h4><span class="step-time">5 min</span></div><ul><li>Open the Sentence Practice section from the spelling page. Choose one word that fits poetry today: <strong>terrified</strong>, <strong>mourning</strong>, <strong>scattered</strong>, or <strong>suspicious</strong>.</li><li>Students write one strong sentence in context. Then quickwrite: "45 seconds — Silent witness. Go."</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>5:00 — Anchor Text</h4><span class="step-time">6 min</span></div><ul><li>Read a short mentor poem aloud once. Silence after. "What did you notice? What hit you?"</li><li>Read a second time for repetition, speaker, and line breaks.</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>11:00 — Unpack the Craft</h4><span class="step-time">7 min</span></div><ul><li>Teach anaphora as repeated structure.</li><li>Discuss speaker: Who is talking? What do they feel responsible for?</li><li>Discuss line breaks and the final turn.</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>18:00 — UOI Connection + Writing Invitation</h4><span class="step-time">3 min</span></div><ul><li>"Today you're going to write from inside that moment. Pick your speaker — someone in the story, or someone watching from outside it."</li><li>Show the spelling word bank. "Use them as a writer."</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>21:00 — Teacher Model</h4><span class="step-time">4 min</span></div><ul><li>Write 4–5 lines live as a character. Think aloud as you choose words.</li><li>Example: "First they came for the children of the synagogue, / and I closed my curtains — terrified at first, / then all at once, with a suspicious, practiced quiet. / I told myself: this is not my mourning."</li><li>"Notice: I used terrified, suspicious, and mourning. Those words earned their place because they carry the exact feeling I needed."</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>25:00 — Independent Writing</h4><span class="step-time">15 min</span></div><ul><li>Minimum 8 lines. Must include a clear speaker's voice, at least one repeated phrase or image, and at least 2 spelling words.</li><li>No forced rhymes.</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>40:00 — Share + Reflect</h4><span class="step-time">5 min</span></div><ul><li>3–4 volunteers read one part aloud.</li><li>Below the poem, students write: Feel, Think, Do.</li></ul></div></div>
+      <div class="word-bank"><div class="wb-label">Word Bank — Spelling Words Available for Use</div><div class="wb-words"><span class="wb-word">imperious</span><span class="wb-word">institution</span><span class="wb-word">terrified</span><span class="wb-word">photograph</span><span class="wb-word">suspicious</span><span class="wb-word">fisherman</span><span class="wb-word">meadow</span><span class="wb-word">mourning</span><span class="wb-word">casket</span><span class="wb-word">scattered</span></div></div>
+      <div class="tn-section"><div class="tn-label">Differentiation</div><div class="diff-grid"><div class="diff-box diff-support"><div class="diff-label">Support</div><p>Provide a structural scaffold: "First they came for ___, / And I ___. / I told myself ___." Students fill in each stanza with their chosen speaker's experience.</p></div><div class="diff-box diff-extension"><div class="diff-label">Extension</div><p>Write a second poem as the same speaker, but this time they act. Then compare the two poems.</p></div></div></div></div></div>
+    <div class="assess-unified"><div class="assess-cell"><div class="assess-label">PYP Assessment Type</div><div class="assess-value">Documenting Learning</div><div class="assess-sub">Creative writing · Communication ATL</div></div><div class="assess-cell"><div class="assess-label">Assessment Tool</div><div class="assess-value">Creative artifact + reflection</div><div class="assess-sub">Poem documents expressive learning. Reflection documents emotional and cognitive journey.</div></div><div class="assess-cell"><div class="assess-label">Student Submits</div><div class="assess-value">Poem + Feel-Think-Do reflection</div><div class="assess-sub">Minimum 8 lines · speaker · repetition · 2+ spelling words</div></div></div>
+  </div>
+</div>
+
+<div class="day-divider">Quarta · April 29</div>
+<div class="card" id="p4"><div class="card-header ela"><div class="card-header-left"><span class="period-badge">Period 4 · ELA · 45 min</span><h2>Spelling Practice + Novel Study: Chapters 8–9 — "There Has Been a Death" and "Why Are You Lying?"</h2><div class="header-tags"><span class="htag">LP: Caring · Principled</span><span class="htag">ATL: Thinking — Author's Craft</span><span class="htag">NtS Chapters 8–9</span><span class="htag">ELA.5.R.1.3 · ELA.5.V.1.1</span></div></div><button class="done-btn" onclick="toggleDone('p4','dot-p4')">Mark done</button></div>
+<div class="card-body"><div class="learning-intention ela"><div class="li-label ela">Learning Intention</div><p>I will analyze how Lowry builds tension and uses irony in Chapters 8–9, using spelling words from the chapter to support my thinking.</p></div>
+<div class="word-study"><div class="ws-label">Warm-up — Spelling Practice · Words in Focus Today</div><div class="word-cards"><div class="word-card"><div class="word">casket</div><div class="chapter-tag">Chapter 8</div><div class="def">A central object in a funeral that is not what it seems.</div></div><div class="word-card"><div class="word">mourning</div><div class="chapter-tag">Chapter 8</div><div class="def">The sadness and ritual connected to loss. In this chapter, it is also performed for protection.</div></div><div class="word-card"><div class="word">suspicious</div><div class="chapter-tag">Chapter 9</div><div class="def">Feeling that something is wrong or that someone is hiding the truth.</div></div></div></div>
+<div class="gq-section"><button class="gq-toggle" onclick="toggleGQ(this)"><span class="gq-pill">Guiding Questions</span><span class="gq-label">Questions that drive this lesson</span><span class="gq-chevron">▾</span></button><div class="gq-body"><div class="gq-question">Aunt Birte never existed. Why would Lowry invent her?</div><div class="gq-question">The Nazi soldiers arrive suspicious and unconvinced. What does their suspicion do to the mood of the scene?</div><div class="gq-question">How is Mama's lie in this chapter different from Papa's lie in Chapter 5?</div></div></div>
+<div class="materials"><span class="materials-label">Materials</span><span style="font-size:0.82rem;font-weight:700;color:#374151;">📖 Number the Stars — Chapters 8–9 · ELA notebooks</span><a class="material-link" href="https://siga-app.github.io/classroom-materials/ela/number-the-stars/number-the-stars-spelling-practice.html" target="_blank" rel="noopener">🔤 Spelling Practice Page</a></div>
+<div class="tab-bar"><button class="tab-btn tab-student active" onclick="switchTab(this,'s-p4','t-p4')">Student Instructions</button><button class="tab-btn tab-teacher" onclick="switchTab(this,'t-p4','s-p4')">Teacher Notes</button></div>
+<div class="tab-pane active" id="s-p4"><div class="student-pane"><div class="student-narrative">Today we will read Chapters 8 and 9, where the spelling words <em>casket</em>, <em>mourning</em>, and <em>suspicious</em> become essential to understanding the scene. These chapters center on a funeral that is not what it seems. We will analyze how Lowry creates tension through a sealed casket, a room full of mourners, and soldiers who suspect that something is being hidden. Our focus will be author’s craft: how word choice, mood, silence, and dramatic irony make the reader feel the danger of the moment.</div></div></div>
+<div class="tab-pane" id="t-p4"><div class="teacher-pane"><div class="connections"><div class="conn-chip chip-lp"><span class="conn-type">Learner Profile</span><strong>Principled</strong> — The fake funeral is an act of moral courage dressed as ritual. Discuss when a lie can protect something more important than literal truth.<br><strong>Caring</strong> — The Jewish families in that room are terrified. The Danish families are risking their lives. Caring in this chapter is physical, immediate, and dangerous.</div><div class="conn-chip chip-atl"><span class="conn-type">ATL Skill — Thinking: Analyzing Author's Craft</span>This is rich for craft analysis: irony, tension, imagery, and dramatic irony. Students move from "what happened" to "how the author made it feel that way."</div><div class="conn-chip chip-key"><span class="conn-type">Spelling Words — Suspicious, Mourning, Casket</span><em>Casket</em> and <em>mourning</em> reveal the ritual being performed, while <em>suspicious</em> names the danger that threatens the people gathered in the farmhouse.</div></div>
+<div class="tn-section"><div class="tn-label">Lesson Flow</div><div class="flow-step"><div class="flow-step-header"><h4>0:00 — Spelling Practice</h4><span class="step-time">5 min</span></div><ul><li>Open the Spelling Practice section. Focus on <strong>casket</strong>, <strong>mourning</strong>, <strong>suspicious</strong>, <strong>terrified</strong>, and <strong>scattered</strong>.</li><li>Students type each answer from a clue and receive immediate feedback.</li><li>Ask: "Which of these words already tells us that this chapter will be tense? Why?"</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>5:00 — Read Chapters 8–9</h4><span class="step-time">21 min</span></div><ul><li>Teacher reads Chapter 8 aloud slowly.</li><li>Pause at the sealed casket: "There is no Aunt Birte. What might be happening?" Do not confirm.</li><li>Chapter 9: pause when soldiers arrive. "They are suspicious. What details make the room feel dangerous even before anyone opens the casket?"</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>26:00 — Discussion</h4><span class="step-time">10 min</span></div><ul><li>"Why did Lowry invent Aunt Birte?"</li><li>"Everyone is in mourning, but for different things. What are people actually mourning?"</li><li>"Compare Papa's lie in Chapter 5 to Mama's lie in Chapter 9."</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>36:00 — Close Reading Annotation</h4><span class="step-time">9 min</span></div><ul><li>Circle one word that creates tension.</li><li>Underline one detail that is more frightening than it seems.</li><li>Box the word <em>suspicious</em>. Write: how does this word increase the tension of the scene?</li></ul></div></div><div class="ruler-box"><div class="ruler-label">RULER Moment — Grief · Fear · Resolve</div><p>Before the close reading: "That room — the darkness, the casket, the gathered families — what emotion is in that room? Not one word — all of them." Lowry puts those emotions into the scene without naming all of them directly.</p></div><div class="tn-section"><div class="tn-label">Differentiation</div><div class="diff-grid"><div class="diff-box diff-support"><div class="diff-label">Support</div><p>Provide a tension analysis sentence frame: "In the scene where ___, Lowry creates tension by ___. The word ___ is especially powerful because ___."</p></div><div class="diff-box diff-extension"><div class="diff-label">Extension</div><p>Explain how dramatic irony builds suspense. Identify what the reader knows versus what the soldiers know.</p></div></div></div></div></div>
+<div class="assess-unified"><div class="assess-cell"><div class="assess-label">PYP Assessment Type</div><div class="assess-value">Measuring Learning</div><div class="assess-sub">Author's craft · word choice · vocabulary in context</div></div><div class="assess-cell"><div class="assess-label">Assessment Tool</div><div class="assess-value">Annotated passage</div><div class="assess-sub">Circle · underline · box task focused on tension.</div></div><div class="assess-cell"><div class="assess-label">Student Submits</div><div class="assess-value">Annotated passage + traffic light sticky note</div><div class="assess-sub">Stop, Proceed with Caution, Go.</div></div></div>
+</div></div>
+
+<div class="day-divider">Quinta · April 30</div>
+<div class="card" id="p5"><div class="card-header ela"><div class="card-header-left"><span class="period-badge">Period 5 · ELA · 45 min</span><h2>Spelling Test + Novel Study: Chapter 10 — "Let Us Open the Casket"</h2><div class="header-tags"><span class="htag">LP: Risk-taker · Principled</span><span class="htag">ATL: Thinking — Predicting + Evaluating</span><span class="htag">NtS Chapter 10</span><span class="htag">ELA.5.R.1.1 · ELA.5.L.1.1</span></div></div><button class="done-btn" onclick="toggleDone('p5','dot-p5')">Mark done</button></div>
+<div class="card-body"><div class="learning-intention ela"><div class="li-label ela">Learning Intention</div><p>I will demonstrate mastery of this week's spelling words and analyze how Lowry shifts the story's focus to Annemarie at the end of Chapter 10, preparing for the climax.</p></div>
+<div class="gq-section"><button class="gq-toggle" onclick="toggleGQ(this)"><span class="gq-pill">Guiding Questions</span><span class="gq-label">Questions that drive this lesson</span><span class="gq-chevron">▾</span></button><div class="gq-body"><div class="gq-question">Chapter 10 ends with Annemarie holding responsibility. What is the significance of this moment in the novel's structure?</div><div class="gq-question">How does Annemarie move from fear into action at a moment of great pressure?</div><div class="gq-question">What is Annemarie afraid of — and what does she do with that fear?</div></div></div>
+<div class="materials"><span class="materials-label">Materials</span><span style="font-size:0.82rem;font-weight:700;color:#374151;">📝 Spelling test paper · 📖 Number the Stars — Chapter 10 · ELA notebooks</span><a class="material-link" href="https://siga-app.github.io/classroom-materials/ela/number-the-stars/number-the-stars-spelling-practice.html" target="_blank" rel="noopener">🔤 Spelling Practice Page</a></div>
+<div class="tab-bar"><button class="tab-btn tab-student active" onclick="switchTab(this,'s-p5','t-p5')">Student Instructions</button><button class="tab-btn tab-teacher" onclick="switchTab(this,'t-p5','s-p5')">Teacher Notes</button></div>
+<div class="tab-pane active" id="s-p5"><div class="student-pane"><div class="student-narrative">Today we will begin with the spelling test and then read Chapter 10, "Let Us Open the Casket." This chapter brings together many of the words and ideas we have studied this week: fear, suspicion, mourning, the casket, and people being scattered or hidden for protection. We will look at how Lowry builds suspense and how the focus of the story begins to shift toward Annemarie’s own responsibility. By the end of class, you will think about how Annemarie is changing and make an evidence-based prediction about what may happen next.</div></div></div>
+<div class="tab-pane" id="t-p5"><div class="teacher-pane"><div class="connections"><div class="conn-chip chip-lp"><span class="conn-type">Learner Profile</span><strong>Risk-taker</strong> — Annemarie takes a risk at the end of Chapter 10. This is risk-taking with thoughtfulness, not recklessness.<br><strong>Principled</strong> — She acts because something morally important is at stake.</div><div class="conn-chip chip-atl"><span class="conn-type">ATL Skill — Thinking: Predicting and Evaluating</span>Students make a text-based prediction for Chapter 11, grounded in character development and plot structure.</div><div class="conn-chip chip-key"><span class="conn-type">Spelling Words in the Chapter</span><em>Scattered</em>, <em>terrified</em>, <em>casket</em>, and <em>suspicious</em> can all be used to explain the pressure of Chapter 10 and Annemarie's movement toward responsible action.</div></div>
+<div class="tn-section"><div class="tn-label">Lesson Flow</div><div class="flow-step"><div class="flow-step-header"><h4>0:00 — Spelling Test</h4><span class="step-time">15 min</span></div><ul><li>Distribute test paper. Read each spelling word clearly and use it in a sentence connected to the novel.</li><li>Words: imperious, institution, terrified, photograph, suspicious, fisherman, meadow, mourning, casket, scattered.</li><li>Include one application item: choose one spelling word and write a sentence connected to the novel.</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>15:00 — Transition + Word Connection</h4><span class="step-time">3 min</span></div><ul><li>"Choose one word from the spelling test that connects to Chapter 10: <em>terrified</em>, <em>suspicious</em>, <em>casket</em>, or <em>scattered</em>. What does that word help us understand before we read?"</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>18:00 — Read Chapter 10</h4><span class="step-time">14 min</span></div><ul><li>Teacher reads aloud to maintain tension.</li><li>Pause when Mama leaves for the boat.</li><li>Pause when Annemarie discovers Mama.</li><li>End slowly and let silence hold before moving on.</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>32:00 — Discussion</h4><span class="step-time">5 min</span></div><ul><li>"At the beginning of this novel, Annemarie was running home afraid. Now she is choosing to move toward danger, in the dark, alone. What changed?"</li><li>"When does Annemarie move from fear into action in this chapter? Find the moment. Read it aloud."</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>37:00 — Character Spectrum</h4><span class="step-time">4 min</span></div><ul><li>Draw: <strong>BYSTANDER ←————→ UPSTANDER</strong></li><li>Where was Annemarie in Chapter 1? Where is she now?</li></ul></div><div class="flow-step"><div class="flow-step-header"><h4>41:00 — 3-2-1 Exit Ticket</h4><span class="step-time">4 min</span></div><ul><li><strong>3 vocabulary words</strong> from this week that you feel confident about, each in a sentence connected to the novel.</li><li><strong>2 connections</strong> between Annemarie's choices and responsibility.</li><li><strong>1 prediction</strong> for Chapter 11 with evidence from Chapter 10.</li></ul></div></div>
+<div class="ruler-box"><div class="ruler-label">RULER Moment — Courage · Determination · Loneliness</div><p>After the end of Chapter 10: "Annemarie is alone. Her mother is hurt. She has to go through the dark, through the woods, past soldiers. What emotion is she carrying as she starts walking?" Courage doesn't mean you're not afraid. It means the thing you care about is bigger than the fear.</p></div><div class="tn-section"><div class="tn-label">Differentiation</div><div class="diff-grid"><div class="diff-box diff-support"><div class="diff-label">Support</div><p>Spelling test: allow the word bank only for students with accommodations. For the exit ticket, provide: "I predict ___ will happen because Lowry showed us ___ in Chapter 10."</p></div><div class="diff-box diff-extension"><div class="diff-label">Extension</div><p>Trace Annemarie's growth from Chapter 1 to Chapter 10. Identify the moments that caused each shift.</p></div></div></div></div></div>
+<div class="assess-unified"><div class="assess-cell"><div class="assess-label">PYP Assessment Type</div><div class="assess-value">Measuring + Documenting</div><div class="assess-sub">Spelling mastery · inference · vocabulary in context</div></div><div class="assess-cell"><div class="assess-label">Assessment Tool</div><div class="assess-value">Checklist + 3-2-1 Exit Ticket</div><div class="assess-sub">Spelling checklist and written thinking.</div></div><div class="assess-cell"><div class="assess-label">Student Submits</div><div class="assess-value">Spelling test paper + 3-2-1 card</div><div class="assess-sub">3 vocabulary sentences · 2 connections · 1 prediction</div></div></div>
+</div></div>
+
+<div class="day-divider">Sexta · May 1</div>
+<div style="max-width:860px;margin:0 auto 32px;background:white;border-radius:16px;padding:20px 24px;box-shadow:0 2px 12px rgba(0,0,0,0.07);"><div style="font-size:0.68rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#0369a1;margin-bottom:6px;">No ELA Block</div><div style="font-size:0.95rem;font-weight:800;color:#1a1a2e;margin-bottom:8px;">Optional Catch-Up Reading</div><div style="font-size:0.85rem;font-weight:600;color:#4b5563;line-height:1.7;">There is no formal ELA lesson on Friday. Students who need additional time may catch up independently. Discussion of the next chapter opens Week 3.</div></div>
+
+<script>
+  function toggleDone(cardId, dotId) {
+    const card = document.getElementById(cardId);
+    const dot  = document.getElementById(dotId);
+    const isDone = dot.classList.contains('done');
+    dot.classList.toggle('done', !isDone);
+    card.style.opacity = isDone ? '1' : '0.5';
+  }
+  function switchTab(btn, showId, hideId) {
+    const card = btn.closest('.card');
+    card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(showId).classList.add('active');
+    document.getElementById(hideId).classList.remove('active');
+  }
+  function toggleGQ(btn) {
+    const body = btn.nextElementSibling;
+    btn.classList.toggle('open');
+    body.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
