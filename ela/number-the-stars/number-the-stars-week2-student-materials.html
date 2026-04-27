@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Number the Stars, Week 2 Student Materials</title>
+<style>
+  :root {
+    --navy: #1f3a5f;
+    --blue: #4f7cac;
+    --light-blue: #dbeafe;
+    --cream: #fff8ed;
+    --purple: #7c3aed;
+    --light-purple: #ede9fe;
+    --green: #6a994e;
+    --light-green: #dcfce7;
+    --gold: #f4c95d;
+    --red: #bc4749;
+    --soft-gray: #f8fafc;
+    --line: #dbe3ee;
+    --text: #1f2933;
+    --white: #ffffff;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, var(--cream), var(--light-blue));
+    color: var(--text);
+    line-height: 1.5;
+    padding: 28px 18px 48px;
+  }
+
+  header {
+    max-width: 1050px;
+    margin: 0 auto 22px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 22px;
+    padding: 30px 28px;
+    box-shadow: 0 10px 30px rgba(31, 58, 95, 0.18);
+  }
+
+  header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 8px;
+  }
+
+  header p {
+    max-width: 850px;
+    opacity: 0.95;
+    font-size: 1rem;
+  }
+
+  nav {
+    max-width: 1050px;
+    margin: 0 auto 22px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(31, 58, 95, 0.12);
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .nav-btn {
+    border: 2px solid var(--blue);
+    background: var(--white);
+    color: var(--navy);
+    border-radius: 999px;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .nav-btn:hover,
+  .nav-btn.active {
+    background: var(--blue);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  }
+
+  main {
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .toolbar {
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(31, 58, 95, 0.12);
+    padding: 16px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .toolbar p {
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .print-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 11px 18px;
+    background: var(--green);
+    color: var(--white);
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .print-btn.secondary {
+    background: var(--blue);
+  }
+
+  .page {
+    display: none;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  .sheet {
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(31, 58, 95, 0.16);
+    padding: 28px;
+    margin-bottom: 26px;
+  }
+
+  .sheet-header {
+    border-bottom: 4px solid var(--light-blue);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+
+  .sheet-header h2 {
+    color: var(--navy);
+    font-size: 1.55rem;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    color: #52616f;
+    font-weight: 700;
+  }
+
+  .name-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 14px;
+    margin: 18px 0;
+  }
+
+  .blank-line {
+    border-bottom: 2px solid #9aa8b7;
+    min-height: 30px;
+    padding-top: 6px;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .info-box {
+    background: var(--soft-gray);
+    border-left: 6px solid var(--blue);
+    border-radius: 0 14px 14px 0;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+
+  .info-box.purple {
+    border-left-color: var(--purple);
+    background: #f5f3ff;
+  }
+
+  .info-box.green {
+    border-left-color: var(--green);
+    background: #f0fdf4;
+  }
+
+  .section-title {
+    color: var(--navy);
+    font-weight: 900;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 22px 0 9px;
+  }
+
+  .writing-lines {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    min-height: 145px;
+    background-image: linear-gradient(to bottom, transparent 31px, #dbe3ee 32px);
+    background-size: 100% 32px;
+    line-height: 32px;
+  }
+
+  .response-box .writing-lines {
+    margin-top: auto;
+  }
+
+  .writing-lines.tall {
+    min-height: 280px;
+  }
+
+  .writing-lines.medium {
+    min-height: 210px;
+  }
+
+  .writing-lines.short {
+    min-height: 120px;
+  }
+
+  .writing-lines.equal-box {
+    min-height: 190px;
+    height: 190px;
+    flex: 0 0 auto;
+  }
+
+  .writing-lines.cec-lines {
+    min-height: 175px;
+    height: 175px;
+    flex: 0 0 auto;
+  }
+
+  .writing-lines.speaker-lines {
+    min-height: 64px;
+    height: 64px;
+    flex: 0 0 auto;
+  }
+
+  .writing-lines.reflection-lines {
+    min-height: 175px;
+    height: 175px;
+    flex: 0 0 auto;
+  }
+
+  .three-box-grid,
+  .two-box-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .three-box-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .two-box-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .response-box {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    min-height: 130px;
+    background: var(--soft-gray);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .response-box h3 {
+    color: var(--navy);
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .response-box p {
+    min-height: 58px;
+    margin-bottom: 10px;
+  }
+
+  .response-box p.compact-prompt {
+    min-height: 44px;
+  }
+
+  .checklist {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .check-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 700;
+  }
+
+  .box-check {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--navy);
+    border-radius: 4px;
+    flex: 0 0 auto;
+    margin-top: 2px;
+  }
+
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .word-bank span {
+    background: var(--white);
+    border: 1.5px solid #b8d7f3;
+    color: var(--navy);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-weight: 800;
+    font-size: 0.84rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  th {
+    background: var(--navy);
+    color: var(--white);
+    text-align: left;
+    padding: 11px;
+    font-size: 0.9rem;
+  }
+
+  td {
+    border: 1px solid var(--line);
+    padding: 10px;
+    vertical-align: top;
+    min-height: 38px;
+  }
+
+  .annotation-box {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+    background: #fffdf7;
+    min-height: 230px;
+  }
+
+  .annotation-box p {
+    margin-bottom: 12px;
+    font-size: 1rem;
+  }
+
+  .rubric-table td,
+  .rubric-table th {
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .rubric-level {
+    font-weight: 900;
+    color: var(--navy);
+  }
+
+  .spelling-grid {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 8px 12px;
+    margin-top: 14px;
+  }
+
+  .number-cell {
+    font-weight: 900;
+    color: var(--navy);
+    padding-top: 8px;
+  }
+
+  .answer-line {
+    border-bottom: 2px solid #9aa8b7;
+    min-height: 38px;
+  }
+
+  .sentence-application {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 18px;
+  }
+
+  .traffic-light {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .traffic-card {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    min-height: 135px;
+  }
+
+  .traffic-card.stop {
+    background: #fff1f2;
+    border-color: #fecdd3;
+  }
+
+  .traffic-card.caution {
+    background: #fff7ed;
+    border-color: #fed7aa;
+  }
+
+  .traffic-card.go {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+  }
+
+  .footer-note {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.88rem;
+    margin-top: 24px;
+  }
+
+  @media print {
+    body {
+      background: white;
+      padding: 0;
+    }
+
+    header,
+    nav,
+    .toolbar,
+    .footer-note {
+      display: none;
+    }
+
+    main {
+      max-width: none;
+      margin: 0;
+    }
+
+    .page {
+      display: block !important;
+    }
+
+    body.print-current .page {
+      display: none !important;
+    }
+
+    body.print-current .page.active {
+      display: block !important;
+    }
+
+    .sheet {
+      box-shadow: none;
+      border-radius: 0;
+      margin: 0;
+      min-height: 10.5in;
+      page-break-after: always;
+      padding: 0.45in;
+    }
+
+    .sheet:last-child {
+      page-break-after: auto;
+    }
+
+    .name-row {
+      grid-template-columns: 1.4fr 1fr 1fr;
+    }
+
+    .three-box-grid,
+    .traffic-light {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .two-box-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .name-row,
+    .three-box-grid,
+    .two-box-grid,
+    .traffic-light {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Number the Stars, Week 2 Student Materials</h1>
+  <p>Printable HTML packet for ELA, How We Organize Ourselves, Chapters 5 to 10. Designed to support spelling, reading comprehension, poetry, annotation, and assessment.</p>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showPage('quickWrite', this)">Monday Quick Write</button>
+  <button class="nav-btn" onclick="showPage('cec', this)">Tuesday CEC</button>
+  <button class="nav-btn" onclick="showPage('poetry', this)">Poetry Draft</button>
+  <button class="nav-btn" onclick="showPage('poetryReflection', this)">Poetry Reflection + Rubric</button>
+  <button class="nav-btn" onclick="showPage('annotation', this)">Annotation Sheet</button>
+  <button class="nav-btn" onclick="showPage('spellingTest', this)">Spelling Test</button>
+  <button class="nav-btn" onclick="showPage('spellingRubric', this)">Spelling Rubric</button>
+  <button class="nav-btn" onclick="showPage('exitTicket', this)">3-2-1 Exit Ticket</button>
+</nav>
+
+<main>
+  <section class="toolbar">
+    <p>Use the tabs to preview each handout. You can print only the current handout or the full packet.</p>
+    <div class="toolbar-actions">
+      <button class="print-btn secondary" onclick="printCurrentPage()">Print Current Handout</button>
+      <button class="print-btn" onclick="printFullPacket()">Print Full Packet</button>
+    </div>
+  </section>
+
+  <section class="page active" id="quickWrite">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Monday Quick Write</h2>
+        <p class="subtitle">Number the Stars, Chapter 5, “Who Is the Dark-Haired One?”</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box">
+        <strong>Focus:</strong> Identity, protection, fear, and responsibility. Today we are thinking about how Annemarie’s family protects Ellen when an unjust system makes Ellen’s identity dangerous.
+      </div>
+
+      <div class="section-title">Prompt</div>
+      <p><strong>How does Annemarie’s family protect Ellen in Chapter 5? What does this show about responsibility?</strong></p>
+
+      <div class="section-title">Plan Your Response</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:38%;">Claim</th>
+            <th style="width:34%;">Evidence from Chapter 5</th>
+            <th style="width:28%;">Connection to Responsibility</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="height:135px;"></td>
+            <td style="height:135px;"></td>
+            <td style="height:135px;"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Write Your Response</div>
+      <div class="writing-lines medium"></div>
+
+      <div class="section-title">Before You Submit</div>
+      <div class="checklist">
+        <div class="check-item"><span class="box-check"></span><span>I answered both parts of the prompt.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>I used evidence from Chapter 5.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>I explained how the evidence connects to responsibility.</span></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="page" id="cec">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Connect, Extend, Challenge</h2>
+        <p class="subtitle">Number the Stars, Chapters 6 and 7, “Is the Weather Good for Fishing?” and “The House by the Sea”</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box green">
+        <strong>Focus:</strong> Coded language, setting, safety, and what characters understand without everything being said directly.
+      </div>
+
+      <div class="three-box-grid">
+        <div class="response-box">
+          <h3>Connect</h3>
+          <p>What did today connect to something you already knew?</p>
+          <div class="writing-lines cec-lines"></div>
+        </div>
+        <div class="response-box">
+          <h3>Extend</h3>
+          <p>What new idea extended your thinking today?</p>
+          <div class="writing-lines cec-lines"></div>
+        </div>
+        <div class="response-box">
+          <h3>Challenge</h3>
+          <p>What still feels challenging, confusing, or unresolved?</p>
+          <div class="writing-lines cec-lines"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Words That May Help Your Thinking</div>
+      <div class="word-bank">
+        <span>suspicious</span><span>fisherman</span><span>meadow</span><span>scattered</span><span>responsibility</span><span>coded language</span><span>safety</span><span>setting</span>
+      </div>
+    </article>
+  </section>
+
+  <section class="page" id="poetry">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Poetry Drafting Page</h2>
+        <p class="subtitle">Writing Workshop, Poetry as Response to Literature and History</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box purple">
+        <strong>Focus:</strong> Poetry can express fear, silence, responsibility, protection, and courage in a compressed and powerful way. Your poem should have a clear speaker, intentional word choice, and repetition or anaphora.
+      </div>
+
+      <div class="section-title">Choose Your Speaker</div>
+      <div class="two-box-grid">
+        <div class="response-box">
+          <h3>Who is speaking?</h3>
+          <div class="writing-lines speaker-lines"></div>
+        </div>
+        <div class="response-box">
+          <h3>Moment or feeling</h3>
+          <div class="writing-lines speaker-lines"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Word Bank</div>
+      <div class="word-bank">
+        <span>imperious</span><span>institution</span><span>terrified</span><span>photograph</span><span>suspicious</span><span>fisherman</span><span>meadow</span><span>mourning</span><span>casket</span><span>scattered</span>
+      </div>
+
+      <div class="section-title">Poetry Draft</div>
+      <div class="writing-lines tall"></div>
+
+      <div class="section-title">Poetry Checklist</div>
+      <div class="checklist">
+        <div class="check-item"><span class="box-check"></span><span>My poem has a clear speaker.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>My poem uses repetition, anaphora, or a repeated image.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>My poem includes at least two spelling words.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>My word choices create emotion or meaning.</span></div>
+      </div>
+
+      </article>
+  </section>
+
+  <section class="page" id="poetryReflection">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Poetry Reflection + Rubric</h2>
+        <p class="subtitle">Use this after drafting your poem.</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box purple">
+        <strong>Reflection Focus:</strong> Explain how your poem uses speaker, repetition, and spelling words to communicate an idea about fear, silence, protection, responsibility, or courage.
+      </div>
+
+      <div class="section-title">Feel, Think, Do Reflection</div>
+      <div class="three-box-grid">
+        <div class="response-box">
+          <h3>Feel</h3>
+          <p>What feeling did you try to create? Which words helped?</p>
+          <div class="writing-lines reflection-lines"></div>
+        </div>
+        <div class="response-box">
+          <h3>Think</h3>
+          <p>What idea do you want your reader to think about?</p>
+          <div class="writing-lines reflection-lines"></div>
+        </div>
+        <div class="response-box">
+          <h3>Do</h3>
+          <p>What action, responsibility, or question does it point toward?</p>
+          <div class="writing-lines reflection-lines"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Poetry Rubric</div>
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Criteria</th>
+            <th>1, Beginning</th>
+            <th>2, Approaching</th>
+            <th>3, Meeting</th>
+            <th>4, Exceeding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rubric-level">Speaker and Perspective</span></td>
+            <td>The speaker is unclear or missing.</td>
+            <td>The speaker is somewhat clear but needs more development.</td>
+            <td>The speaker is clear and connected to the novel or unit.</td>
+            <td>The speaker is clear, purposeful, and emotionally convincing.</td>
+          </tr>
+          <tr>
+            <td><span class="rubric-level">Poetic Craft</span></td>
+            <td>The poem reads mostly like a paragraph broken into lines.</td>
+            <td>A poetic device is attempted but the effect is limited.</td>
+            <td>At least one poetic device is used intentionally.</td>
+            <td>Repetition, line breaks, and word choice create a strong effect.</td>
+          </tr>
+          <tr>
+            <td><span class="rubric-level">Spelling Words in Context</span></td>
+            <td>Spelling words are missing or used inaccurately.</td>
+            <td>One spelling word is used correctly, or two are used with limited context.</td>
+            <td>Two spelling words are used correctly in context.</td>
+            <td>Two or more spelling words are used naturally and deepen meaning.</td>
+          </tr>
+          <tr>
+            <td><span class="rubric-level">Connection to Theme</span></td>
+            <td>The connection to the novel or unit is unclear.</td>
+            <td>The connection to theme is present but general.</td>
+            <td>The poem clearly connects to a theme from the novel or unit.</td>
+            <td>The poem shows deep insight into responsibility, courage, silence, or protection.</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </section>
+
+  <section class="page" id="annotation">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Close Reading Annotation Sheet</h2>
+        <p class="subtitle">Number the Stars, Chapters 8 and 9, “There Has Been a Death” and “Why Are You Lying?”</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box">
+        <strong>Focus:</strong> Author’s craft. How does Lowry create tension through a sealed casket, a room of mourners, and soldiers who are suspicious?
+      </div>
+
+      <div class="section-title">Annotation Task</div>
+      <div class="checklist">
+        <div class="check-item"><span class="box-check"></span><span><strong>Circle</strong> one word or phrase that creates tension.</span></div>
+        <div class="check-item"><span class="box-check"></span><span><strong>Underline</strong> one detail that feels more dangerous than it first appears.</span></div>
+        <div class="check-item"><span class="box-check"></span><span><strong>Box</strong> one spelling word, such as <em>casket</em>, <em>mourning</em>, or <em>suspicious</em>. Explain how it adds to the tension.</span></div>
+      </div>
+
+      <div class="section-title">Passage Locator</div>
+      <div class="annotation-box">
+        <p><strong>Use Chapter 9, “Why Are You Lying?”</strong></p>
+        <p>Find the scene after the casket has arrived and people begin gathering in the living room for Great-aunt Birte’s wake.</p>
+        <p><strong>Start:</strong> the paragraph that begins with the gleaming wooden casket resting in the center of the living room.</p>
+        <p><strong>Stop:</strong> when Ellen returns with her parents and Peter enters the room.</p>
+        <p><strong>Focus words to track:</strong> casket, mourning, suspicious, terrified.</p>
+        <p><strong>Reading focus:</strong> How does Lowry create tension before the soldiers even enter the scene?</p>
+      </div>
+
+      <div class="section-title">Craft Response</div>
+      <p><strong>Lowry creates tension in this scene by _____. One word or detail that shows this is _____ because _____.</strong></p>
+      <div class="writing-lines medium"></div>
+    </article>
+  </section>
+
+  <section class="page" id="spellingTest">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Spelling Test</h2>
+        <p class="subtitle">Number the Stars, Week 2, Chapters 5 to 10</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Score:</div>
+      </div>
+
+      <div class="info-box green">
+        <strong>Directions:</strong> Listen carefully as each word is read aloud. Write the word on the line. Then complete the sentence application at the bottom.
+      </div>
+
+      <div class="spelling-grid">
+        <div class="number-cell">1.</div><div class="answer-line"></div>
+        <div class="number-cell">2.</div><div class="answer-line"></div>
+        <div class="number-cell">3.</div><div class="answer-line"></div>
+        <div class="number-cell">4.</div><div class="answer-line"></div>
+        <div class="number-cell">5.</div><div class="answer-line"></div>
+        <div class="number-cell">6.</div><div class="answer-line"></div>
+        <div class="number-cell">7.</div><div class="answer-line"></div>
+        <div class="number-cell">8.</div><div class="answer-line"></div>
+        <div class="number-cell">9.</div><div class="answer-line"></div>
+        <div class="number-cell">10.</div><div class="answer-line"></div>
+      </div>
+
+      <div class="sentence-application">
+        <div class="section-title" style="margin-top:0;">Sentence Application</div>
+        <p><strong>Choose one spelling word and write a sentence connected to <em>Number the Stars</em>.</strong></p>
+        <div class="writing-lines" style="min-height:95px;"></div>
+      </div>
+
+      <div class="section-title">Teacher Dictation List</div>
+      <div class="word-bank">
+        <span>imperious</span><span>institution</span><span>terrified</span><span>photograph</span><span>suspicious</span><span>fisherman</span><span>meadow</span><span>mourning</span><span>casket</span><span>scattered</span>
+      </div>
+    </article>
+  </section>
+
+  <section class="page" id="spellingRubric">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Spelling Test Rubric</h2>
+        <p class="subtitle">Number the Stars, Week 2, Chapters 5 to 10</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Score:</div>
+      </div>
+
+      <div class="info-box green">
+        <strong>Assessment Focus:</strong> Accurate spelling, careful listening, and the ability to use one spelling word meaningfully in a sentence connected to the novel.
+      </div>
+
+      <div class="section-title">Part 1, Dictated Words</div>
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Score</th>
+            <th>Descriptor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>10</strong></td><td>All 10 spelling words are spelled correctly.</td></tr>
+          <tr><td><strong>8–9</strong></td><td>Most words are spelled correctly. Errors do not show a major pattern of confusion.</td></tr>
+          <tr><td><strong>6–7</strong></td><td>Several words are spelled correctly, but errors show that some patterns need more practice.</td></tr>
+          <tr><td><strong>0–5</strong></td><td>Many words are misspelled. Student needs reteaching and additional practice with the weekly words.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Part 2, Sentence Application</div>
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>Criteria</th>
+            <th>2</th>
+            <th>1</th>
+            <th>0</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rubric-level">Spelling Word</span></td>
+            <td>Uses one weekly spelling word spelled correctly.</td>
+            <td>Uses a weekly word with a minor spelling error.</td>
+            <td>Does not use a weekly spelling word.</td>
+          </tr>
+          <tr>
+            <td><span class="rubric-level">Novel Connection</span></td>
+            <td>Sentence clearly connects to <em>Number the Stars</em>.</td>
+            <td>Sentence has a general or unclear connection.</td>
+            <td>No connection to the novel.</td>
+          </tr>
+          <tr>
+            <td><span class="rubric-level">Sentence Conventions</span></td>
+            <td>Complete sentence with capitalization and punctuation.</td>
+            <td>Mostly complete with one convention issue.</td>
+            <td>Fragment, unclear sentence, or multiple convention issues.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Total Score</div>
+      <div class="two-box-grid">
+        <div class="response-box">
+          <h3>Dictated Words</h3>
+          <div class="blank-line">/10</div>
+        </div>
+        <div class="response-box">
+          <h3>Sentence Application</h3>
+          <div class="blank-line">/6</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="page" id="exitTicket">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>3-2-1 Exit Ticket</h2>
+        <p class="subtitle">Number the Stars, Chapter 10, “Let Us Open the Casket”</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box">
+        <strong>Focus:</strong> Use vocabulary in context, connect Annemarie’s choices to responsibility, and make an evidence-based prediction.
+      </div>
+
+      <div class="three-box-grid">
+        <div class="response-box">
+          <h3>3 Vocabulary Words</h3>
+          <p>Choose 3 spelling words and use each in a novel sentence.</p>
+          <div class="writing-lines reflection-lines"></div>
+        </div>
+        <div class="response-box">
+          <h3>2 Connections</h3>
+          <p>Write 2 connections between Annemarie’s choices and responsibility.</p>
+          <div class="writing-lines reflection-lines"></div>
+        </div>
+        <div class="response-box">
+          <h3>1 Prediction</h3>
+          <p>Make 1 prediction. Use evidence from Chapter 10.</p>
+          <div class="writing-lines reflection-lines"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Word Bank</div>
+      <div class="word-bank">
+        <span>imperious</span><span>institution</span><span>terrified</span><span>photograph</span><span>suspicious</span><span>fisherman</span><span>meadow</span><span>mourning</span><span>casket</span><span>scattered</span>
+      </div>
+    </article>
+  </section>
+
+  <p class="footer-note">Created for Ms. Ventura’s ELA Novel Study, How We Organize Ourselves.</p>
+</main>
+
+<script>
+  function printFullPacket() {
+    document.body.classList.remove('print-current');
+    window.print();
+  }
+
+  function printCurrentPage() {
+    document.body.classList.add('print-current');
+    window.print();
+  }
+
+  window.addEventListener('afterprint', function() {
+    document.body.classList.remove('print-current');
+  });
+
+  function showPage(pageId, button) {
+    document.querySelectorAll('.page').forEach(function(page) {
+      page.classList.remove('active');
+    });
+
+    document.querySelectorAll('.nav-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+
+    document.getElementById(pageId).classList.add('active');
+    button.classList.add('active');
+  }
+</script>
+</body>
+</html>
