@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math Week 2 Complete Support Packet | P1 to P5</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #5b6472;
+      --line: #d7dee8;
+      --soft: #f5f7fa;
+      --accent: #234e70;
+      --accent-dark: #16324a;
+      --accent-light: #e6f0f8;
+      --warm: #fff7e6;
+      --success: #e8f5ee;
+      --rose: #fff0f0;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: #eef3f8;
+      line-height: 1.45;
+    }
+
+    .app-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .top-header {
+      background: var(--white);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(31, 41, 51, 0.08);
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    h1, h2, h3 { margin: 0; color: var(--accent); }
+    h1 { font-size: 32px; line-height: 1.1; }
+    h2 { font-size: 23px; margin-bottom: 12px; }
+    h3 { font-size: 17px; margin-bottom: 8px; }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .print-all { background: var(--accent); color: white; }
+    .print-all:hover { background: var(--accent-dark); }
+
+    .tab-bar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 10px 0;
+      background: #eef3f8;
+    }
+
+    .tab-button {
+      background: white;
+      color: var(--accent);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(31, 41, 51, 0.06);
+      border-radius: 18px;
+      padding: 14px 10px;
+    }
+
+    .tab-button.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .worksheet-panel { display: none; }
+    .worksheet-panel.active { display: block; }
+
+    .panel-tools {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .print-section {
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid #c9dceb;
+    }
+
+    .print-section:hover { background: #d8e9f6; }
+
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0 auto 22px;
+      padding: 0.52in;
+      background: white;
+      box-shadow: 0 12px 30px rgba(31, 41, 51, 0.12);
+      border-radius: 8px;
+    }
+
+    .page-header {
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .student-name-row {
+      display: grid;
+      grid-template-columns: 1.4fr 0.6fr;
+      gap: 18px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .name-box {
+      display: inline-block;
+      border-bottom: 1.5px solid var(--ink);
+      min-width: 180px;
+      min-height: 24px;
+      vertical-align: bottom;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 15px;
+      background: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .soft { background: var(--soft); }
+    .warm { background: var(--warm); }
+    .success { background: var(--success); }
+    .rose { background: var(--rose); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 12px;
+      font-size: 18px;
+    }
+
+    th {
+      background: var(--accent);
+      color: white;
+      padding: 10px;
+      border: 1px solid var(--accent);
+    }
+
+    td {
+      text-align: center;
+      padding: 12px 8px;
+      border: 1px solid var(--line);
+      background: white;
+      height: 48px;
+    }
+
+    .big-table td { font-size: 26px; height: 66px; }
+
+    .prompt {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 8px 0;
+    }
+
+    .question-list p {
+      margin: 8px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .question-list p::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .sentence-frame {
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 18px;
+      background: white;
+      margin-top: 10px;
+    }
+
+    .blank-line {
+      display: inline-block;
+      border-bottom: 2px solid var(--ink);
+      min-width: 145px;
+      height: 1em;
+      vertical-align: bottom;
+    }
+
+    .writing-lines { margin-top: 8px; }
+    .line { border-bottom: 1.5px solid var(--line); height: 30px; margin-bottom: 6px; }
+
+    .mini-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .exit-slip {
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      padding: 12px;
+      min-height: 4.25in;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .exit-slip .student-name-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .exit-slip .name-box {
+      min-width: 120px;
+    }
+
+    .exit-slip .prompt {
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .exit-slip .line {
+      height: 24px;
+      margin-bottom: 5px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      margin-bottom: 8px;
+      white-space: nowrap;
+    }
+
+    .small { font-size: 13px; color: var(--muted); }
+
+    .cut-line {
+      border-top: 2px dashed #9aa5b1;
+      margin: 22px 0;
+      position: relative;
+    }
+
+    .cut-line span {
+      position: absolute;
+      top: -12px;
+      left: 0;
+      background: white;
+      padding-right: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .word-bank {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .word-chip {
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+      background: white;
+      font-weight: 700;
+      text-align: center;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .work-space {
+      min-height: 90px;
+      border: 1.5px dashed #a7b2c0;
+      border-radius: 12px;
+      margin-top: 8px;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tree-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 26px;
+      margin: 14px 0;
+    }
+
+    .tree-box {
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      min-width: 90px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      font-weight: 700;
+    }
+
+    .tree-line {
+      width: 100px;
+      height: 45px;
+      border-left: 2px solid var(--line);
+      border-right: 2px solid var(--line);
+      border-bottom: 2px solid var(--line);
+      margin: 0 auto;
+    }
+
+    .number-line-wrap { margin: 18px 0 30px; break-inside: avoid; }
+
+    .number-line {
+      display: grid;
+      grid-template-columns: repeat(51, 1fr);
+      align-items: end;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 6px;
+      margin-top: 28px;
+    }
+
+    .tick {
+      text-align: center;
+      font-size: 9px;
+      position: relative;
+      min-height: 28px;
+    }
+
+    .tick::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      width: 1px;
+      height: 8px;
+      background: var(--ink);
+    }
+
+    .cycle-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .cycle-label { font-weight: 700; color: var(--accent); }
+    .cycle-line { border-bottom: 2px solid var(--line); height: 28px; }
+
+    .problem {
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      break-inside: avoid;
+    }
+
+    .problem-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .problem p { margin: 6px 0 10px; font-size: 15px; }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .choice-box {
+      border: 1.5px solid var(--ink);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-weight: 700;
+      text-align: center;
+      min-height: 38px;
+    }
+
+    .signal-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .signal-table th {
+      background: var(--accent);
+      color: white;
+      padding: 10px;
+      border: 1px solid var(--accent);
+      text-align: left;
+    }
+
+    .signal-table td {
+      vertical-align: top;
+      padding: 12px;
+      border: 1px solid var(--line);
+      background: white;
+      text-align: left;
+    }
+
+    .signal-table ul { margin: 0; padding-left: 18px; }
+
+    .checklist-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: start;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .checkbox {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--accent);
+      border-radius: 5px;
+      background: white;
+      margin-top: 1px;
+    }
+
+    .mini-card {
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 190px;
+      background: white;
+      break-inside: avoid;
+    }
+
+    .mini-card h2 { font-size: 20px; margin-bottom: 8px; }
+    .mini-card ul { margin: 8px 0 0; padding-left: 18px; font-size: 14px; }
+
+    .sort-card {
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 96px;
+      background: white;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sort-card-footer {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .tiny-choice {
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
+      text-align: center;
+      padding: 5px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    @media print {
+      body { background: white; }
+      .app-shell { max-width: none; margin: 0; padding: 0; }
+      .top-header, .tab-bar, .panel-tools { display: none !important; }
+      .worksheet-panel { display: block; }
+      .worksheet-panel:not(.print-target) { display: none; }
+      body.print-all-mode .worksheet-panel,
+      body.print-all-mode .worksheet-panel:not(.print-target) { display: block; }
+      .page {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0.42in;
+        box-shadow: none;
+        border-radius: 0;
+        page-break-after: always;
+      }
+      .page:last-child { page-break-after: auto; }
+      .card, .exit-slip, .number-line-wrap, .problem, .mini-card, .sort-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="top-header">
+      <div class="eyebrow">Math Week 2 | Complete Student Support Packet</div>
+      <h1>P1 to P5 Math Supports</h1>
+      <p class="subtitle">This is the single organized file for all support materials created for Math Week 2. Choose a tab to view or print each lesson, or print the whole packet.</p>
+      <div class="controls">
+        <button class="print-all" onclick="printWholePacket()">Print the Whole Packet</button>
+      </div>
+    </header>
+
+    <nav class="tab-bar" aria-label="Support material tabs">
+      <button class="tab-button active" onclick="showTab('p1', this)">P1 Patterns</button>
+      <button class="tab-button" onclick="showTab('p2', this)">P2 Variables</button>
+      <button class="tab-button" onclick="showTab('p3', this)">P3 GCF</button>
+      <button class="tab-button" onclick="showTab('p4', this)">P4 LCM</button>
+      <button class="tab-button" onclick="showTab('p5', this)">P5 GCF or LCM</button>
+    </nav>
+
+    <section id="p1" class="worksheet-panel active">
+      <div class="panel-tools"><button class="print-section" onclick="printSection('p1')">Print P1 Supports</button></div>
+
+      <div class="page">
+        <div class="page-header">
+          <div class="eyebrow">P1 | Patterns All Around Us</div>
+          <h1>Input and Output Tables</h1>
+          <div class="subtitle">Look for the rule that changes each input into an output.</div>
+        </div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="grid-2">
+          <div class="card">
+            <h2>Table 1</h2><div class="mini-label">Find the rule</div>
+            <table class="big-table"><thead><tr><th>In</th><th>Out</th></tr></thead><tbody><tr><td>2</td><td>6</td></tr><tr><td>4</td><td>8</td></tr><tr><td>7</td><td>11</td></tr><tr><td>10</td><td>14</td></tr><tr><td>20</td><td>?</td></tr></tbody></table>
+            <div class="prompt">What is the rule?</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div>
+          </div>
+          <div class="card">
+            <h2>Table 2</h2><div class="mini-label">Find the rule</div>
+            <table class="big-table"><thead><tr><th>In</th><th>Out</th></tr></thead><tbody><tr><td>3</td><td>12</td></tr><tr><td>5</td><td>20</td></tr><tr><td>8</td><td>32</td></tr><tr><td>10</td><td>40</td></tr><tr><td>15</td><td>?</td></tr></tbody></table>
+            <div class="prompt">What is the rule?</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div>
+          </div>
+        </div>
+        <div class="card soft"><h2>Think Like a Mathematician</h2><div class="question-list"><p>What do you notice first?</p><p>What changes from the input to the output?</p><p>Does your rule work for every row?</p><p>What input could you test to see if the rule works?</p><p>Can you say the rule in words?</p></div></div>
+      </div>
+
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P1 | Finding the Rule</div><h1>Use Words to Describe the Pattern</h1><div class="subtitle">Use this support when you know what is happening but need help explaining it clearly.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="card success"><h2>Sentence Frame</h2><div class="sentence-frame">The rule is: to find the output, take the input and <span class="blank-line"></span>.</div></div>
+        <div class="card warm"><h2>How to Test Your Rule</h2><div class="question-list"><p>Choose one row from the table.</p><p>Try your rule with that input.</p><p>Check if your answer matches the output.</p><p>Try another row. A strong rule works every time.</p></div></div>
+        <div class="grid-2">
+          <div class="card"><h2>Practice Table A</h2><p class="small">The first two rows are completed to help you begin.</p><table><thead><tr><th>In</th><th>Out</th></tr></thead><tbody><tr><td>1</td><td>4</td></tr><tr><td>2</td><td>5</td></tr><tr><td>3</td><td></td></tr><tr><td>6</td><td></td></tr><tr><td>9</td><td></td></tr></tbody></table><div class="sentence-frame">The rule is: take the input and <span class="blank-line"></span>.</div></div>
+          <div class="card"><h2>Practice Table B</h2><p class="small">The first two rows are completed to help you begin.</p><table><thead><tr><th>In</th><th>Out</th></tr></thead><tbody><tr><td>2</td><td>10</td></tr><tr><td>3</td><td>15</td></tr><tr><td>4</td><td></td></tr><tr><td>7</td><td></td></tr><tr><td>10</td><td></td></tr></tbody></table><div class="sentence-frame">The rule is: take the input and <span class="blank-line"></span>.</div></div>
+        </div>
+      </div>
+
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P1 | Rule in Words</div><h1>Exit Slip</h1><div class="subtitle">Write the rule clearly and connect it to another part of your learning.</div></div>
+        <div class="grid-2">
+          <div class="exit-slip"><div class="badge">P1 Exit Slip</div><div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div><p class="prompt">Write the rule for the last table on your worksheet in your own words.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div><p class="prompt">Connect this idea to something from UOI or ELA.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+          <div class="exit-slip"><div class="badge">P1 Exit Slip</div><div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div><p class="prompt">Write the rule for the last table on your worksheet in your own words.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div><p class="prompt">Connect this idea to something from UOI or ELA.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+        </div>
+        <div class="cut-line"><span>cut</span></div>
+        <div class="grid-2">
+          <div class="exit-slip"><div class="badge">P1 Exit Slip</div><div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div><p class="prompt">Write the rule for the last table on your worksheet in your own words.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div><p class="prompt">Connect this idea to something from UOI or ELA.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+          <div class="exit-slip"><div class="badge">P1 Exit Slip</div><div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div><p class="prompt">Write the rule for the last table on your worksheet in your own words.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div><p class="prompt">Connect this idea to something from UOI or ELA.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="p2" class="worksheet-panel">
+      <div class="panel-tools"><button class="print-section" onclick="printSection('p2')">Print P2 Supports</button></div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P2 | From Words to Algebra</div><h1>Operation Word Bank and Generalization</h1><div class="subtitle">Use the word bank to translate between word rules and algebraic expressions.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="card success"><h2>Addition Words</h2><div class="word-bank"><div class="word-chip">plus</div><div class="word-chip">add</div><div class="word-chip">increased by</div><div class="word-chip">more than</div></div></div>
+        <div class="card warm"><h2>Subtraction Words</h2><div class="word-bank"><div class="word-chip">minus</div><div class="word-chip">subtract</div><div class="word-chip">decreased by</div><div class="word-chip">less than</div></div></div>
+        <div class="card soft"><h2>Multiplication Words</h2><div class="word-bank"><div class="word-chip">times</div><div class="word-chip">multiply</div><div class="word-chip">product of</div><div class="word-chip">doubled</div></div></div>
+        <div class="card rose"><h2>Division Words</h2><div class="word-bank"><div class="word-chip">divided by</div><div class="word-chip">split into</div><div class="word-chip">shared equally</div><div class="word-chip">quotient of</div></div></div>
+        <div class="card"><h2>Translation Frames</h2><div class="sentence-frame">The word rule says <span class="blank-line"></span>, so the expression is <span class="blank-line"></span>.</div><div class="sentence-frame">The expression <span class="blank-line"></span> means <span class="blank-line"></span>.</div></div>
+        <div class="card success"><h2>Generalization Prompt</h2><div class="sentence-frame">A variable in math is <span class="blank-line"></span> because <span class="blank-line"></span>.</div><div class="sentence-frame">In a real world system, the variable could be <span class="blank-line"></span>.</div><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+      </div>
+    </section>
+
+    <section id="p3" class="worksheet-panel">
+      <div class="panel-tools"><button class="print-section" onclick="printSection('p3')">Print P3 Supports</button></div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P3 | GCF</div><h1>What Is the Largest Fair Share?</h1><div class="subtitle">Use factor lists or factor trees to find the greatest common factor.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="card warm"><h2>Rescue Scenario Problem</h2><p>You have 24 rescue packages and 36 food rations. You want to divide them into the largest possible equal groups. Each group gets the same number of packages and the same number of rations, with nothing left over.</p><p class="prompt">What is the largest number of equal groups you can make?</p><div class="work-space">Show your method here.</div><p class="prompt">Explain why your answer is the greatest fair share, not just a fair share.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+        <div class="grid-2">
+          <div class="card success"><h2>Factor List Method</h2><p class="small">List the factors of each number. Circle the factors they share. Choose the greatest shared factor.</p><p>Factors of 24:</p><div class="writing-lines"><div class="line"></div><div class="line"></div></div><p>Factors of 36:</p><div class="writing-lines"><div class="line"></div><div class="line"></div></div><p>Common factors:</p><div class="writing-lines"><div class="line"></div></div><p>Greatest common factor:</p><div class="writing-lines"><div class="line"></div></div></div>
+          <div class="card soft"><h2>Factor Tree Template</h2><p class="small">Use the first branch to begin breaking the number into factors.</p><div class="tree-row"><div class="tree-box">24</div></div><div class="tree-line"></div><div class="tree-row"><div class="tree-box">2</div><div class="tree-box"></div></div><div class="tree-line"></div><div class="tree-row"><div class="tree-box"></div><div class="tree-box"></div></div><div class="tree-row"><div class="tree-box">36</div></div><div class="tree-line"></div><div class="tree-row"><div class="tree-box">2</div><div class="tree-box"></div></div><div class="tree-line"></div><div class="tree-row"><div class="tree-box"></div><div class="tree-box"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="p4" class="worksheet-panel">
+      <div class="panel-tools"><button class="print-section" onclick="printSection('p4')">Print P4 Supports</button></div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P4 | LCM</div><h1>When Two Patterns Meet</h1><div class="subtitle">Use the number line to mark two cycles and find the first place they meet.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="card warm"><h2>Two Boats Problem</h2><p>Boat A leaves every 4 days. Boat B leaves every 6 days. They both left today.</p><p class="prompt">When is the next time they will both leave on the same day?</p></div>
+        <div class="number-line-wrap"><h2>Number Line 0 to 50</h2><div class="number-line"><div class="tick">0</div><div class="tick">1</div><div class="tick">2</div><div class="tick">3</div><div class="tick">4</div><div class="tick">5</div><div class="tick">6</div><div class="tick">7</div><div class="tick">8</div><div class="tick">9</div><div class="tick">10</div><div class="tick">11</div><div class="tick">12</div><div class="tick">13</div><div class="tick">14</div><div class="tick">15</div><div class="tick">16</div><div class="tick">17</div><div class="tick">18</div><div class="tick">19</div><div class="tick">20</div><div class="tick">21</div><div class="tick">22</div><div class="tick">23</div><div class="tick">24</div><div class="tick">25</div><div class="tick">26</div><div class="tick">27</div><div class="tick">28</div><div class="tick">29</div><div class="tick">30</div><div class="tick">31</div><div class="tick">32</div><div class="tick">33</div><div class="tick">34</div><div class="tick">35</div><div class="tick">36</div><div class="tick">37</div><div class="tick">38</div><div class="tick">39</div><div class="tick">40</div><div class="tick">41</div><div class="tick">42</div><div class="tick">43</div><div class="tick">44</div><div class="tick">45</div><div class="tick">46</div><div class="tick">47</div><div class="tick">48</div><div class="tick">49</div><div class="tick">50</div></div></div>
+        <div class="card success"><h2>Number Line Annotation</h2><div class="cycle-row"><div class="cycle-label">Boat A, every 4 days</div><div class="cycle-line"></div></div><div class="cycle-row"><div class="cycle-label">Boat B, every 6 days</div><div class="cycle-line"></div></div><p class="prompt">Circle the first place the two cycles meet.</p><div class="sentence-frame">The least common multiple is <span class="blank-line"></span> because <span class="blank-line"></span>.</div></div>
+        <div class="card soft"><h2>Why Least Matters</h2><p class="prompt">Explain why we need the first common multiple, not just any common multiple.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+      </div>
+    </section>
+
+    <section id="p5" class="worksheet-panel">
+      <div class="panel-tools"><button class="print-section" onclick="printSection('p5')">Print P5 Supports</button></div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P5 | Context Problem Set</div><h1>Which Tool Makes Sense?</h1><div class="subtitle">These problems are not labeled. Decide whether each problem needs GCF or LCM before you solve.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="card warm"><strong>Directions:</strong> For each problem, first choose GCF or LCM. Write one sentence explaining your choice before you compute. Then show your work and answer the question.</div>
+        <div class="problem"><div class="problem-title"><h2>Problem 1</h2><span class="badge">Choose first</span></div><p>A relief team has 48 food packages and 60 medicine packs to divide equally into supply bags. Each bag must have the same number of food packages and the same number of medicine packs, with nothing left over. What is the greatest number of bags that can be made?</p><div class="choice-row"><div class="choice-box">GCF</div><div class="choice-box">LCM</div></div><div class="small">My choice makes sense because...</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div><div class="work-space">Show your work here.</div></div>
+        <div class="problem"><div class="problem-title"><h2>Problem 2</h2><span class="badge">Choose first</span></div><p>Two patrol boats pass the harbor on different schedules. Patrol A passes every 8 hours. Patrol B passes every 12 hours. They both just passed at the same time. How many hours will pass before they are at the harbor at the same time again?</p><div class="choice-row"><div class="choice-box">GCF</div><div class="choice-box">LCM</div></div><div class="small">My choice makes sense because...</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div><div class="work-space">Show your work here.</div></div>
+        <div class="problem"><div class="problem-title"><h2>Problem 3</h2><span class="badge">Think carefully</span></div><p>Two groups are organizing maps. Group A has 18 maps. Group B has 24 maps. They want to create equal stacks so each stack has the same number of maps, and no maps are left over. What is the greatest number of maps that can be placed in each stack?</p><div class="choice-row"><div class="choice-box">GCF</div><div class="choice-box">LCM</div></div><div class="small">My choice makes sense because...</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div><div class="work-space">Show your work here.</div></div>
+      </div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P5 | Context Problem Set</div><h1>More Practice</h1><div class="subtitle">Keep choosing the tool before computing.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="problem"><div class="problem-title"><h2>Problem 4</h2><span class="badge">Choose first</span></div><p>A community center has 36 blankets and 54 bottles of water. Volunteers want to make the greatest number of identical emergency kits. Each kit must have the same number of blankets and the same number of water bottles, with none left over. How many identical kits can they make?</p><div class="choice-row"><div class="choice-box">GCF</div><div class="choice-box">LCM</div></div><div class="small">My choice makes sense because...</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div><div class="work-space">Show your work here.</div></div>
+        <div class="problem"><div class="problem-title"><h2>Problem 5</h2><span class="badge">Choose first</span></div><p>One neighborhood bus arrives every 6 minutes. Another neighborhood bus arrives every 10 minutes. They both arrive at the station at 8:00 a.m. After how many minutes will they arrive at the station together again?</p><div class="choice-row"><div class="choice-box">GCF</div><div class="choice-box">LCM</div></div><div class="small">My choice makes sense because...</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div><div class="work-space">Show your work here.</div></div>
+        <div class="problem"><div class="problem-title"><h2>Problem 6</h2><span class="badge">Challenge</span></div><p>A classroom has 20 pencils and 28 erasers. Ms. Ventura wants to make equal supply bundles for students. Each bundle should be identical, and there should be no pencils or erasers left over. What is the greatest number of bundles she can make?</p><div class="choice-row"><div class="choice-box">GCF</div><div class="choice-box">LCM</div></div><div class="small">My choice makes sense because...</div><div class="writing-lines"><div class="line"></div><div class="line"></div></div><div class="work-space">Show your work here.</div></div>
+      </div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P5 | Decision Checklist</div><h1>Should I Use GCF or LCM?</h1><div class="subtitle">Use this page before solving each problem.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="grid-2">
+          <div class="card success"><h2>Use GCF when...</h2><div class="checklist-item"><div class="checkbox"></div><div>The problem is about dividing or sharing.</div></div><div class="checklist-item"><div class="checkbox"></div><div>The groups, kits, bags, or bundles need to be equal.</div></div><div class="checklist-item"><div class="checkbox"></div><div>Nothing should be left over.</div></div><div class="checklist-item"><div class="checkbox"></div><div>The problem asks for the greatest number of equal groups.</div></div></div>
+          <div class="card warm"><h2>Use LCM when...</h2><div class="checklist-item"><div class="checkbox"></div><div>The problem is about schedules, cycles, or patterns repeating.</div></div><div class="checklist-item"><div class="checkbox"></div><div>Two things happen every ___ units of time.</div></div><div class="checklist-item"><div class="checkbox"></div><div>The problem asks when both things happen together again.</div></div><div class="checklist-item"><div class="checkbox"></div><div>The problem asks for the first or earliest common time.</div></div></div>
+        </div>
+        <div class="card soft"><h2>Signal Words and Ideas</h2><table class="signal-table"><thead><tr><th>GCF Thinking</th><th>LCM Thinking</th></tr></thead><tbody><tr><td><ul><li>divide equally</li><li>share fairly</li><li>split into groups</li><li>same amount in each group</li><li>nothing left over</li><li>greatest number of groups</li></ul></td><td><ul><li>same time again</li><li>first time together</li><li>when do both happen?</li><li>every ___ days, hours, or minutes</li><li>cycles</li><li>schedule</li></ul></td></tr></tbody></table></div>
+        <div class="card rose"><h2>Decision Frame</h2><div class="sentence-frame">I will use <span class="blank-line"></span> because this problem is about <span class="blank-line"></span>.</div><div class="sentence-frame">If I used the other tool, the answer would not make sense because <span class="blank-line"></span>.</div></div>
+      </div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P5 | Generalization Sheet</div><h1>GCF, LCM, and Just Systems</h1><div class="subtitle">Use this page to explain the difference between the two tools and connect your thinking to the real world.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="card success"><h2>Part 1: Explain GCF Thinking</h2><div class="sentence-frame">GCF thinking is useful when <span class="blank-line"></span>.</div><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+        <div class="card warm"><h2>Part 2: Explain LCM Thinking</h2><div class="sentence-frame">LCM thinking is useful when <span class="blank-line"></span>.</div><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+        <div class="card soft"><h2>Part 3: Make the Civic Connection</h2><div class="sentence-frame">In a just society, both are needed because <span class="blank-line"></span>.</div><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+        <div class="card rose"><h2>Reflection</h2><p>Choose one problem from today. Explain how you knew which tool to use before you solved it.</p><div class="writing-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+      </div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P5 | Support Tools</div><h1>GCF or LCM Helper Cards</h1><div class="subtitle">Use these tools when you need help deciding which strategy matches the problem.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="grid-2">
+          <div class="mini-card success"><h2>GCF Mini Card</h2><p><strong>Ask:</strong> Am I making equal groups?</p><ul><li>divide equally</li><li>same amount in each group</li><li>nothing left over</li><li>greatest number of groups</li></ul><div class="sentence-frame">I use GCF when I need the greatest fair share.</div></div>
+          <div class="mini-card warm"><h2>LCM Mini Card</h2><p><strong>Ask:</strong> Am I finding when patterns meet?</p><ul><li>same time again</li><li>first time together</li><li>every ___ minutes, hours, or days</li><li>repeating cycles</li></ul><div class="sentence-frame">I use LCM when I need the first common time.</div></div>
+        </div>
+        <div class="card soft"><h2>Before You Solve Checklist</h2><div class="checklist-item"><div class="checkbox"></div><div>I read the whole problem.</div></div><div class="checklist-item"><div class="checkbox"></div><div>I found what the question is asking.</div></div><div class="checklist-item"><div class="checkbox"></div><div>I looked for equal groups or repeating cycles.</div></div><div class="checklist-item"><div class="checkbox"></div><div>I chose GCF or LCM before calculating.</div></div><div class="checklist-item"><div class="checkbox"></div><div>I explained why my tool makes sense.</div></div></div>
+        <div class="card rose"><h2>Justification Sentence Frames</h2><div class="sentence-frame">I chose GCF because the problem asks me to <span class="blank-line"></span>.</div><div class="sentence-frame">I chose LCM because the problem asks when <span class="blank-line"></span>.</div><div class="sentence-frame">This answer makes sense because <span class="blank-line"></span>.</div></div>
+      </div>
+      <div class="page">
+        <div class="page-header"><div class="eyebrow">P5 | Support Tools</div><h1>GCF or LCM Sorting Cards</h1><div class="subtitle">Read each card. Decide whether the situation needs GCF or LCM.</div></div>
+        <div class="student-name-row"><div>Name: <span class="name-box"></span></div><div>Date: <span class="name-box"></span></div></div>
+        <div class="grid-3">
+          <div class="sort-card"><div>Two alarms ring every 5 minutes and every 8 minutes. When will they ring together again?</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>There are 30 apples and 45 oranges. Make the greatest number of identical snack bags.</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>A bell rings every 6 minutes and a timer beeps every 9 minutes. When will both happen together?</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>There are 16 notebooks and 24 pencils. Make equal supply bundles with nothing left over.</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>One event happens every 4 days. Another happens every 10 days. When is the first shared day?</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>A teacher has 42 stickers and 56 bookmarks. She wants the greatest number of equal prize packs.</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>Two buses arrive every 7 minutes and every 12 minutes. When will they arrive together again?</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>There are 27 granola bars and 36 juice boxes. Make identical kits with none left over.</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+          <div class="sort-card"><div>Two lights flash every 3 seconds and every 11 seconds. When will they flash together again?</div><div class="sort-card-footer"><div class="tiny-choice">GCF</div><div class="tiny-choice">LCM</div></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function showTab(sectionId, button) {
+      const panels = document.querySelectorAll('.worksheet-panel');
+      const buttons = document.querySelectorAll('.tab-button');
+      panels.forEach(panel => panel.classList.remove('active'));
+      buttons.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      button.classList.add('active');
+    }
+
+    function clearPrintTargets() {
+      document.body.classList.remove('print-all-mode');
+      document.querySelectorAll('.worksheet-panel').forEach(panel => panel.classList.remove('print-target'));
+    }
+
+    function printSection(sectionId) {
+      clearPrintTargets();
+      document.getElementById(sectionId).classList.add('print-target');
+      window.print();
+      setTimeout(clearPrintTargets, 500);
+    }
+
+    function printWholePacket() {
+      clearPrintTargets();
+      document.body.classList.add('print-all-mode');
+      window.print();
+      setTimeout(clearPrintTargets, 500);
+    }
+  </script>
+</body>
+</html>
