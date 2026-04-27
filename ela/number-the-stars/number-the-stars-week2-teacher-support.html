@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Number the Stars, Week 2 Teacher and Support Materials</title>
+<style>
+  :root {
+    --navy: #1f3a5f;
+    --blue: #4f7cac;
+    --light-blue: #dbeafe;
+    --cream: #fff8ed;
+    --purple: #7c3aed;
+    --light-purple: #ede9fe;
+    --green: #6a994e;
+    --light-green: #dcfce7;
+    --gold: #f4c95d;
+    --soft-gray: #f8fafc;
+    --line: #dbe3ee;
+    --text: #1f2933;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, var(--cream), var(--light-blue));
+    color: var(--text);
+    line-height: 1.5;
+    padding: 28px 18px 48px;
+  }
+
+  header {
+    max-width: 1050px;
+    margin: 0 auto 22px;
+    background: var(--navy);
+    color: var(--white);
+    border-radius: 22px;
+    padding: 30px 28px;
+    box-shadow: 0 10px 30px rgba(31, 58, 95, 0.18);
+  }
+
+  header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 8px;
+  }
+
+  header p { max-width: 850px; opacity: 0.95; font-size: 1rem; }
+
+  nav {
+    max-width: 1050px;
+    margin: 0 auto 22px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(31, 58, 95, 0.12);
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .nav-btn {
+    border: 2px solid var(--blue);
+    background: var(--white);
+    color: var(--navy);
+    border-radius: 999px;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .nav-btn:hover,
+  .nav-btn.active {
+    background: var(--blue);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  }
+
+  main { max-width: 1050px; margin: 0 auto; }
+
+  .toolbar {
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(31, 58, 95, 0.12);
+    padding: 16px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .toolbar p { font-weight: 700; color: var(--navy); }
+
+  .toolbar-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .print-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 11px 18px;
+    background: var(--green);
+    color: var(--white);
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .print-btn.secondary { background: var(--blue); }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .sheet {
+    background: var(--white);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(31, 58, 95, 0.16);
+    padding: 28px;
+    margin-bottom: 26px;
+  }
+
+  .sheet-header {
+    border-bottom: 4px solid var(--light-blue);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+
+  .sheet-header h2 { color: var(--navy); font-size: 1.55rem; margin-bottom: 6px; }
+  .subtitle { color: #52616f; font-weight: 700; }
+
+  .name-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 14px;
+    margin: 18px 0;
+  }
+
+  .blank-line {
+    border-bottom: 2px solid #9aa8b7;
+    min-height: 30px;
+    padding-top: 6px;
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .info-box {
+    background: var(--soft-gray);
+    border-left: 6px solid var(--blue);
+    border-radius: 0 14px 14px 0;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+
+  .info-box.purple { border-left-color: var(--purple); background: #f5f3ff; }
+  .info-box.green { border-left-color: var(--green); background: #f0fdf4; }
+  .info-box.gold { border-left-color: var(--gold); background: #fff7ed; }
+
+  .section-title {
+    color: var(--navy);
+    font-weight: 900;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 22px 0 9px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  th {
+    background: var(--navy);
+    color: var(--white);
+    text-align: left;
+    padding: 11px;
+    font-size: 0.9rem;
+  }
+
+  td {
+    border: 1px solid var(--line);
+    padding: 10px;
+    vertical-align: top;
+    min-height: 38px;
+    font-size: 0.92rem;
+  }
+
+  .writing-lines {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    min-height: 145px;
+    background-image: linear-gradient(to bottom, transparent 31px, #dbe3ee 32px);
+    background-size: 100% 32px;
+    line-height: 32px;
+  }
+
+  .writing-lines.medium { min-height: 210px; }
+  .writing-lines.short { min-height: 96px; }
+
+  .checklist { display: grid; gap: 8px; margin-top: 10px; }
+
+  .check-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 700;
+  }
+
+  .box-check {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--navy);
+    border-radius: 4px;
+    flex: 0 0 auto;
+    margin-top: 2px;
+  }
+
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .word-bank span {
+    background: var(--white);
+    border: 1.5px solid #b8d7f3;
+    color: var(--navy);
+    border-radius: 999px;
+    padding: 5px 11px;
+    font-weight: 800;
+    font-size: 0.84rem;
+  }
+
+  .two-box-grid, .three-box-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .two-box-grid { grid-template-columns: repeat(2, 1fr); }
+  .three-box-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .response-box {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    background: var(--soft-gray);
+  }
+
+  .response-box h3 {
+    color: var(--navy);
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .mini-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .frame-card {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    background: var(--soft-gray);
+    min-height: 150px;
+  }
+
+  .frame-card h3 {
+    color: var(--navy);
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+
+  .frame-card p {
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .sentence-frame {
+    background: white;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .teacher-only {
+    border: 2px dashed var(--gold);
+    background: #fff7ed;
+    border-radius: 14px;
+    padding: 14px 16px;
+    color: #78350f;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+
+  .footer-note {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.88rem;
+    margin-top: 24px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    header, nav, .toolbar, .footer-note { display: none; }
+    main { max-width: none; margin: 0; }
+    .page { display: block !important; }
+    body.print-current .page { display: none !important; }
+    body.print-current .page.active { display: block !important; }
+    .sheet {
+      box-shadow: none;
+      border-radius: 0;
+      margin: 0;
+      min-height: 10.5in;
+      page-break-after: always;
+      padding: 0.45in;
+    }
+    .sheet:last-child { page-break-after: auto; }
+  }
+
+  @media (max-width: 760px) {
+    .name-row, .two-box-grid, .three-box-grid, .mini-card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Number the Stars, Week 2 Teacher and Support Materials</h1>
+  <p>Additional teacher-facing and differentiated support materials for ELA, How We Organize Ourselves, Chapters 5 to 10.</p>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showPage('dictation', this)">Dictation Script</button>
+  <button class="nav-btn" onclick="showPage('tracking', this)">Tracking Checklist</button>
+  <button class="nav-btn" onclick="showPage('sentenceFrames', this)">Sentence Frames</button>
+  <button class="nav-btn" onclick="showPage('settingMood', this)">Setting + Mood Chart</button>
+  <button class="nav-btn" onclick="showPage('poetryScaffold', this)">Poetry Scaffold</button>
+</nav>
+
+<main>
+  <section class="toolbar">
+    <p>Use the tabs to preview each material. You can print only the current page or the full support packet.</p>
+    <div class="toolbar-actions">
+      <button class="print-btn secondary" onclick="printCurrentPage()">Print Current Page</button>
+      <button class="print-btn" onclick="printFullPacket()">Print Full Packet</button>
+    </div>
+  </section>
+
+  <section class="page active" id="dictation">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Teacher Word Dictation Script</h2>
+        <p class="subtitle">Spelling Test, Number the Stars, Week 2</p>
+      </div>
+
+      <div class="teacher-only">
+        Teacher-facing material. Read each word clearly, then read the sentence. Repeat the word once more before students write.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:7%;">#</th>
+            <th style="width:18%;">Word</th>
+            <th>Dictation Sentence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>imperious</strong></td><td>Ellen made an imperious gesture when she pretended to be the Dark Queen.</td></tr>
+          <tr><td>2</td><td><strong>institution</strong></td><td>Annemarie joked that the Nazis would send Ellen to a mental institution if she said she was the Dark Queen.</td></tr>
+          <tr><td>3</td><td><strong>terrified</strong></td><td>Ellen was terrified when the soldiers entered the bedroom.</td></tr>
+          <tr><td>4</td><td><strong>photograph</strong></td><td>Papa used a photograph to help protect Ellen’s identity.</td></tr>
+          <tr><td>5</td><td><strong>suspicious</strong></td><td>The soldiers became suspicious after searching the Johansen apartment.</td></tr>
+          <tr><td>6</td><td><strong>fisherman</strong></td><td>Uncle Henrik is a fisherman whose work becomes part of a system of protection.</td></tr>
+          <tr><td>7</td><td><strong>meadow</strong></td><td>The meadow near Uncle Henrik’s house seems peaceful, but danger is still close.</td></tr>
+          <tr><td>8</td><td><strong>mourning</strong></td><td>The night of mourning begins when Great-aunt Birte’s casket arrives.</td></tr>
+          <tr><td>9</td><td><strong>casket</strong></td><td>The casket becomes the center of the tension in the farmhouse.</td></tr>
+          <tr><td>10</td><td><strong>scattered</strong></td><td>Peter reads about the scattered sons of Israel from the psalm.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Optional Sentence Application Prompt</div>
+      <div class="info-box green">
+        Choose one spelling word and write a sentence connected to <em>Number the Stars</em>. Your sentence should show that you understand the meaning of the word in context.
+      </div>
+
+      <div class="section-title">Teacher Notes During Assessment</div>
+      <div class="checklist">
+        <div class="check-item"><span class="box-check"></span><span>Student asked for repetition more than expected.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>Student showed difficulty with suffixes or multisyllabic words.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>Student spelled words accurately but struggled with sentence application.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>Student may need targeted review next week.</span></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="page" id="tracking">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Simple Tracking Checklist</h2>
+        <p class="subtitle">Weekly Evidence Collection, Number the Stars, Week 2</p>
+      </div>
+
+      <div class="teacher-only">
+        Teacher-facing material. Use this as a quick documentation tool, not a grading sheet for every item.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:24%;">Student Name</th>
+            <th>Mon Quick Write</th>
+            <th>Tue CEC</th>
+            <th>Poem Draft</th>
+            <th>Poetry Reflection</th>
+            <th>Wed Annotation</th>
+            <th>Spelling Test</th>
+            <th>Thu 3-2-1</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td style="height:38px;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Suggested Codes</div>
+      <div class="word-bank">
+        <span>✓ Complete</span><span>IP In Progress</span><span>R Revise</span><span>SG Small Group</span><span>A Absent</span>
+      </div>
+    </article>
+  </section>
+
+  <section class="page" id="sentenceFrames">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Sentence Frames Support Sheet</h2>
+        <p class="subtitle">Optional scaffold for written responses</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box">
+        <strong>How to use this:</strong> Choose the frame that matches the task. Fill it in, then try to make your sentence more specific by adding evidence from the chapter.
+      </div>
+
+      <div class="mini-card-grid">
+        <div class="frame-card">
+          <h3>Monday Quick Write</h3>
+          <div class="sentence-frame">In Chapter 5, _____ protects _____ by _____.</div>
+          <div class="sentence-frame">This shows responsibility because _____.</div>
+          <div class="sentence-frame">One piece of evidence is _____.</div>
+        </div>
+        <div class="frame-card">
+          <h3>Tuesday CEC</h3>
+          <div class="sentence-frame">This connects to _____ because _____.</div>
+          <div class="sentence-frame">My thinking was extended when _____.</div>
+          <div class="sentence-frame">I am still wondering about _____.</div>
+        </div>
+        <div class="frame-card">
+          <h3>Wednesday Annotation</h3>
+          <div class="sentence-frame">Lowry creates tension by _____.</div>
+          <div class="sentence-frame">The word _____ helps the reader understand _____.</div>
+          <div class="sentence-frame">This detail feels dangerous because _____.</div>
+        </div>
+        <div class="frame-card">
+          <h3>Thursday 3-2-1 Exit Ticket</h3>
+          <div class="sentence-frame">Annemarie acts responsibly when _____.</div>
+          <div class="sentence-frame">This matters because _____.</div>
+          <div class="sentence-frame">I predict _____ because _____.</div>
+        </div>
+      </div>
+
+      <div class="section-title">Try One Sentence Here</div>
+      <div class="writing-lines short"></div>
+    </article>
+  </section>
+
+  <section class="page" id="settingMood">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Setting and Mood Mini Chart</h2>
+        <p class="subtitle">Tuesday, Chapters 6 and 7, “Is the Weather Good for Fishing?” and “The House by the Sea”</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box green">
+        <strong>Focus:</strong> Setting is not just where a story happens. Setting can create mood, contrast, symbolism, and meaning.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:28%;">Setting Detail</th>
+            <th style="width:28%;">Mood It Creates</th>
+            <th>Why It Matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="height:70px;">The train ride along the coast</td><td></td><td></td></tr>
+          <tr><td style="height:70px;">The meadow</td><td></td><td></td></tr>
+          <tr><td style="height:70px;">The sea</td><td></td><td></td></tr>
+          <tr><td style="height:70px;">Sweden in the distance</td><td></td><td></td></tr>
+          <tr><td style="height:70px;">Uncle Henrik’s farmhouse</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Mood Word Bank</div>
+      <div class="word-bank">
+        <span>peaceful</span><span>tense</span><span>hopeful</span><span>unsafe</span><span>quiet</span><span>uncertain</span><span>protected</span><span>lonely</span><span>suspicious</span><span>terrified</span>
+      </div>
+
+      <div class="section-title">Synthesis Sentence</div>
+      <p><strong>The setting in Chapter 7 feels both _____ and _____ because _____.</strong></p>
+      <div class="writing-lines short"></div>
+    </article>
+  </section>
+
+  <section class="page" id="poetryScaffold">
+    <article class="sheet">
+      <div class="sheet-header">
+        <h2>Poetry Scaffold, Optional Support Version</h2>
+        <p class="subtitle">For students who need more structure during the poetry workshop</p>
+      </div>
+
+      <div class="name-row">
+        <div class="blank-line">Name:</div>
+        <div class="blank-line">Date:</div>
+        <div class="blank-line">Class:</div>
+      </div>
+
+      <div class="info-box purple">
+        <strong>Directions:</strong> Use this structure to begin your poem. You may keep the frame, change it, repeat a line, or add new lines. Include at least two spelling words.
+      </div>
+
+      <div class="section-title">Choose Your Speaker</div>
+      <div class="two-box-grid">
+        <div class="response-box">
+          <h3>Speaker</h3>
+          <div class="writing-lines short"></div>
+        </div>
+        <div class="response-box">
+          <h3>Feeling or Moment</h3>
+          <div class="writing-lines short"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Poem Frame</div>
+      <div class="writing-lines medium">
+        First I saw ________________________________________________<br>
+        And I felt ________________________________________________<br>
+        I told myself ______________________________________________<br>
+        But then _________________________________________________<br>
+        I could not forget _________________________________________<br>
+        I heard _________________________________________________<br>
+        I carried ________________________________________________<br>
+        Now I know ______________________________________________
+      </div>
+
+      <div class="section-title">Spelling Words You May Use</div>
+      <div class="word-bank">
+        <span>imperious</span><span>institution</span><span>terrified</span><span>photograph</span><span>suspicious</span><span>fisherman</span><span>meadow</span><span>mourning</span><span>casket</span><span>scattered</span>
+      </div>
+
+      <div class="section-title">Before You Submit</div>
+      <div class="checklist">
+        <div class="check-item"><span class="box-check"></span><span>I chose a clear speaker.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>I included at least two spelling words.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>I used repetition or a repeated idea.</span></div>
+        <div class="check-item"><span class="box-check"></span><span>My poem connects to the novel or unit.</span></div>
+      </div>
+    </article>
+  </section>
+
+  <p class="footer-note">Created for Ms. Ventura’s ELA Novel Study, How We Organize Ourselves.</p>
+</main>
+
+<script>
+  function printFullPacket() {
+    document.body.classList.remove('print-current');
+    window.print();
+  }
+
+  function printCurrentPage() {
+    document.body.classList.add('print-current');
+    window.print();
+  }
+
+  window.addEventListener('afterprint', function() {
+    document.body.classList.remove('print-current');
+  });
+
+  function showPage(pageId, button) {
+    document.querySelectorAll('.page').forEach(function(page) {
+      page.classList.remove('active');
+    });
+
+    document.querySelectorAll('.nav-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+
+    document.getElementById(pageId).classList.add('active');
+    button.classList.add('active');
+  }
+</script>
+</body>
+</html>
