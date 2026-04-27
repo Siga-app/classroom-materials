@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Number the Stars, Week 2 Student-Facing Slides</title>
+<style>
+  :root {
+    --navy: #1f3a5f;
+    --blue: #4f7cac;
+    --light-blue: #dbeafe;
+    --cream: #fff8ed;
+    --purple: #7c3aed;
+    --green: #6a994e;
+    --gold: #f4c95d;
+    --ink: #1f2933;
+    --muted: #64748b;
+    --white: #ffffff;
+    --shadow: 0 18px 45px rgba(31, 58, 95, 0.22);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #101827;
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  body.browser-fullscreen-fallback .deck {
+    padding: 0;
+  }
+
+  body.browser-fullscreen-fallback .slide.active {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 24px 92px;
+  }
+
+  .slide {
+    display: none;
+    width: min(1280px, calc(100vw - 48px));
+    height: min(720px, calc(100vh - 116px));
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #fff8ed 0%, #f8fafc 55%, #dbeafe 100%);
+    border-radius: 26px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .slide.active {
+    display: block;
+  }
+
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(79, 124, 172, 0.15), transparent 28%),
+      radial-gradient(circle at 85% 80%, rgba(244, 201, 93, 0.16), transparent 30%);
+    pointer-events: none;
+  }
+
+  .slide-inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: 46px 62px 78px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide-number {
+    position: absolute;
+    right: 34px;
+    bottom: 22px;
+    color: rgba(31, 58, 95, 0.55);
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    background: rgba(31, 58, 95, 0.1);
+    color: var(--navy);
+    border: 1.5px solid rgba(31, 58, 95, 0.18);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    font-size: 0.76rem;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    color: var(--navy);
+    font-size: clamp(3rem, 6vw, 5.1rem);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    margin-bottom: 22px;
+  }
+
+  h2 {
+    color: var(--navy);
+    font-size: clamp(2.05rem, 4vw, 3.7rem);
+    line-height: 1.03;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    color: var(--navy);
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 1.18rem;
+    line-height: 1.45;
+    color: #334155;
+  }
+
+  .subtitle {
+    font-size: 1.42rem;
+    line-height: 1.42;
+    max-width: 950px;
+    color: #334155;
+    font-weight: 700;
+  }
+
+  .big-question {
+    font-size: clamp(2rem, 4.5vw, 4rem);
+    line-height: 1.12;
+    color: var(--navy);
+    font-weight: 900;
+    max-width: 1050px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .flow-line {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(31, 58, 95, 0.12);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 24px rgba(31, 58, 95, 0.1);
+  }
+
+  .card.blue { background: #eff6ff; border-color: #bfdbfe; }
+  .card.green { background: #f0fdf4; border-color: #bbf7d0; }
+  .card.purple { background: #f5f3ff; border-color: #c4b5fd; }
+  .card.gold { background: #fff7ed; border-color: #fed7aa; }
+
+  .card p,
+  .card li {
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 700;
+  }
+
+  ul { padding-left: 24px; }
+  li { margin-bottom: 8px; }
+
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .word {
+    background: var(--white);
+    border: 2px solid #b8d7f3;
+    color: var(--navy);
+    border-radius: 999px;
+    padding: 9px 16px;
+    font-size: 1rem;
+    font-weight: 900;
+    box-shadow: 0 6px 15px rgba(31, 58, 95, 0.08);
+  }
+
+  .timer {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--white);
+    font-weight: 900;
+    font-size: 1.3rem;
+    margin-right: 16px;
+    flex: 0 0 auto;
+    line-height: 1;
+  }
+
+  .timer small {
+    display: block;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+    opacity: 0.88;
+  }
+
+  .activity-row {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 24px;
+    padding: 20px;
+    border: 2px solid rgba(31, 58, 95, 0.1);
+    margin-top: 18px;
+  }
+
+  .activity-row p {
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+
+  .quote-card {
+    border-left: 8px solid var(--blue);
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 0 22px 22px 0;
+    padding: 22px 28px;
+    margin-top: 20px;
+  }
+
+  .quote-card p {
+    font-size: 1.42rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .flow-line {
+    grid-template-columns: repeat(5, 1fr);
+    margin-top: 24px;
+  }
+
+  .flow-step {
+    background: rgba(255, 255, 255, 0.84);
+    border-radius: 20px;
+    border: 2px solid rgba(31, 58, 95, 0.12);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .flow-step strong {
+    display: block;
+    color: var(--navy);
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .flow-step span {
+    color: #475569;
+    font-weight: 800;
+    font-size: 0.92rem;
+  }
+
+  .image-scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0.18;
+    background:
+      linear-gradient(90deg, rgba(255,248,237,0.96), rgba(255,248,237,0.8), rgba(219,234,254,0.35)),
+      radial-gradient(circle at 82% 38%, rgba(31,58,95,0.45), transparent 28%),
+      linear-gradient(135deg, rgba(31,58,95,0.85), rgba(79,124,172,0.15));
+  }
+
+  .exit-card {
+    margin-top: 20px;
+    background: var(--navy);
+    color: white;
+    border-radius: 24px;
+    padding: 20px 28px;
+  }
+
+  .exit-card p,
+  .exit-card li,
+  .exit-card h3 { color: white; }
+
+  .poem-panel {
+    background: rgba(255, 255, 255, 0.86);
+    border: 2px solid rgba(31, 58, 95, 0.12);
+    border-radius: 22px;
+    padding: 20px 26px;
+    margin-top: 10px;
+    box-shadow: 0 10px 24px rgba(31, 58, 95, 0.1);
+  }
+
+  .poem-line {
+    font-size: 1.26rem;
+    line-height: 1.55;
+    color: var(--navy);
+    font-weight: 800;
+  }
+
+  .highlight-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .highlight-controls button {
+    border: 2px solid var(--blue);
+    background: white;
+    color: var(--navy);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .highlight-controls button.active {
+    background: var(--blue);
+    color: white;
+  }
+
+  .mark {
+    border-radius: 8px;
+    padding: 1px 5px;
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .show-speaker .speaker-mark,
+  .show-anaphora .anaphora-mark,
+  .show-repetition .repetition-mark,
+  .show-image .image-mark,
+  .show-linebreak .linebreak-mark {
+    background: #fef3c7;
+    box-shadow: inset 0 -3px 0 #f4c95d;
+  }
+
+  .linebreak-mark { border-left: 5px solid transparent; }
+
+  .show-linebreak .linebreak-mark {
+    border-left-color: var(--purple);
+    padding-left: 10px;
+    background: #f5f3ff;
+    box-shadow: none;
+  }
+
+  .note-small {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 800;
+    margin-top: 8px;
+  }
+
+  .controls {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 50;
+    background: rgba(255,255,255,0.94);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 999px;
+    padding: 9px 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  }
+
+  .controls button {
+    border: none;
+    background: var(--navy);
+    color: white;
+    font-weight: 900;
+    padding: 9px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .controls .fullscreen-btn { background: var(--blue); }
+
+  .controls span {
+    color: var(--navy);
+    font-weight: 900;
+    min-width: 70px;
+    text-align: center;
+  }
+
+  @media print {
+    body {
+      overflow: visible;
+      background: white;
+    }
+
+    .deck {
+      display: block;
+      padding: 0;
+      width: auto;
+      height: auto;
+    }
+
+    .slide,
+    .slide.active {
+      display: block;
+      width: 100%;
+      height: 100vh;
+      aspect-ratio: auto;
+      border-radius: 0;
+      box-shadow: none;
+      page-break-after: always;
+    }
+
+    .controls { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <section class="slide active">
+    <div class="image-scene"></div>
+    <div class="slide-inner">
+      <span class="kicker">Week 2 · ELA Novel Study</span>
+      <h1>Number the Stars</h1>
+      <p class="subtitle">Chapters 5–10 · Spelling Words · Reading Closely · Poetry as Response</p>
+      <div class="quote-card"><p>How do people use courage, language, and responsibility when systems fail to protect human dignity?</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">This Week’s Learning Arc</span>
+      <h2>We are reading for courage, language, and responsibility.</h2>
+      <div class="flow-line">
+        <div class="flow-step"><strong>Mon</strong><span>Identity and protection</span></div>
+        <div class="flow-step"><strong>Tue 1</strong><span>Coded language and setting</span></div>
+        <div class="flow-step"><strong>Tue 2</strong><span>Poetry and voice</span></div>
+        <div class="flow-step"><strong>Wed</strong><span>Tension and craft</span></div>
+        <div class="flow-step"><strong>Thu</strong><span>Spelling test and turning point</span></div>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Weekly Spelling Words</span>
+      <h2>These words are reading tools.</h2>
+      <p class="subtitle">We will use them to understand mood, setting, danger, protection, grief, and responsibility.</p>
+      <div class="word-bank">
+        <span class="word">imperious</span><span class="word">institution</span><span class="word">terrified</span><span class="word">photograph</span><span class="word">suspicious</span><span class="word">fisherman</span><span class="word">meadow</span><span class="word">mourning</span><span class="word">casket</span><span class="word">scattered</span>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Monday · Chapter 5</span>
+      <h2>“Who Is the Dark-Haired One?”</h2>
+      <p class="subtitle">Today we will think about identity, fear, and protection when a person’s identity becomes dangerous under an unjust system.</p>
+      <div class="activity-row">
+        <div class="timer">5<small>min</small></div>
+        <p>Warm-up: Open the Spelling Practice Page on your device or look at the projected screen. We will use Digital Flashcards first, then you will write 3 predicted Chapter 5 words in your ELA notebook.</p>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Monday · What You Will Do</span>
+      <h2>Use the spelling words to prepare your reading brain.</h2>
+      <div class="grid-2">
+        <div class="card blue"><h3>In your notebook</h3><p>Write today’s date and the title: <strong>Chapter 5 Predictions</strong>. Choose 3 spelling words you think may appear and explain why.</p></div>
+        <div class="card green"><h3>While we read</h3><p>Listen for your predicted words. When one appears, put a check next to it. Notice what is happening in the scene.</p></div>
+      </div>
+      <div class="quote-card"><p>After reading, you will receive the Monday Quick Write handout.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Monday · Reading Lens</span>
+      <h2>Guiding Question</h2>
+      <p class="big-question">How can a person’s identity become dangerous when a system is unjust?</p>
+      <div class="grid-3">
+        <div class="card blue"><h3>Notice</h3><p>What details show fear or pressure?</p></div>
+        <div class="card green"><h3>Infer</h3><p>What do the characters understand without saying it directly?</p></div>
+        <div class="card gold"><h3>Connect</h3><p>What does protection look like in this chapter?</p></div>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Monday · After Reading</span>
+      <h2>Quick Write</h2>
+      <div class="quote-card"><p>How does Annemarie’s family protect Ellen in Chapter 5? What does this show about responsibility?</p></div>
+      <div class="grid-3">
+        <div class="card"><h3>Claim</h3><p>Answer the question clearly.</p></div>
+        <div class="card"><h3>Evidence</h3><p>Use a detail from Chapter 5.</p></div>
+        <div class="card"><h3>Connection</h3><p>Explain responsibility.</p></div>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Tuesday · Chapters 6–7</span>
+      <h2>“Is the Weather Good for Fishing?” and “The House by the Sea”</h2>
+      <p class="subtitle">Today we will think about coded language, roles, setting, and how a peaceful place can still feel unsafe.</p>
+      <div class="activity-row"><div class="timer">5<small>min</small></div><p>Warm-up: Interactive Quiz. Use the projected page or your device. Then keep your ELA notebook open to collect one example of coded language or setting detail.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Tuesday · Focus Words</span>
+      <h2>Use these words to read more closely.</h2>
+      <div class="grid-3">
+        <div class="card blue"><h3>suspicious</h3><p>How does danger appear in questions, silence, or watching?</p></div>
+        <div class="card green"><h3>fisherman</h3><p>How can an ordinary role become part of an organized system of protection?</p></div>
+        <div class="card gold"><h3>meadow</h3><p>How can setting create both calm and unease?</p></div>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Tuesday · Discussion</span>
+      <h2>Talk like literary thinkers.</h2>
+      <div class="grid-2">
+        <div class="card purple"><h3>Coded Language</h3><p>What does Annemarie understand even though no one says it directly?</p></div>
+        <div class="card green"><h3>Setting and Mood</h3><p>Is the farmhouse actually safe, or does it only feel safer than the city?</p></div>
+      </div>
+      <div class="exit-card"><h3>Exit Ticket</h3><p>You will receive the Connect · Extend · Challenge handout.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Tuesday · Writing Workshop</span>
+      <h2>Poetry: Speaking the Unspeakable</h2>
+      <p class="subtitle">Today we will use poetry to write about fear, silence, protection, responsibility, and courage.</p>
+      <div class="activity-row"><div class="timer">5<small>min</small></div><p>Warm-up: Sentence Practice. Write your sentence in your ELA notebook. Then you will receive the Poetry Drafting Page.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Poetry Mentor Text</span>
+      <h2>“First They Came”</h2>
+      <p class="subtitle">By Martin Niemöller, 1946</p>
+      <div class="grid-2">
+        <div class="card blue">
+          <h3>Who was Martin Niemöller?</h3>
+          <p>Martin Niemöller was a German pastor and Holocaust survivor. He wrote this after World War II as a reflection on silence, responsibility, and speaking out.</p>
+        </div>
+        <div class="card gold">
+          <h3>Read like writers</h3>
+          <p>As we read, notice the speaker, repeated structure, anaphora, line breaks, and the way the final stanza changes the meaning of the whole poem.</p>
+        </div>
+      </div>
+      <div class="quote-card"><p>We will read the poem across the next slides so we can preserve its structure and analyze it carefully.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Mentor Text · Part 1</span>
+      <h2>“First They Came”</h2>
+      <div class="poem-panel" id="poemPart1">
+        <div class="poem-line"><span class="mark anaphora-mark repetition-mark">First they came</span> for the Communists</div>
+        <div class="poem-line"><span class="mark speaker-mark">And I did not speak out</span></div>
+        <div class="poem-line"><span class="mark repetition-mark">Because I was not a Communist</span></div>
+        <br>
+        <div class="poem-line"><span class="mark anaphora-mark repetition-mark">Then they came</span> for the Socialists</div>
+        <div class="poem-line"><span class="mark speaker-mark">And I did not speak out</span></div>
+        <div class="poem-line"><span class="mark repetition-mark">Because I was not a Socialist</span></div>
+      </div>
+      <div class="highlight-controls">
+        <button onclick="toggleHighlightFor('poemPart1','show-speaker', this)">Speaker</button>
+        <button onclick="toggleHighlightFor('poemPart1','show-anaphora', this)">Anaphora</button>
+        <button onclick="toggleHighlightFor('poemPart1','show-repetition', this)">Repetition</button>
+      </div>
+      <p class="note-small">What pattern is beginning to form?</p>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Mentor Text · Part 2</span>
+      <h2>“First They Came”</h2>
+      <div class="poem-panel" id="poemPart2">
+        <div class="poem-line"><span class="mark anaphora-mark repetition-mark">Then they came</span> for the trade unionists</div>
+        <div class="poem-line"><span class="mark speaker-mark">And I did not speak out</span></div>
+        <div class="poem-line"><span class="mark repetition-mark">Because I was not a trade unionist</span></div>
+        <br>
+        <div class="poem-line"><span class="mark anaphora-mark repetition-mark">Then they came</span> for the Jews</div>
+        <div class="poem-line"><span class="mark speaker-mark">And I did not speak out</span></div>
+        <div class="poem-line"><span class="mark repetition-mark">Because I was not a Jew</span></div>
+      </div>
+      <div class="highlight-controls">
+        <button onclick="toggleHighlightFor('poemPart2','show-speaker', this)">Speaker</button>
+        <button onclick="toggleHighlightFor('poemPart2','show-anaphora', this)">Anaphora</button>
+        <button onclick="toggleHighlightFor('poemPart2','show-repetition', this)">Repetition</button>
+      </div>
+      <p class="note-small">How does the repetition change as the poem continues?</p>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Mentor Text · Final Turn</span>
+      <h2>“First They Came”</h2>
+      <div class="poem-panel" id="poemPart3">
+        <div class="poem-line"><span class="mark anaphora-mark repetition-mark">Then they came</span> for me</div>
+        <div class="poem-line"><span class="mark linebreak-mark">And there was no one left</span></div>
+        <div class="poem-line"><span class="mark linebreak-mark">To speak out for me.</span></div>
+      </div>
+      <div class="highlight-controls">
+        <button onclick="toggleHighlightFor('poemPart3','show-speaker', this)">Speaker</button>
+        <button onclick="toggleHighlightFor('poemPart3','show-anaphora', this)">Anaphora</button>
+        <button onclick="toggleHighlightFor('poemPart3','show-repetition', this)">Repetition</button>
+        <button onclick="toggleHighlightFor('poemPart3','show-linebreak', this)">Line Breaks</button>
+      </div>
+      <div class="quote-card"><p>Final turn: What changes when the speaker becomes the target?</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Poetry Craft</span>
+      <h2>Repetition, anaphora, and repeated image are related, but not identical.</h2>
+      <p class="subtitle">Keep the poem slide open in your mind. We will use the same poem to name the craft moves before you draft on your Poetry Drafting Page.</p>
+      <div class="grid-3">
+        <div class="card blue"><h3>Repetition</h3><p>Any word, phrase, sound, or structure that appears more than once to create emphasis.</p></div>
+        <div class="card purple"><h3>Anaphora</h3><p>A specific kind of repetition where several lines begin the same way.</p></div>
+        <div class="card gold"><h3>Repeated Image</h3><p>An object or visual idea that returns, such as a photograph, a casket, the sea, or darkness.</p></div>
+      </div>
+      <div class="quote-card"><p>As writers, we repeat on purpose. We repeat to make the reader feel the weight of an idea.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Poetry Task</span>
+      <h2>Write from inside a moment.</h2>
+      <div class="grid-2">
+        <div class="card blue"><h3>Your poem must include:</h3><ul><li>A clear speaker</li><li>At least 8 lines</li><li>Repetition, anaphora, or a repeated image</li><li>At least 2 spelling words</li></ul></div>
+        <div class="card purple"><h3>Possible speakers:</h3><ul><li>Annemarie</li><li>Ellen</li><li>Mama or Papa</li><li>A person watching silently</li><li>A symbolic voice, like fear or courage</li></ul></div>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Wednesday · Chapters 8–9</span>
+      <h2>“There Has Been a Death” and “Why Are You Lying?”</h2>
+      <p class="subtitle">Today we will study how Lowry creates tension before the danger becomes explicit.</p>
+      <div class="activity-row"><div class="timer">5<small>min</small></div><p>Warm-up: Spelling Practice. Use your device or the projected page. Then prepare your Annotation Sheet for Chapters 8–9.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Wednesday · Ethical Question</span>
+      <h2>Is it ever right to lie?</h2>
+      <div class="quote-card"><p>What if the lie is used to protect someone?</p></div>
+      <div class="grid-3">
+        <div class="card"><h3>Agree</h3><p>Prepare one reason.</p></div>
+        <div class="card"><h3>Disagree</h3><p>Prepare one reason.</p></div>
+        <div class="card"><h3>Unsure</h3><p>Explain what makes it complicated.</p></div>
+      </div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Wednesday · Author’s Craft</span>
+      <h2>How does Lowry build tension?</h2>
+      <div class="grid-3">
+        <div class="card blue"><h3>casket</h3><p>A central object that raises questions.</p></div>
+        <div class="card purple"><h3>mourning</h3><p>A ritual that is both real and performed.</p></div>
+        <div class="card gold"><h3>suspicious</h3><p>The feeling that danger may enter at any moment.</p></div>
+      </div>
+      <div class="card green" style="margin-top:18px;"><h3>Annotation Focus</h3><p>On your Annotation Sheet: circle a tense word, underline a dangerous detail, and box a spelling word. Then explain its effect.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Thursday · Spelling Test + Chapter 10</span>
+      <h2>“Let Us Open the Casket”</h2>
+      <p class="subtitle">Today we will show spelling mastery and analyze how the story begins to shift responsibility toward Annemarie.</p>
+      <div class="activity-row"><div class="timer">15<small>min</small></div><p>Spelling Test: You will receive the test sheet. Write the 10 words, then complete one sentence application connected to the novel.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Thursday · Reading Lens</span>
+      <h2>Courage is not always loud.</h2>
+      <p class="big-question">Sometimes courage looks like staying calm, listening carefully, and acting when something important is at stake.</p>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Thursday · Character Arc</span>
+      <h2>Where is Annemarie now?</h2>
+      <div class="grid-2">
+        <div class="card blue"><h3>Earlier in the novel</h3><p>What did Annemarie fear? What did she understand?</p></div>
+        <div class="card green"><h3>By Chapter 10</h3><p>What responsibility is moving toward her?</p></div>
+      </div>
+      <div class="quote-card"><p>Bystander ←——————→ Upstander</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">Thursday · Exit Ticket</span>
+      <h2>3 · 2 · 1</h2>
+      <p class="subtitle">You will complete this on the separate <strong>3-2-1 Exit Ticket handout</strong> after we read Chapter 10.</p>
+      <div class="grid-3">
+        <div class="card blue"><h3>3 Words</h3><p>Use 3 spelling words in sentences connected to the novel.</p></div>
+        <div class="card purple"><h3>2 Connections</h3><p>Connect Annemarie’s choices to responsibility.</p></div>
+        <div class="card green"><h3>1 Prediction</h3><p>Predict what may happen next using evidence from Chapter 10.</p></div>
+      </div>
+      <div class="quote-card"><p>Write directly on the handout. Turn it in before leaving class.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="kicker">End of Week Reflection</span>
+      <h2>What did these words help us understand?</h2>
+      <div class="word-bank">
+        <span class="word">terrified</span><span class="word">photograph</span><span class="word">suspicious</span><span class="word">fisherman</span><span class="word">meadow</span><span class="word">mourning</span><span class="word">casket</span><span class="word">scattered</span>
+      </div>
+      <div class="quote-card"><p>Choose one word that changed the way you understood a scene. Be ready to explain why.</p></div>
+      <div class="slide-number"></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="controls">
+  <button type="button" onclick="previousSlide()">Back</button>
+  <span id="counter">1 / 22</span>
+  <button type="button" onclick="nextSlide()">Next</button>
+  <button type="button" class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let current = 0;
+
+  function updateSlide() {
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('active', index === current);
+      const number = slide.querySelector('.slide-number');
+      if (number) number.textContent = index + 1;
+    });
+    const counter = document.getElementById('counter');
+    counter.textContent = `${current + 1} / ${slides.length}`;
+  }
+
+  function nextSlide() {
+    current = (current + 1) % slides.length;
+    updateSlide();
+  }
+
+  function previousSlide() {
+    current = (current - 1 + slides.length) % slides.length;
+    updateSlide();
+  }
+
+  function toggleHighlight(className, button) {
+    toggleHighlightFor('mentorPoem', className, button);
+  }
+
+  function toggleHighlightFor(poemId, className, button) {
+    const poem = document.getElementById(poemId);
+    if (!poem) return;
+    poem.classList.toggle(className);
+    button.classList.toggle('active');
+  }
+
+  function toggleFullscreen() {
+    const slide = document.querySelector('.slide.active');
+    const target = slide || document.documentElement;
+
+    if (!document.fullscreenElement && target.requestFullscreen) {
+      target.requestFullscreen().catch(() => {
+        document.body.classList.toggle('browser-fullscreen-fallback');
+      });
+    } else if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {
+        document.body.classList.remove('browser-fullscreen-fallback');
+      });
+    } else {
+      document.body.classList.toggle('browser-fullscreen-fallback');
+    }
+  }
+
+  document.addEventListener('fullscreenchange', () => {
+    const fullscreenButton = document.querySelector('.fullscreen-btn');
+    if (fullscreenButton) {
+      fullscreenButton.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === ' ') {
+      event.preventDefault();
+      nextSlide();
+    }
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      previousSlide();
+    }
+  });
+
+  updateSlide();
+</script>
+</body>
+</html>
