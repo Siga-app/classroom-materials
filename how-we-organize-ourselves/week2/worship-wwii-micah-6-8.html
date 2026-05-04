@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grade 5 Morning Worship</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --blue: #294a66;
+      --gold: #d8b45f;
+      --cream: #fff7e6;
+      --paper: #fffdf7;
+      --soft: #edf2f4;
+      --muted: #5b6678;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #111827;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 2.4vh 2vw 7.4vh;
+      background: linear-gradient(135deg, #111827, #294a66);
+    }
+
+    .slide {
+      display: none;
+      width: min(94vw, 177.78vh);
+      height: min(52.875vw, 94vh);
+      max-width: 1600px;
+      max-height: 900px;
+      aspect-ratio: 16 / 9;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      background: var(--paper);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+    }
+
+    .slide.active { display: grid; }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 86% 12%, rgba(216, 180, 95, 0.36), transparent 22%),
+        radial-gradient(circle at 7% 88%, rgba(41, 74, 102, 0.18), transparent 28%),
+        linear-gradient(90deg, rgba(255, 247, 230, 0.95), rgba(255, 253, 247, 0.98));
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: 52px 70px 48px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 26px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .day {
+      font-size: 22px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .tag {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--blue);
+      background: rgba(41, 74, 102, 0.10);
+      border: 1px solid rgba(41, 74, 102, 0.13);
+      border-radius: 999px;
+      padding: 12px 18px;
+      white-space: nowrap;
+    }
+
+    .main.title-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .main.focus-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 46px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 76px;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+    }
+
+    .subtitle {
+      margin: 28px 0 0;
+      font-size: 34px;
+      line-height: 1.18;
+      color: #34445c;
+      font-weight: 700;
+    }
+
+    .story-card,
+    .scripture-card,
+    .question-card,
+    .prayer-card {
+      border-radius: 28px;
+      box-shadow: 0 16px 36px rgba(23, 32, 51, 0.10);
+    }
+
+    .story-card {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      padding: 34px 38px;
+    }
+
+    .small-label {
+      margin-bottom: 18px;
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .story-text {
+      margin: 0;
+      font-size: 31px;
+      line-height: 1.23;
+      font-weight: 650;
+      color: #263448;
+    }
+
+    .scripture-card {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 42px 46px;
+      border-left: 14px solid var(--gold);
+    }
+
+    .scripture {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 42px;
+      line-height: 1.18;
+    }
+
+    .reference {
+      margin-top: 22px;
+      color: var(--gold);
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .question-card {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(23, 32, 51, 0.10);
+      padding: 44px 50px;
+    }
+
+    .question {
+      margin: 0;
+      font-size: 50px;
+      line-height: 1.08;
+      font-weight: 900;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+    }
+
+    .action {
+      margin: 28px 0 0;
+      font-size: 30px;
+      line-height: 1.18;
+      font-weight: 750;
+      color: #34445c;
+    }
+
+    .prayer-card {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 44px 50px;
+      border-top: 12px solid var(--gold);
+    }
+
+    .prayer {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.23;
+      font-weight: 650;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(23, 32, 51, 0.58);
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .controls {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: white;
+      font: 800 14px Arial, sans-serif;
+      background: rgba(0,0,0,0.18);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 8px;
+    }
+
+    button {
+      border: 0;
+      background: rgba(255,255,255,0.18);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    button:hover { background: rgba(255,255,255,0.30); }
+
+    #counter { min-width: 54px; text-align: center; }
+
+
+    .slide.compact .content {
+      padding: 46px 64px 42px;
+      gap: 20px;
+    }
+
+    .slide.compact .main.focus-layout {
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+    }
+
+    .slide.compact .question-card,
+    .slide.compact .prayer-card {
+      padding: 34px 38px;
+    }
+
+    .slide.compact .question {
+      font-size: 42px;
+      line-height: 1.06;
+    }
+
+    .slide.compact .action {
+      font-size: 27px;
+      line-height: 1.14;
+      margin-top: 22px;
+    }
+
+    .slide.compact .prayer {
+      font-size: 30px;
+      line-height: 1.18;
+    }
+
+    @media (max-width: 900px) {
+      .deck { padding: 1.5vh 1.5vw 8vh; }
+      .content { padding: 30px 34px 28px; gap: 18px; }
+      .main.title-layout, .main.focus-layout { grid-template-columns: 1fr; gap: 20px; }
+      h1 { font-size: 48px; }
+      .subtitle { font-size: 24px; margin-top: 16px; }
+      .story-text { font-size: 22px; }
+      .scripture { font-size: 28px; }
+      .question { font-size: 34px; }
+      .action { font-size: 22px; }
+      .prayer { font-size: 24px; }
+      .tag { display: none; }
+      .footer { display: none; }
+    }
+
+    @media print {
+      html, body { overflow: visible; background: white; }
+      .deck { height: auto; display: block; padding: 0; background: white; }
+      .slide { display: grid !important; width: 100vw; height: 56.25vw; max-width: none; max-height: none; page-break-after: always; box-shadow: none; border-radius: 0; }
+      .controls { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <section class="slide active">
+      <div class="content">
+        <header class="top">
+          <div class="day">Monday Worship</div>
+          <div class="tag">Courage that protects others</div>
+        </header>
+        <main class="main title-layout">
+          <div>
+            <h1>Esther’s brave choice</h1>
+            <p class="subtitle">God can place ordinary people in moments where courage matters.</p>
+          </div>
+          <div class="scripture-card">
+            <p class="scripture">“And who knows but that you have come to your royal position for such a time as this?”</p>
+            <div class="reference">Esther 4:14</div>
+          </div>
+        </main>
+        <footer class="footer"><span>World War II unit connection</span><span>Outlook</span></footer>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <header class="top">
+          <div class="day">Monday Reflection</div>
+          <div class="tag">From silence to courage</div>
+        </header>
+        <main class="main focus-layout">
+          <div class="story-card">
+            <div class="small-label">Bible connection</div>
+            <p class="story-text">Esther could have protected herself by staying silent, but faith became courage when her people needed help.</p>
+          </div>
+          <div class="question-card">
+            <div class="small-label">Reflect and respond</div>
+            <p class="question">Where might God be asking me to use courage instead of staying silent?</p>
+            <p class="action">Think of one moment when your voice could protect, include, or encourage someone.</p>
+          </div>
+        </main>
+        <footer class="footer"><span>Bystander, rescuer, upstander</span><span>Grade 5 Morning Worship</span></footer>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <header class="top">
+          <div class="day">Monday Prayer</div>
+          <div class="tag">Faith in action</div>
+        </header>
+        <main class="main focus-layout">
+          <div>
+            <h1>For such a time as this</h1>
+            <p class="subtitle">Help us recognize the moments when love asks us to act.</p>
+          </div>
+          <div class="prayer-card">
+            <div class="small-label">Closing prayer</div>
+            <p class="prayer">Lord, give us Esther’s courage. Help us notice what is wrong, know what is right, and use our voice to protect and serve others. Amen.</p>
+          </div>
+        </main>
+        <footer class="footer"><span>Esther 4:14</span><span>Outlook</span></footer>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <header class="top">
+          <div class="day">Tuesday Worship</div>
+          <div class="tag">From bystander to upstander</div>
+        </header>
+        <main class="main title-layout">
+          <div>
+            <h1>When the crowd is silent</h1>
+            <p class="subtitle">God calls His people to notice, care, and respond.</p>
+          </div>
+          <div class="scripture-card">
+            <p class="scripture">“Rescue those being led away to death; hold back those staggering toward slaughter.”</p>
+            <div class="reference">Proverbs 24:11</div>
+          </div>
+        </main>
+        <footer class="footer"><span>Bystander, rescuer, upstander</span><span>Outlook</span></footer>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <header class="top">
+          <div class="day">Tuesday Reflection and Prayer</div>
+          <div class="tag">Courage with wisdom</div>
+        </header>
+        <main class="main focus-layout">
+          <div class="question-card">
+            <div class="small-label">Reflect and respond</div>
+            <p class="question">What makes it hard to speak up?</p>
+            <p class="action">Ask God for one wise and loving way to choose courage.</p>
+          </div>
+          <div class="prayer-card">
+            <div class="small-label">Closing prayer</div>
+            <p class="prayer">God, open our eyes when someone needs help. Give us wisdom to know what to do and courage to do what is right with love. Amen.</p>
+          </div>
+        </main>
+        <footer class="footer"><span>Proverbs 24:11</span><span>Grade 5 Morning Worship</span></footer>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <header class="top">
+          <div class="day">Wednesday Worship</div>
+          <div class="tag">Mercy protects dignity</div>
+        </header>
+        <main class="main title-layout">
+          <div>
+            <h1>Love mercy</h1>
+            <p class="subtitle">Mercy is not weakness. Mercy helps us see people as God sees them.</p>
+          </div>
+          <div class="scripture-card">
+            <p class="scripture">“Blessed are the merciful, for they will be shown mercy.”</p>
+            <div class="reference">Matthew 5:7</div>
+          </div>
+        </main>
+        <footer class="footer"><span>Character and faith in action</span><span>Outlook</span></footer>
+      </div>
+    </section>
+
+    <section class="slide compact">
+      <div class="content">
+        <header class="top">
+          <div class="day">Wednesday Reflection and Prayer</div>
+          <div class="tag">Compassion when others feel unseen</div>
+        </header>
+        <main class="main focus-layout">
+          <div class="question-card">
+            <div class="small-label">Reflect and respond</div>
+            <p class="question">How can mercy help someone feel seen?</p>
+            <p class="action">Choose one dignity-building action today.</p>
+          </div>
+          <div class="prayer-card">
+            <div class="small-label">Closing prayer</div>
+            <p class="prayer">Jesus, make our hearts merciful. Help us protect dignity, include others, and show compassion today. Amen.</p>
+          </div>
+        </main>
+        <footer class="footer"><span>Matthew 5:7</span><span>Grade 5 Morning Worship</span></footer>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="content">
+        <header class="top">
+          <div class="day">Thursday Worship</div>
+          <div class="tag">Humility with courage</div>
+        </header>
+        <main class="main title-layout">
+          <div>
+            <h1>Walk humbly and show up</h1>
+            <p class="subtitle">Humility does not mean hiding. It means letting God shape our choices.</p>
+          </div>
+          <div class="scripture-card">
+            <p class="scripture">“Learn to do right; seek justice. Defend the oppressed.”</p>
+            <div class="reference">Isaiah 1:17</div>
+          </div>
+        </main>
+        <footer class="footer"><span>Justice, mercy, humility</span><span>Outlook</span></footer>
+      </div>
+    </section>
+
+    <section class="slide compact">
+      <div class="content">
+        <header class="top">
+          <div class="day">Thursday Reflection and Prayer</div>
+          <div class="tag">Becoming an upstander</div>
+        </header>
+        <main class="main focus-layout">
+          <div class="question-card">
+            <div class="small-label">Reflect and respond</div>
+            <p class="question">What kind of person am I choosing to become?</p>
+            <p class="action">Name one small action of justice, mercy, or humility.</p>
+          </div>
+          <div class="prayer-card">
+            <div class="small-label">Closing prayer</div>
+            <p class="prayer">Lord, shape us to do right, seek justice, defend others, and walk humbly with You. Help our faith become action. Amen.</p>
+          </div>
+        </main>
+        <footer class="footer"><span>Isaiah 1:17</span><span>Grade 5 Morning Worship</span></footer>
+      </div>
+    </section>
+  </div>
+
+  <div class="controls">
+    <button onclick="prevSlide()">Previous</button>
+    <span id="counter">1 / 9</span>
+    <button onclick="nextSlide()">Next</button>
+    <button id="fullscreenBtn" onclick="toggleFullscreen()">Fullscreen</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const counter = document.getElementById('counter');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    let current = 0;
+
+    function showSlide(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      counter.textContent = `${current + 1} / ${slides.length}`;
+    }
+
+    function nextSlide() { showSlide(current + 1); }
+    function prevSlide() { showSlide(current - 1); }
+
+    async function toggleFullscreen() {
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.warn('Fullscreen is not available in this browser or preview mode.', error);
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      fullscreenBtn.textContent = document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen';
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === ' ') nextSlide();
+      if (event.key === 'ArrowLeft') prevSlide();
+      if (event.key.toLowerCase() === 'f') toggleFullscreen();
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
